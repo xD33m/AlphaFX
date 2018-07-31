@@ -16,13 +16,13 @@ public class LoginController {
     @FXML
     private JFXPasswordField passwordField;
     @FXML
-    private JFXButton registerButton;
+    private JFXButton registerText;
     @FXML
     private JFXButton loginButton;
 
 
     @FXML
-    private void handleRegisterButtonAction() {
+    private void handleRegisterTextAction() {
         closeStage();
         loadRegister();
     }

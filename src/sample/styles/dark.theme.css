@@ -51,3 +51,13 @@
     /*-fx-font-size: 13pt;*/
     -jfx-focus-color: -fx-secondary;
 }
+
+.register-text {
+    -fx-fill: -fx-primarytext;
+}
+
+.register-text:hover {
+    -fx-fill: -fx-secondary;
+    -fx-underline: true;
+    -fx-cursor: hand;
+}

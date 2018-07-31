@@ -11,7 +11,7 @@
             fx:controller="sample.register.RegisterController">
     <VBox alignment="CENTER" layoutX="70.0" layoutY="120.0" spacing="40.0">
         <children>
-            <JFXTextField fx:id="nameField" labelFloat="true" promptText="Nickname"/>
+            <JFXTextField fx:id="nameField" labelFloat="true" promptText="Username"/>
             <JFXTextField fx:id="emailField" labelFloat="true" promptText="Email"/>
             <JFXPasswordField fx:id="passwordField" labelFloat="true" promptText="Password"/>
             <JFXPasswordField fx:id="confirmationField" prefHeight="25.0" prefWidth="142.0" promptText="Confirm"/>
