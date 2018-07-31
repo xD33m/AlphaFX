@@ -534,7 +534,7 @@ public class JFXDecorator extends VBox {
 
     /**
      * this property is used to replace JavaFX maximization
-     * with a custom one that prevents hiding windows taskbar when
+     * with a custom one that prevents hiding register taskbar when
      * the JFXDecorator is maximized.
      *
      * @return customMaximizeProperty whether to use custom maximization or not.

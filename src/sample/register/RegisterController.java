@@ -1,11 +1,12 @@
-package sample.windows;
-
+package sample.register;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
 import javafx.fxml.FXML;
+import javafx.stage.Stage;
+import sample.Controller;
 
 public class RegisterController {
 
@@ -25,25 +26,35 @@ public class RegisterController {
     @FXML
     public void initialize() {
 
+    }
+
+    @FXML
+    private void loadLogin() {
+        new Controller().loadWindow("sample/login/login.fxml", "Login");
+    }
+
+    @FXML
+    private void handleSubmitButtonAction() {
         RequiredFieldValidator validator = new RequiredFieldValidator();
         nameField.getValidators().add(validator);
         emailField.getValidators().add(validator);
         passwordField.getValidators().add(validator);
         confirmationField.getValidators().add(validator);
         validator.setMessage("Input Required");
-        nameField.focusedProperty().addListener((o, oldVal, newVal) -> {
-            if (!newVal) nameField.validate();
-        });
-        emailField.focusedProperty().addListener((o, oldVal, newVal) -> {
-            if (!newVal) emailField.validate();
-        });
-        passwordField.focusedProperty().addListener((o, oldVal, newVal) -> {
-            if (!newVal) passwordField.validate();
-        });
-        confirmationField.focusedProperty().addListener((o, oldVal, newVal) -> {
-            if (!newVal) confirmationField.validate();
-        });
-
+        nameField.validate();
+        emailField.validate();
+        passwordField.validate();
+        confirmationField.validate();
+        if (!validator.getHasErrors()) {            //TODO entry verification with database
+            closeStage();
+            loadLogin();
+        }
 
     }
+
+    private void closeStage() {
+        Stage stage = (Stage) submitButton.getScene().getWindow();
+        stage.close();
+    }
+
 }

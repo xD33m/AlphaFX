@@ -91,7 +91,7 @@ public class JFXSpinnerSkin extends BehaviorSkinBase<JFXSpinner, BehaviorBase<JF
         arcPane.setPrefSize(50, 50);
         getChildren().setAll(arcPane);
 
-        // windows listeners
+        // register listeners
         registerChangeListener(control.indeterminateProperty(), "INDETERMINATE");
         registerChangeListener(control.progressProperty(), "PROGRESS");
         registerChangeListener(control.visibleProperty(), "VISIBLE");

@@ -49,7 +49,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @see <a href= "http://www.google.com/design/spec/components/snackbars-toasts.html#"> Snackbars & toasts</a>
  * <p>
  * The use of a javafx Popup or PopupContainer for notifications would seem intuitive but Popups are displayed in their
- * own dedicated windows and alligning the popup window and handling window on top layering is more trouble then it is
+ * own dedicated register and alligning the popup window and handling window on top layering is more trouble then it is
  * worth.
  */
 public class JFXSnackbar extends Group {
@@ -115,7 +115,7 @@ public class JFXSnackbar extends Group {
 
         sizeListener = (o, oldVal, newVal) -> refreshPopup();
 
-        // windows the container before resizing it
+        // register the container before resizing it
         registerSnackbarContainer(snackbarContainer);
 
         // resize the popup if its layout has been changed
