@@ -9,5 +9,6 @@
     <orderEntry type="jdk" jdkName="9" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="jfoenix-9.0.5" level="application" />
+    <orderEntry type="library" exported="" name="de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2" level="project" />
   </component>
 </module>

@@ -10,7 +10,8 @@
       <element id="archive" name="JavaFXApp.jar">
         <element id="module-output" name="AlphaFX" />
       </element>
-      <element id="library" level="project" name="jfoenix-9.0.5" />
+      <element id="library" level="project" name="de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2" />
+      <element id="library" level="application" name="jfoenix-9.0.5" />
     </root>
   </artifact>
 </component>
