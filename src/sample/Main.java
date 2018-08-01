@@ -2,7 +2,9 @@ package sample;
 
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
+import sample.db.DataSource;
 
 public class Main extends Application {
 
@@ -13,6 +15,23 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
+
+        DataSource.getInstance().insertUser("namef", "emafil", "passwofrd");
         launch(args);
+    }
+
+    @Override
+    public void init() throws Exception {
+        super.init();
+        if(!DataSource.getInstance().open()) {
+            System.out.println("FATAL ERROR: Couldn't connect to db");
+            Platform.exit();
+        }
+    }
+
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+        DataSource.getInstance().close();
     }
 }
