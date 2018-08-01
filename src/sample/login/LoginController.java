@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
 import sample.Controller;
+import sample.db.DataSource;
 
 public class LoginController {
 
@@ -32,14 +33,10 @@ public class LoginController {
         String username = nameField.getText();
         String password = passwordField.getText();
 
+        Boolean exists = DataSource.getInstance().verifyUser(username, password);
 
-//        if (username.equals(preference.getUsername()) && password.equals(preference.getPassword())) {
-        if (username.equals("admin") && password.equals("admin")) { // TODO verify login input w/ database
-            closeStage();
-            //TODO load main application
-        } else {
-            nameField.getStyleClass().add("wrong-credentials");
-            passwordField.getStyleClass().add("wrong-credentials");
+        if(exists){
+            System.out.println("User found!");
         }
     }
 

@@ -1,5 +1,5 @@
 package sample.db;
-
+import java.io.IOException;
 import java.sql.*;
 
 public class DataSource {
@@ -18,11 +18,16 @@ public class DataSource {
     private static final String INSERT_USER = "INSERT INTO " + TABLE_USERS +
             '(' + COLUMN_USERS_NAME + ", " + COLUMN_USERS_EMAIL + ", " + COLUMN_USERS_PASSWORD +
             ") VALUES(?, ?, ?)";
+    private static final String QUERY_USER = "SELECT " + COLUMN_USERS_ID + " FROM " +
+            TABLE_USERS + " WHERE " + COLUMN_USERS_NAME + " = ? "+ "AND " + COLUMN_USERS_PASSWORD + " = ?";
+
+    public static final String QUERY_DATA = "SELECT * FROM" + TABLE_USERS;
 
 
     private Connection conn;
 
     private PreparedStatement insertUser;
+    private PreparedStatement queryUser;
 
 
     private static DataSource instance = new DataSource();
@@ -40,6 +45,7 @@ public class DataSource {
             conn = DriverManager.getConnection(CONNECTION_STRING);
 
             insertUser = conn.prepareStatement(INSERT_USER);
+            queryUser = conn.prepareStatement(QUERY_USER);
 
 
             return true;
@@ -55,44 +61,57 @@ public class DataSource {
             if (insertUser != null) {
                 insertUser.close();
             }
+            if(queryUser != null){
+                queryUser.close();
+            }
+
+            if(conn!=null){
+                conn.close();
+            }
         } catch (SQLException e) {
             System.out.println("Couldn't close connection: " + e.getMessage());
         }
     }
 
-    public void insertUser(String name, String email, String password) { // TODO adapt
-
-        try{
-            conn.setAutoCommit(false);
-            System.out.println("auto commit set to false");
-
-            insertUser.setString(1, name);
-            insertUser.setString(2, email);
-            insertUser.setString(3, password);
-            int affectedRows = insertUser.executeUpdate();
-            System.out.println(affectedRows);
-            if (affectedRows != 1) {
-                throw new SQLException("Couldn't insert user");
-            }
-
-        } catch (Exception e) {
-            System.out.println("Insert song exception: " + e.getMessage());
+    public boolean verifyUser(String name, String password){
+        try {
+            queryUser.setString(1, name);
+            queryUser.setString(2, password);
+            ResultSet results = queryUser.executeQuery();
+            return results.next();
+        }catch (SQLException e){
             e.printStackTrace();
-            try {
-                System.out.println("Performing rollback");
-                conn.rollback();
-            } catch (SQLException e2) {
-                System.out.println("Oh boy! Things are really bad! " + e2.getMessage());
-            }
-        } finally {
-            try {
-                System.out.println("Resetting default commit behavior");
-                conn.setAutoCommit(true);
-            } catch (SQLException e) {
-                System.out.println("Couldn't reset auto-commit! " + e.getMessage());
-            }
-
+            return false;
         }
     }
 
+
+    public int insertUsers(String name, String email, String password) { // TODO adapt
+
+        try{
+            queryUser.setString(1, name);
+            ResultSet results = queryUser.executeQuery();
+            if(results.next()){
+                return results.getInt(1);
+            } else {
+                insertUser.setString(1, name);
+                insertUser.setString(2, email);
+                insertUser.setString(3, password);
+                int affectedRows = insertUser.executeUpdate();
+                if (affectedRows != 1) {
+                    throw new SQLException("Couldn't insert user");
+                }
+                ResultSet generatedKeys = insertUser.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("Couldn't get _id for album");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Insert song exception: " + e.getMessage());
+            e.printStackTrace();
+            return -1;
+        }
+    }
 }

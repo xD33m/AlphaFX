@@ -15,8 +15,6 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-
-        DataSource.getInstance().insertUser("namef", "emafil", "passwofrd");
         launch(args);
     }
 

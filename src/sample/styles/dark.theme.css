@@ -61,3 +61,8 @@
     -fx-underline: true;
     -fx-cursor: hand;
 }
+
+.left-arrow:hover{
+    -fx-fill: -fx-secondary;
+    -fx-cursor: hand;
+}
