@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId></groupId>
+    <groupId>com.sample</groupId>
     <artifactId>AlphaFX</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -45,7 +45,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>fully.qualified.MainClass</mainClass>
+                            <mainClass>com.sample.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

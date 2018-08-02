@@ -22,6 +22,7 @@ gen### JetBrains template
 .idea/**/dynamic.xml
 .idea/**/dbnavigator.xml
 
+# Gradle
 
 # Gradle and Maven with auto-import
 # When using Gradle or Maven with auto-import, you should exclude module files,
@@ -72,7 +73,6 @@ fabric.properties
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
@@ -82,10 +82,7 @@ fabric.properties
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-### Example user template template
-### Example user template
-
-gen### Maven template
+### Maven template
 target/
 pom.xml.tag
 pom.xml.releaseBackup
