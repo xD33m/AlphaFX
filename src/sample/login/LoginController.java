@@ -77,8 +77,8 @@ public class LoginController {
 
         Boolean userExists = DataSource.getInstance().verifyUsername(username);
         Boolean passwordMatch = validatePassword(password, hashedDBPassword);
-        System.out.println(userExists +", "+ passwordMatch);
 
+        System.out.println("User exists: " + userExists +", Password is valid: "+ passwordMatch);
 
         if(userExists && passwordMatch){
             System.out.println("User found!");
