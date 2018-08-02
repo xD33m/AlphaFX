@@ -62,7 +62,7 @@ public class RegisterController {
                 DataSource.getInstance().insertUsers(userName, email, password);
                 closeStage();
             }else {
-                System.out.println("pwds don't match");
+                confirmationErrorText.setText("Passwords don't match");
                 confirmationErrorText.setVisible(true);
             }
         }
