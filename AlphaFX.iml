@@ -11,5 +11,6 @@
     <orderEntry type="library" exported="" name="de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2" level="project" />
     <orderEntry type="library" exported="" name="com.jfoenix:jfoenix:9.0.5" level="project" />
     <orderEntry type="library" exported="" name="org.xerial:sqlite-jdbc:3.21.0.1" level="project" />
+    <orderEntry type="library" exported="" name="org.postgresql:postgresql:42.2.4.jre7" level="project" />
   </component>
 </module>
