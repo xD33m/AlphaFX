@@ -1,27 +1,27 @@
 # Created by .ignore support plugin (hsz.mobi)
-### Example user template template
-### Example user template
-
-# IntelliJ project files
-.idea
-*.iml
-out
-gen### JetBrains template
+### JetBrains template
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff
+.idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
 
 # Sensitive or high-churn files
+.idea/**/dataSources/
 .idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
 .idea/**/sqlDataSources.xml
 .idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
 
+# Gradle
+.idea/**/gradle.xml
+.idea/**/libraries
 
 # Gradle and Maven with auto-import
 # When using Gradle or Maven with auto-import, you should exclude module files,
@@ -41,6 +41,7 @@ cmake-build-*/
 *.iws
 
 # IntelliJ
+out/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
@@ -59,8 +60,16 @@ fabric.properties
 
 # Editor-based Rest Client
 .idea/httpRequests
-### Java template
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen### Java template
 # Compiled class file
+*.class
 
 # Log file
 *.log
@@ -85,6 +94,8 @@ hs_err_pid*
 ### Example user template template
 ### Example user template
 
+# IntelliJ project files
+
 gen### Maven template
 target/
 pom.xml.tag
@@ -97,11 +108,3 @@ buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 
-.gitignore
-src/main/java/com/sample/Controller.java
-src/main/java/com/sample/Main.java
-src/main/java/com/sample/db/
-src/main/java/com/sample/login/
-src/main/java/com/sample/register/
-src/main/resources/
-src/test/
