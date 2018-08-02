@@ -11,6 +11,11 @@ import javafx.stage.Stage;
 import sample.Controller;
 import sample.db.DataSource;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 public class LoginController {
 
     @FXML
@@ -22,6 +27,33 @@ public class LoginController {
     @FXML
     private JFXButton loginButton;
 
+    //verify password hash
+    private static boolean validatePassword(String originalPassword, String storedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        String[] parts = storedPassword.split(":");
+        int iterations = Integer.parseInt(parts[0]);
+        byte[] salt = fromHex(parts[1]);
+        byte[] hash = fromHex(parts[2]);
+
+        PBEKeySpec spec = new PBEKeySpec(originalPassword.toCharArray(), salt, iterations, hash.length * 8);
+        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        byte[] testHash = skf.generateSecret(spec).getEncoded();
+
+        int diff = hash.length ^ testHash.length;
+        for(int i = 0; i < hash.length && i < testHash.length; i++)
+        {
+            diff |= hash[i] ^ testHash[i];
+        }
+        return diff == 0;
+    }
+    private static byte[] fromHex(String hex) {
+        byte[] bytes = new byte[hex.length() / 2];
+        for(int i = 0; i<bytes.length ;i++)
+        {
+            bytes[i] = (byte)Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
+        }
+        return bytes;
+    }
+
 
     @FXML
     private void handleRegisterTextAction() {
@@ -30,9 +62,11 @@ public class LoginController {
     }
 
     @FXML
-    private void handleLoginButtonAction(ActionEvent event) {
+    private void handleLoginButtonAction(ActionEvent event) throws InvalidKeySpecException, NoSuchAlgorithmException {
         String username = nameField.getText();
         String password = passwordField.getText();
+
+        String hashedDBPassword = DataSource.getInstance().getQueryPassword(username);
 
         RequiredFieldValidator validator = new RequiredFieldValidator();
         nameField.getValidators().add(validator);
@@ -41,9 +75,12 @@ public class LoginController {
         nameField.validate();
         passwordField.validate();
 
-        Boolean exists = DataSource.getInstance().verifyUser(username, password);
+        Boolean userExists = DataSource.getInstance().verifyUsername(username);
+        Boolean passwordMatch = validatePassword(password, hashedDBPassword);
+        System.out.println(userExists +", "+ passwordMatch);
 
-        if(exists){
+
+        if(userExists && passwordMatch){
             System.out.println("User found!");
         }
     }

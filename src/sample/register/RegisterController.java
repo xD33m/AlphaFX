@@ -10,6 +10,12 @@ import javafx.stage.Stage;
 import sample.Controller;
 import sample.db.DataSource;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import java.math.BigInteger;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
 import java.util.regex.Pattern;
 
 public class RegisterController {
@@ -27,10 +33,46 @@ public class RegisterController {
     @FXML
     private Text confirmationErrorText;
 
+    private static final int ITERATIONS = 1000;
+    private static final int KEY_LENGTH = 192; // bits
+
     @FXML
     public void initialize() {
 
     }
+
+    private String generateStrongPasswordHash(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        int iterations = 1000;
+        char[] chars = password.toCharArray();
+        byte[] salt = getSalt();
+
+        PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 64 * 8);
+        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        byte[] hash = skf.generateSecret(spec).getEncoded();
+        return iterations + ":" + toHex(salt) + ":" + toHex(hash);
+    }
+
+    private byte[] getSalt() throws NoSuchAlgorithmException {
+        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
+        byte[] salt = new byte[16];
+        sr.nextBytes(salt);
+        return salt;
+    }
+
+    private static String toHex(byte[] array) throws NoSuchAlgorithmException
+    {
+        BigInteger bi = new BigInteger(1, array);
+        String hex = bi.toString(16);
+        int paddingLength = (array.length * 2) - hex.length();
+        if(paddingLength > 0)
+        {
+            return String.format("%0"  +paddingLength + "d", 0) + hex;
+        }else{
+            return hex;
+        }
+    }
+
+
 
     @FXML
     private void loadLogin() {
@@ -38,8 +80,9 @@ public class RegisterController {
     }
 
     @FXML
-    private void handleSubmitButtonAction() {
+    private void handleSubmitButtonAction() throws InvalidKeySpecException, NoSuchAlgorithmException {
         String userName = nameField.getText();
+        String encryptedPassword = generateStrongPasswordHash(passwordField.getText());
         String password = passwordField.getText();
         String email = emailField.getText();
         String confirmation = confirmationField.getText();
@@ -71,7 +114,7 @@ public class RegisterController {
                     confirmationErrorText.setText("Password must be at least 4 characters");
                     confirmationErrorText.setVisible(true);
                 } else {
-                    DataSource.getInstance().insertUsers(userName, email, password);
+                    DataSource.getInstance().insertUsers(userName, email, encryptedPassword);
                     System.out.println("User: " + userName + " registered.");
                     closeStage();
                     loadLogin();
@@ -81,7 +124,6 @@ public class RegisterController {
                 confirmationErrorText.setVisible(true);
             }
         }
-
     }
 
     @FXML

@@ -32,6 +32,9 @@ public class DataSource {
     private static final String QUERY_USERNAME = "SELECT " + COLUMN_USERS_ID + " FROM " +
             TABLE_USERS + " WHERE " + COLUMN_USERS_NAME + " = ?";
 
+    public static final String QUERY_PASSWORD = "SELECT " + COLUMN_USERS_PASSWORD + " FROM " +
+            TABLE_USERS + " WHERE " + COLUMN_USERS_NAME + " = ?";
+
     public static final String QUERY_DATA = "SELECT * FROM" + TABLE_USERS;
 
 
@@ -40,6 +43,7 @@ public class DataSource {
     private PreparedStatement insertUser;
     private PreparedStatement queryUser;
     private PreparedStatement queryUserName;
+    private PreparedStatement queryPassword;
 
 
     private static DataSource instance = new DataSource();
@@ -59,6 +63,7 @@ public class DataSource {
             insertUser = conn.prepareStatement(INSERT_USER);
             queryUser = conn.prepareStatement(QUERY_USER);
             queryUserName = conn.prepareStatement(QUERY_USERNAME);
+            queryPassword = conn.prepareStatement(QUERY_PASSWORD);
 
 
             return true;
@@ -81,6 +86,10 @@ public class DataSource {
                 queryUserName.close();
             }
 
+            if(queryPassword != null){
+                queryPassword.close();
+            }
+
             if(conn!=null){
                 conn.close();
             }
@@ -98,6 +107,23 @@ public class DataSource {
         }catch (SQLException e){
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public String getQueryPassword(String username) {
+        try {
+            queryPassword.setString(1, username);
+            ResultSet resultSet = queryPassword.executeQuery();
+            if(resultSet.next()){
+                return resultSet.getString(COLUMN_USERS_PASSWORD);
+            }else {
+                System.out.println("Query failed");
+                return null;
+            }
+        }catch (SQLException e){
+            System.out.println("Query failed");
+            e.printStackTrace();
+            return null;
         }
     }
 
