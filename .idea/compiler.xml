@@ -16,10 +16,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="AlphaFX" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="maventesting" target="1.5" />
+      <module name="AlphaFX" target="9" />
     </bytecodeTargetLevel>
   </component>
 </project>
