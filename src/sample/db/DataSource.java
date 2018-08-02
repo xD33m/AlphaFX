@@ -1,14 +1,21 @@
 package sample.db;
-import java.io.IOException;
+
 import java.sql.*;
 
 public class DataSource {
+    // saved again?
     // saved ??
 
     private static final String DB_NAME = "users.db";
 
     //    private static final String CONNECTION_STRING = "jdbc:sqlite:D:\\databases\\" + DB_NAME;
-    private static final String CONNECTION_STRING = "jdbc:sqlite:" + DB_NAME;
+//    jdbc:postgresql://ec2-54-247-123-231.eu-west-1.compute.amazonaws.com/d45cmtvctrnbfn
+    private static final String CONNECTION_STRING =
+            "jdbc:postgresql://ec2-54-247-123-231.eu-west-1.compute.amazonaws.com/d45cmtvctrnbfn?" +
+                    "ssl=true" + "&" +
+                    "sslfactory=org.postgresql.ssl.NonValidatingFactory" + "&" +
+                    "password=e27656ecef593f7ec2d3d73d37180e689021fee676a3d2c14c2ea3758265084e" + "&" +
+                    "user=xjgtestmyawbxw";
 
     private static final String TABLE_USERS = "users";
     private static final String COLUMN_USERS_ID = "_id";
@@ -22,6 +29,9 @@ public class DataSource {
     private static final String QUERY_USER = "SELECT " + COLUMN_USERS_ID + " FROM " +
             TABLE_USERS + " WHERE " + COLUMN_USERS_NAME + " = ? "+ "AND " + COLUMN_USERS_PASSWORD + " = ?";
 
+    private static final String QUERY_USERNAME = "SELECT " + COLUMN_USERS_ID + " FROM " +
+            TABLE_USERS + " WHERE " + COLUMN_USERS_NAME + " = ?";
+
     public static final String QUERY_DATA = "SELECT * FROM" + TABLE_USERS;
 
 
@@ -29,6 +39,7 @@ public class DataSource {
 
     private PreparedStatement insertUser;
     private PreparedStatement queryUser;
+    private PreparedStatement queryUserName;
 
 
     private static DataSource instance = new DataSource();
@@ -47,6 +58,7 @@ public class DataSource {
 
             insertUser = conn.prepareStatement(INSERT_USER);
             queryUser = conn.prepareStatement(QUERY_USER);
+            queryUserName = conn.prepareStatement(QUERY_USERNAME);
 
 
             return true;
@@ -64,6 +76,9 @@ public class DataSource {
             }
             if(queryUser != null){
                 queryUser.close();
+            }
+            if (queryUserName != null) {
+                queryUserName.close();
             }
 
             if(conn!=null){
@@ -86,33 +101,39 @@ public class DataSource {
         }
     }
 
+    public boolean verifyUsername(String name) {
+        try {
+            queryUserName.setString(1, name);
+            ResultSet results = queryUserName.executeQuery();
+            return results.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
-    public int insertUsers(String name, String email, String password) { // TODO adapt
 
-        try{
-            queryUser.setString(1, name);
-            ResultSet results = queryUser.executeQuery();
-            if(results.next()){
-                return results.getInt(1);
-            } else {
-                insertUser.setString(1, name);
-                insertUser.setString(2, email);
-                insertUser.setString(3, password);
-                int affectedRows = insertUser.executeUpdate();
-                if (affectedRows != 1) {
-                    throw new SQLException("Couldn't insert user");
-                }
-                ResultSet generatedKeys = insertUser.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    return generatedKeys.getInt(1);
-                } else {
-                    throw new SQLException("Couldn't get _id for album");
-                }
+    public boolean insertUsers(String name, String email, String password) { // TODO adapt
+
+        try {
+            insertUser.setString(1, name);
+            insertUser.setString(2, email);
+            insertUser.setString(3, password);
+            int affectedRows = insertUser.executeUpdate();
+            if (affectedRows != 1) {
+                throw new SQLException("Couldn't insert user");
             }
+            return true;
+//                ResultSet generatedKeys = insertUser.getGeneratedKeys();
+//                if (generatedKeys.next()) {
+//                    return generatedKeys.getInt(1);
+//                } else {
+//                    throw new SQLException("Couldn't get _id for album");
+//                }
         } catch (SQLException e) {
             System.out.println("Insert song exception: " + e.getMessage());
             e.printStackTrace();
-            return -1;
+            return false;
         }
     }
 }

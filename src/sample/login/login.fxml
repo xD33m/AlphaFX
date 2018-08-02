@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Text?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="336.0" prefWidth="282.0" styleClass="root"
-            stylesheets="@../styles/dark.theme.css" xmlns="http://javafx.com/javafx/10.0.1"
+            stylesheets="@../styles/dark.theme.css" xmlns="http://javafx.com/javafx/9"
             fx:controller="sample.login.LoginController">
     <VBox alignment="CENTER" layoutX="74.0" layoutY="108.0" spacing="40.0">
         <children>
