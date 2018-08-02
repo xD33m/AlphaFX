@@ -94,11 +94,3 @@ buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 
-.gitignore
-src/main/java/com/sample/Controller.java
-src/main/java/com/sample/Main.java
-src/main/java/com/sample/db/
-src/main/java/com/sample/login/
-src/main/java/com/sample/register/
-src/main/resources/
-src/test/
