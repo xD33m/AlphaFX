@@ -4,6 +4,7 @@ package sample.login;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RequiredFieldValidator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
@@ -32,6 +33,13 @@ public class LoginController {
     private void handleLoginButtonAction(ActionEvent event) {
         String username = nameField.getText();
         String password = passwordField.getText();
+
+        RequiredFieldValidator validator = new RequiredFieldValidator();
+        nameField.getValidators().add(validator);
+        passwordField.getValidators().add(validator);
+        validator.setMessage("Input Required");
+        nameField.validate();
+        passwordField.validate();
 
         Boolean exists = DataSource.getInstance().verifyUser(username, password);
 
