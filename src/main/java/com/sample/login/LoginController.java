@@ -1,15 +1,13 @@
 package com.sample.login;
 
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.stage.Stage;
 import com.sample.Controller;
 import com.sample.db.DataSource;
+import javafx.fxml.FXML;
+import javafx.stage.Stage;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -22,10 +20,6 @@ public class LoginController {
     private JFXTextField nameField;
     @FXML
     private JFXPasswordField passwordField;
-    @FXML
-    private JFXButton registerText;
-    @FXML
-    private JFXButton loginButton;
 
     //verify password hash
     private static boolean validatePassword(String originalPassword, String storedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -62,11 +56,12 @@ public class LoginController {
     }
 
     @FXML
-    private void handleLoginButtonAction(ActionEvent event) throws InvalidKeySpecException, NoSuchAlgorithmException {
+    private void handleLoginButtonAction() throws InvalidKeySpecException, NoSuchAlgorithmException {
         String username = nameField.getText().toLowerCase();
         String password = passwordField.getText();
 
-        String hashedDBPassword = DataSource.getInstance().getQueryPassword(username);
+        String hashedDBPassword = DataSource.getInstance().getPassword(username);
+        Boolean passwordMatch = false;
 
         RequiredFieldValidator validator = new RequiredFieldValidator();
         nameField.getValidators().add(validator);
@@ -75,14 +70,23 @@ public class LoginController {
         nameField.validate();
         passwordField.validate();
 
-        Boolean userExists = DataSource.getInstance().verifyUsername(username);
-        Boolean passwordMatch = validatePassword(password, hashedDBPassword);
+        if (!passwordField.validate() || !nameField.validate()) {
+            System.out.println("field empty");
+        } else {
+            Boolean userExists = DataSource.getInstance().verifyUsername(username); // if user exists check pw
+            if (userExists) {
+                passwordMatch = validatePassword(password, hashedDBPassword);
+            }
 
-        System.out.println("User exists: " + userExists +", Password is valid: "+ passwordMatch);
+            System.out.println("User exists: " + userExists + ", Password is valid: " + passwordMatch);
 
-        if(userExists && passwordMatch){
-            System.out.println("User found!");
+            if (userExists && passwordMatch) {
+                System.out.println("User found!");
+                // load next window
+            }
         }
+
+
     }
 
     private void closeStage() {
@@ -91,6 +95,7 @@ public class LoginController {
 
     private void loadRegister() {
         new Controller().loadWindow("fxml/register.fxml", "Register");
+
     }
 
 

@@ -13,6 +13,10 @@
     -fx-decorator-color: -fx-primary;
 }
 
+.jfx-svg-glyph:hover {
+    -fx-background-color: red;
+}
+
 .jfx-decorator .jfx-decorator-buttons-container {
     -fx-background-color: -fx-decorator-color;
 }

@@ -33,6 +33,8 @@ public class Controller {
                 stage.setX(event.getScreenX() - xOffset);
                 stage.setY(event.getScreenY() - yOffset);
             });
+
+
             stage.setTitle(title);
             stage.setScene(scene);
             stage.show();

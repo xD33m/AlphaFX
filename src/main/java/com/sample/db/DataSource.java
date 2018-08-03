@@ -27,10 +27,8 @@ public class DataSource {
     private static final String QUERY_USERNAME = "SELECT " + COLUMN_USERS_ID + " FROM " +
             TABLE_USERS + " WHERE " + COLUMN_USERS_NAME + " = ?";
 
-    public static final String QUERY_PASSWORD = "SELECT " + COLUMN_USERS_PASSWORD + " FROM " +
+    private static final String QUERY_PASSWORD = "SELECT " + COLUMN_USERS_PASSWORD + " FROM " +
             TABLE_USERS + " WHERE " + COLUMN_USERS_NAME + " = ?";
-
-    public static final String QUERY_DATA = "SELECT * FROM" + TABLE_USERS;
 
 
     private Connection conn;
@@ -93,19 +91,19 @@ public class DataSource {
         }
     }
 
-    public boolean verifyUser(String name, String password){
-        try {
-            queryUser.setString(1, name);
-            queryUser.setString(2, password);
-            ResultSet results = queryUser.executeQuery();
-            return results.next();
-        }catch (SQLException e){
-            e.printStackTrace();
-            return false;
-        }
-    }
+//    public boolean verifyUser(String name, String password){
+//        try {
+//            queryUser.setString(1, name);
+//            queryUser.setString(2, password);
+//            ResultSet results = queryUser.executeQuery();
+//            return results.next();
+//        }catch (SQLException e){
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
 
-    public String getQueryPassword(String username) {
+    public String getPassword(String username) {
         try {
             queryPassword.setString(1, username);
             ResultSet resultSet = queryPassword.executeQuery();
@@ -134,7 +132,7 @@ public class DataSource {
     }
 
 
-    public boolean insertUsers(String name, String email, String password) { // TODO adapt
+    public boolean insertUsers(String name, String email, String password) {
 
         try {
             insertUser.setString(1, name);
@@ -145,12 +143,6 @@ public class DataSource {
                 throw new SQLException("Couldn't insert user");
             }
             return true;
-//                ResultSet generatedKeys = insertUser.getGeneratedKeys();
-//                if (generatedKeys.next()) {
-//                    return generatedKeys.getInt(1);
-//                } else {
-//                    throw new SQLException("Couldn't get _id for album");
-//                }
         } catch (SQLException e) {
             System.out.println("Insert song exception: " + e.getMessage());
             e.printStackTrace();
