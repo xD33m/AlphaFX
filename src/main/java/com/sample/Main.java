@@ -7,7 +7,7 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-
+// test
     @Override
     public void start(Stage primaryStage) {
         new Controller().loadWindow("fxml/login.fxml", "Login");
