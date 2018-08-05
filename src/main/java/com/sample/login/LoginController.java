@@ -83,6 +83,8 @@ public class LoginController {
             if (userExists && passwordMatch) {
                 System.out.println("User found!");
                 // load next window
+                new Controller().loadWindow("fxml/main.fxml", "Main");
+                closeStage();
             }
         }
 
