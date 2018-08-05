@@ -70,3 +70,22 @@
     -fx-fill: -fx-secondary;
     -fx-cursor: hand;
 }
+
+.JfxToggle-button {
+    -jfx-disable-visual-focus: true;
+    -jfx-fill: -fx-primarytext;
+
+}
+
+/*.jfx-text-area,*/
+/*.jfx-text-area .scroll-pane,*/
+/*.jfx-text-area:focused,*/
+/*.jfx-text-area:focused .scroll-pane{*/
+/*-fx-background-color: TRANSPARENT, TRANSPARENT, TRANSPARENT, TRANSPARENT;*/
+/*}*/
+
+.text-area {
+    -fx-background-color: #242424;
+    -fx-text-fill: green;
+}
+

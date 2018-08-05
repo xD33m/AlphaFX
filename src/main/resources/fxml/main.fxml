@@ -8,12 +8,12 @@
             stylesheets="@../css/dark.theme.css" xmlns="http://javafx.com/javafx/10.0.1"
             fx:controller="com.sample.mainPanel.mainController">
     <children>
-        <JFXToggleButton fx:id="scannerOn" layoutX="300.0" layoutY="289.0" onAction="#handleScannerOn"
-                         styleClass="text-field" text="Scanner On"/>
+        <JFXToggleButton fx:id="scannerOn" layoutX="16.0" layoutY="64.0" onAction="#handleScannerOn" size="8.0"
+                         text="Scanner On" styleClass="JfxToggle-button"/>
         <JFXTextArea fx:id="chatInfoArea" editable="false" layoutX="14.0" layoutY="249.0" prefHeight="138.0"
-                     prefWidth="273.0" styleClass="text-field" wrapText="true"/>
+                     prefWidth="576.0" styleClass="text-area" wrapText="true"/>
         <JFXButton fx:id="chatConfiguration" buttonType="RAISED" layoutX="14.0" layoutY="14.0"
-                   onAction="#handleChatConfiguration" styleClass="jfx-button" text="Chat Configuration"/>
-        <JFXButton fx:id="ocrStart" layoutX="14.0" layoutY="39.0" text="OCR Start" onAction="#handleStartOcr"/>
+                   onAction="#handleChatConfiguration" styleClass="submit-button" text="Chat Configuration"
+                   textFill="WHITE"/>
     </children>
 </AnchorPane>
