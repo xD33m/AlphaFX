@@ -69,7 +69,6 @@ public class RegisterController {
     @FXML
     private void loadLogin() {
         new Controller().loadWindow("fxml/login.fxml", "Login");
-
     }
 
     @FXML
@@ -92,10 +91,7 @@ public class RegisterController {
         passwordField.validate();
         confirmationField.validate();
 
-//        Pattern emailPattern = Pattern.compile("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)])");
-
         if (!validator.getHasErrors()) {
-            System.out.println("verifying errors & empty namefield");
             if (password.equals(confirmation)) { // verifies password match
                 confirmationErrorText.setVisible(false);
                 if (DataSource.getInstance().verifyUsername(userName)) { // verifies existing users
@@ -119,6 +115,7 @@ public class RegisterController {
             }
         }
     }
+
 
     @FXML
     private void backToLogin(){

@@ -28,7 +28,7 @@ public class TessOcr {
     }
 
     public void startOcr() {
-                takeScreenshot(rectangle);
+        takeScreenshot(rectangle);
         saveChatLog();
 //                Thread.sleep(3000);
     }
