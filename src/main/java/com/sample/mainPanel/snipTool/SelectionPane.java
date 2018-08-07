@@ -49,7 +49,7 @@ public class SelectionPane extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 SwingUtilities.getWindowAncestor(SelectionPane.this).dispose();
                 setRectangleBounds(new Rectangle(getX(), getY(), getWidth(), getHeight()));
-                TessOcr.getInstance().startOcr(getRectangleBounds());
+                TessOcr.getInstance().setRectangle(getRectangleBounds());
             }
         });
 

@@ -12,7 +12,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        new Controller().loadWindow("fxml/login.fxml", "Login");
+        new Controller().loadWindow("fxml/main.fxml", "main");
     }
 
 
@@ -33,5 +33,6 @@ public class Main extends Application {
     public void stop() throws Exception {
         super.stop();
         DataSource.getInstance().close();
+
     }
 }

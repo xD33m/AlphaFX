@@ -21,9 +21,13 @@ public class mainController {
     @FXML
     JFXButton ocrStart;
 
+    private volatile boolean running = true;
+
+
 
     public void handleChatConfiguration(ActionEvent event) {
         new SnipIt();
+        scannerOn.setDisable(false);
 
     }
 
@@ -32,12 +36,10 @@ public class mainController {
     }
 
 
-    public void handleScannerOn(ActionEvent actionEvent) {
-
-        chatInfoArea.setText(TessOcr.getInstance().getOcrText());
-
-
+    public void handleScannerOn(ActionEvent actionEvent) throws InterruptedException {
+        if (scannerOn.isSelected()) {
+            TessOcr.getInstance().startOcr();
+            chatInfoArea.appendText(TessOcr.getInstance().getOcrText()); // Todo getfilteredOcrText ?
+        }
     }
-
-
 }
