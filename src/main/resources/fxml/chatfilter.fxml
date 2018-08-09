@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXChipView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="423.0" prefWidth="577.0" stylesheets="@../css/dark.theme.css"
+            xmlns="http://javafx.com/javafx/9" fx:controller="com.sample.ui.filterPanel.filterController">
+    <children>
+        <JFXChipView fx:id="buyArea" layoutX="14.0" layoutY="100.0" minHeight="250" minWidth="250"/>
+        <JFXChipView fx:id="sellArea" layoutX="308.0" layoutY="100.0" minHeight="250" minWidth="250"/>
+        <Label layoutX="49.0" layoutY="45.0" prefHeight="37.0" prefWidth="221.0" styleClass="WTText"
+               text="I WANT TO BUY"/>
+        <Label layoutX="337.0" layoutY="45.0" prefHeight="37.0" prefWidth="221.0" styleClass="WTText"
+               text="I WANT TO SELL"/>
+        <JFXButton fx:id="confirmButton" layoutX="246.0" layoutY="365.0" onAction="#handleConfirmButton"
+                   prefHeight="44.0" prefWidth="86.0" styleClass="chat-config-button" text="Confirm"/>
+    </children>
+</AnchorPane>

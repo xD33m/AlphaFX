@@ -71,21 +71,36 @@
     -fx-cursor: hand;
 }
 
-.JfxToggle-button {
-    -jfx-disable-visual-focus: true;
-    -jfx-fill: -fx-primarytext;
+/*.JfxToggle-button {*/
+/*-jfx-disable-visual-focus: true;*/
+/*-jfx-fill: -fx-primarytext;*/
 
+/*}*/
+
+.jfx-toggle-button {
+    -fx-text-fill: white;
+    -fx-border-color: -fx-secondary;
 }
 
-/*.jfx-text-area,*/
-/*.jfx-text-area .scroll-pane,*/
-/*.jfx-text-area:focused,*/
-/*.jfx-text-area:focused .scroll-pane{*/
-/*-fx-background-color: TRANSPARENT, TRANSPARENT, TRANSPARENT, TRANSPARENT;*/
-/*}*/
+.chat-config-button {
+    -fx-border-color: -fx-secondary;
+}
+
 
 .text-area {
     -fx-background-color: #242424;
     -fx-text-fill: green;
 }
+
+.WTText {
+    -fx-text-fill: white;
+    -fx-font-size: 25;
+}
+
+.jfx-chip-view {
+    -fx-background-color: #242424;
+
+}
+
+
 

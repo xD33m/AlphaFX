@@ -1,12 +1,10 @@
-package com.sample.mainPanel.snipTool;
+package com.sample.ui.mainPanel.snipTool;
 
 import com.sample.ocr.TessOcr;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
@@ -44,13 +42,10 @@ public class SelectionPane extends JPanel {
             }
         });
 
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                SwingUtilities.getWindowAncestor(SelectionPane.this).dispose();
-                setRectangleBounds(new Rectangle(getX(), getY(), getWidth(), getHeight()));
-                TessOcr.getInstance().setRectangle(getRectangleBounds());
-            }
+        button.addActionListener(e -> {
+            SwingUtilities.getWindowAncestor(SelectionPane.this).dispose();
+            setRectangleBounds(new Rectangle(getX(), getY(), getWidth(), getHeight()));
+            TessOcr.getInstance().setRectangle(getRectangleBounds());
         });
 
 
@@ -83,11 +78,11 @@ public class SelectionPane extends JPanel {
 
     }
 
-    public Rectangle getRectangleBounds() {
+    private Rectangle getRectangleBounds() {
         return rectangleBounds;
     }
 
-    public void setRectangleBounds(Rectangle rectangleBounds) {
+    private void setRectangleBounds(Rectangle rectangleBounds) {
         this.rectangleBounds = rectangleBounds;
     }
 }

@@ -1,4 +1,4 @@
-package com.sample.mainPanel.snipTool;
+package com.sample.ui.mainPanel.snipTool;
 
 import javax.swing.*;
 import java.awt.*;

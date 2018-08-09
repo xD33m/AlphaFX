@@ -1,4 +1,4 @@
-package com.sample.register;
+package com.sample.ui.register;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;

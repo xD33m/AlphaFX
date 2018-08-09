@@ -1,4 +1,4 @@
-package com.sample.login;
+package com.sample.ui.login;
 
 
 import com.jfoenix.controls.JFXPasswordField;

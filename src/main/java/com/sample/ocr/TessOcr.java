@@ -1,6 +1,7 @@
 package com.sample.ocr;
 
 import com.sample.chat.ImgResize;
+import com.sample.chat.StringSimilarity;
 import net.sourceforge.tess4j.Tesseract1;
 import net.sourceforge.tess4j.util.ImageHelper;
 
@@ -11,14 +12,15 @@ import java.io.*;
 import java.util.HashSet;
 
 
-
-public class TessOcr {
+public class TessOcr implements Runnable {
 
 
     private static TessOcr instance = new TessOcr();
     private String ocrText = "Start";
     private Rectangle rectangle;
     private HashSet<String> chatPosts;
+    private boolean done = false;
+
 
     private TessOcr() {
     }
@@ -27,13 +29,31 @@ public class TessOcr {
         return instance;
     }
 
-    public void startOcr() {
+    public void setDone() {
+        done = true;
+    }
+
+    @Override
+    public void run() {
+        try {
+            while (!done) {
+                startOcr();
+                Thread.sleep(5000);
+            }
+            done = false;
+        } catch (InterruptedException e) {
+            System.out.println("Thread interrupted");
+            done = false;
+        }
+    }
+
+    private void startOcr() {
         takeScreenshot(rectangle);
         saveChatLog();
 //                Thread.sleep(3000);
     }
 
-    public void takeScreenshot(Rectangle rectangle) {
+    private void takeScreenshot(Rectangle rectangle) {
         Tesseract1 instance = new Tesseract1();  // JNA Interface Mapping
         instance.setLanguage("eng");
         instance.setDatapath("C:\\Users\\lucas\\AppData\\Local\\Temp\\tess4j\\tessdata");
@@ -48,6 +68,7 @@ public class TessOcr {
             new ImgResize().resizeImage("File.png", "400%", "4000x", "File4000.png");
 
             ocrText = instance.doOCR(resizedImg);
+//            System.out.println(ocrText);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,15 +79,16 @@ public class TessOcr {
         try (BufferedWriter posts = new BufferedWriter(new FileWriter("chatposts.txt", true));
              RandomAccessFile postsReader = new RandomAccessFile("chatposts.txt", "rwd")) {
             HashSet<String> tempSet = splitPosts(getOcrText());
-            Boolean postExists = false;
             for (String s : tempSet) {
+                Boolean postExists = false;
                 postsReader.seek(0);
-                while (true) { // need randomacces?
+                while (true) {
                     String line = postsReader.readLine();
-//                    System.out.println("Line from postReader.readLine(): " + line);
+//                    System.out.println("Line from postReader.readLine(): " + line + " //Line end");
+//                    System.out.println("Line from hashet is: " + s + " //Line end");
                     if (line == null) break;
-                    if ((line.trim()).contains((s.trim()))) {
-//                        System.out.println(s + "// is already in file");
+                    if ((StringSimilarity.similarity(line.trim(), s.trim())) > 0.8) {
+//                        System.out.println("The message " + s + "// is already in file");
                         postExists = true;
                         break;
                     }
@@ -74,9 +96,10 @@ public class TessOcr {
                 }
                 if (!postExists) {
 //                    System.out.println(s + "// is not in file -> add");
-                    posts.write(s);
+                    String sToAdd = s.replace("\r", " ");
+                    sToAdd = sToAdd.replace("\n", " ");
+                    posts.write(sToAdd);
                     posts.write("\r\n");
-                    postExists = false;
                 }
             }
         } catch (IOException e) {
@@ -88,7 +111,7 @@ public class TessOcr {
         this.rectangle = rectangle;
     }
 
-    public HashSet<String> splitPosts(String message) {
+    private HashSet<String> splitPosts(String message) {
         chatPosts = new HashSet<>();
         String[] messages = message.split("\\[[0-9]{2}:[0-9]{2}\\]");
         for (String s : messages) {
@@ -98,7 +121,7 @@ public class TessOcr {
         return chatPosts;
     }
 
-    public String getOcrText() {
+    private String getOcrText() {
         return ocrText;
     }
 }
