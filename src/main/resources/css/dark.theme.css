@@ -86,15 +86,24 @@
     -fx-border-color: -fx-secondary;
 }
 
+.buying-area {
+    -fx-background-color: #242424;
+    -fx-text-fill: #b3783e;
+}
+
+.selling-area {
+    -fx-background-color: #242424;
+    -fx-text-fill: #e4a0d5;
+
+}
 
 .text-area {
-    -fx-background-color: #242424;
-    -fx-text-fill: green;
+    -fx-text-fill: white;
 }
 
 .WTText {
     -fx-text-fill: white;
-    -fx-font-size: 25;
+    -fx-font-size: 18;
 }
 
 .jfx-chip-view {

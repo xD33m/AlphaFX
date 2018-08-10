@@ -15,8 +15,8 @@
         <JFXButton fx:id="filterChatButton" layoutX="15.0" layoutY="215.0" onAction="#onFilterChatButton"
                    styleClass="chat-config-button" text="Filter Chat"/>
         <JFXTextArea fx:id="buyingArea" layoutX="14.0" layoutY="251.0" prefHeight="123.0" prefWidth="285.0"
-                     styleClass="text-area" wrapText="true"/>
+                     styleClass="buying-area" wrapText="true"/>
         <JFXTextArea fx:id="sellingArea" layoutX="298.0" layoutY="251.0" prefHeight="123.0" prefWidth="285.0"
-                     styleClass="text-area" wrapText="true"/>
+                     styleClass="selling-area" wrapText="true"/>
     </children>
 </AnchorPane>

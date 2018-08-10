@@ -1,14 +1,14 @@
 package com.sample.ui.mainPanel;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXToggleButton;
-import com.sample.Controller;
 import com.sample.chat.ChatQuery;
 import com.sample.ocr.TessOcr;
+import com.sample.ui.filterPanel.FilterController;
 import com.sample.ui.mainPanel.snipTool.SnipIt;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -21,9 +21,9 @@ import java.util.Arrays;
 public class MainController {
 
     @FXML
-    public TextArea buyingArea;
+    public JFXTextArea buyingArea;
     @FXML
-    public TextArea sellingArea;
+    public JFXTextArea sellingArea;
     @FXML
     JFXToggleButton scannerOn;
 
@@ -31,20 +31,16 @@ public class MainController {
     JFXButton chatConfiguration;
 
     @FXML
-    JFXButton ocrStart;
-
-    @FXML
     JFXButton filterChatButton;
 
     private ActionListener updateTask = e -> updateChatArea();
     private Timer updateTimer = new Timer(5000, updateTask);
 
-
-    private Boolean done = true;
-
     public void initialize() {
-
-
+        sellingArea.focusColorProperty().set(null);
+        buyingArea.focusColorProperty().set(null);
+        sellingArea.editableProperty().setValue(false);
+        buyingArea.editableProperty().setValue(false);
     }
 
     public void handleChatConfiguration(ActionEvent event) {
@@ -56,14 +52,8 @@ public class MainController {
 
     @FXML
     public void onFilterChatButton() {
-        new Controller().loadWindow("fxml/chatfilter.fxml", "Chat Filter");
+        new FilterController().loadFilterWindow();
     }
-
-
-    public void handleStartOcr() {
-        System.out.println("button pressed");
-    }
-
 
     public void handleScannerOn(ActionEvent actionEvent) {
         Thread ocrThread = new Thread(TessOcr.getInstance());
@@ -101,7 +91,7 @@ public class MainController {
                 }
             }
             while ((line = br.readLine()) != null) {
-                System.out.println("second while running");
+                System.out.println("second while running" + line);
                 String[] s = buyingArea.getText().split("\n");
                 for (String d : s) {
                     if (Arrays.asList(s).contains(d)) {
