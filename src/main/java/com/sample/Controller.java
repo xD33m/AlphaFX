@@ -10,8 +10,8 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 
 public class Controller {
-    private double xOffset = 0;
-    private double yOffset = 0;
+    public static double xOffset = 0;
+    public static double yOffset = 0;
 
     public void loadWindow(String loc, String title) {
         try {

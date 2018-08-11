@@ -3,6 +3,7 @@ package com.sample.ui.filterPanel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXChipView;
 import com.jfoenix.controls.JFXDecorator;
+import com.sample.Controller;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,8 +16,6 @@ import java.io.*;
 
 
 public class FilterController {
-    private double xOffset = 0;
-    private double yOffset = 0;
 
     @FXML
     JFXButton confirmButton;
@@ -58,12 +57,12 @@ public class FilterController {
             scene.getStylesheets().add(uri);
 
             scene.setOnMousePressed(event -> {
-                xOffset = event.getSceneX();
-                yOffset = event.getSceneY();
+                Controller.xOffset = event.getSceneX();
+                Controller.yOffset = event.getSceneY();
             });
             scene.setOnMouseDragged(event -> {
-                stage.setX(event.getScreenX() - xOffset);
-                stage.setY(event.getScreenY() - yOffset);
+                stage.setX(event.getScreenX() - Controller.xOffset);
+                stage.setY(event.getScreenY() - Controller.yOffset);
             });
             stage.setTitle("Filter");
             stage.setScene(scene);

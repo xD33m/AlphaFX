@@ -111,5 +111,24 @@
 
 }
 
+.list-cell:focused:selected {
+    -fx-background-color: #55554f;
+}
+
+.list-cell:even {
+    -fx-background-color: #242424;
+    -fx-text-fill: white;
+
+}
+
+.list-cell:odd {
+    -fx-background-color: #242424;
+    -fx-text-fill: white;
+
+}
+
+.list-view {
+    -fx-text-fill: white;
+}
 
 

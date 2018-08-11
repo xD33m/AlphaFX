@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
             stylesheets="@../css/dark.theme.css" xmlns="http://javafx.com/javafx/10.0.1"
             fx:controller="com.sample.ui.mainPanel.MainController">
     <children>
         <JFXToggleButton fx:id="scannerOn" disable="true" layoutX="15.0" layoutY="52.0" onAction="#handleScannerOn"
-                         prefHeight="50.0" prefWidth="127.0" size="8.0"
-                         text="Scanner On"/>
+                         prefHeight="50.0" prefWidth="127.0" size="8.0" text="Scanner On"/>
         <JFXButton fx:id="chatConfiguration" buttonType="RAISED" layoutX="15.0" layoutY="14.0"
                    onAction="#handleChatConfiguration" prefHeight="27.0" prefWidth="127.0"
                    styleClass="chat-config-button" text="Chat Configuration" textFill="WHITE"/>
         <JFXButton fx:id="filterChatButton" layoutX="15.0" layoutY="215.0" onAction="#onFilterChatButton"
                    styleClass="chat-config-button" text="Filter Chat"/>
-        <JFXTextArea fx:id="buyingArea" layoutX="14.0" layoutY="251.0" prefHeight="123.0" prefWidth="285.0"
-                     styleClass="buying-area" wrapText="true"/>
-        <JFXTextArea fx:id="sellingArea" layoutX="298.0" layoutY="251.0" prefHeight="123.0" prefWidth="285.0"
-                     styleClass="selling-area" wrapText="true"/>
+        <ListView fx:id="sellingArea" focusTraversable="false" layoutX="15.0" layoutY="251.0" prefHeight="123.0"
+                  prefWidth="285.0" styleClass="selling-area"/>
+        <ListView fx:id="buyingArea" focusTraversable="false" layoutX="300.0" layoutY="251.0" prefHeight="123.0"
+                  prefWidth="285.0" styleClass="buying-area">
+            <opaqueInsets>
+                <Insets/>
+            </opaqueInsets>
+        </ListView>
     </children>
 </AnchorPane>
