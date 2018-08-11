@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="423.0" prefWidth="426.0" stylesheets="@../css/dark.theme.css"
-            xmlns="http://javafx.com/javafx/10.0.1" fx:controller="com.sample.ui.filterPanel.FilterController">
+            xmlns="http://javafx.com/javafx/9" fx:controller="com.sample.ui.filterPanel.FilterController">
     <children>
         <JFXChipView fx:id="buyArea" layoutX="31.0" layoutY="100.0" minHeight="250" minWidth="160.0" prefHeight="250.0"
                      prefWidth="160.0" styleClass="text-field"/>
