@@ -10,7 +10,7 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="336.0" prefWidth="282.0" styleClass="root"
             stylesheets="@../css/dark.theme.css" xmlns="http://javafx.com/javafx/9"
-            fx:controller="com.sample.login.LoginController">
+            fx:controller="com.sample.ui.login.LoginController">
     <VBox alignment="CENTER" layoutX="74.0" layoutY="108.0" spacing="40.0">
         <children>
             <JFXTextField fx:id="nameField" labelFloat="true" promptText="Nickname"/>
@@ -20,7 +20,7 @@
     <FontAwesomeIconView glyphName="LOCK" layoutX="119.0" layoutY="67.0" size="55"/>
     <FontAwesomeIconView glyphName="USER" layoutX="37.0" layoutY="130.0" size="25"/>
     <FontAwesomeIconView glyphName="AT" layoutX="34.0" layoutY="195.0" size="25"/>
-    <JFXButton fx:id="loginButton" layoutX="101.0" layoutY="260.0" onAction="#handleLoginButtonAction" prefHeight="42.0"
+    <JFXButton layoutX="101.0" layoutY="260.0" onAction="#handleLoginButtonAction" prefHeight="42.0"
                prefWidth="72.0" styleClass="submit-button" text="Login"/>
     <Text layoutX="73.0" layoutY="241.0" onMouseClicked="#handleRegisterTextAction" strokeType="OUTSIDE"
           strokeWidth="0.0" styleClass="register-text" text="New? Create an account."/>

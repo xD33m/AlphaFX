@@ -1,4 +1,4 @@
-package com.sample.login;
+package com.sample.ui.login;
 
 
 import com.jfoenix.controls.JFXPasswordField;
@@ -83,6 +83,8 @@ public class LoginController {
             if (userExists && passwordMatch) {
                 System.out.println("User found!");
                 // load next window
+                new Controller().loadWindow("fxml/main.fxml", "Main");
+                closeStage();
             }
         }
 

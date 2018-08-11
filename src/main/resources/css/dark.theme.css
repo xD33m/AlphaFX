@@ -70,3 +70,65 @@
     -fx-fill: -fx-secondary;
     -fx-cursor: hand;
 }
+
+/*.JfxToggle-button {*/
+/*-jfx-disable-visual-focus: true;*/
+/*-jfx-fill: -fx-primarytext;*/
+
+/*}*/
+
+.jfx-toggle-button {
+    -fx-text-fill: white;
+    -fx-border-color: -fx-secondary;
+}
+
+.chat-config-button {
+    -fx-border-color: -fx-secondary;
+}
+
+.buying-area {
+    -fx-background-color: #242424;
+    -fx-text-fill: #b3783e;
+}
+
+.selling-area {
+    -fx-background-color: #242424;
+    -fx-text-fill: #e4a0d5;
+
+}
+
+.text-area {
+    -fx-text-fill: white;
+}
+
+.WTText {
+    -fx-text-fill: white;
+    -fx-font-size: 18;
+}
+
+.jfx-chip-view {
+    -fx-background-color: #242424;
+
+}
+
+.list-cell:focused:selected {
+    -fx-background-color: #55554f;
+}
+
+.list-cell:even {
+    -fx-background-color: #242424;
+    -fx-text-fill: white;
+
+}
+
+.list-cell:odd {
+    -fx-background-color: #242424;
+    -fx-text-fill: white;
+
+}
+
+.list-view {
+    -fx-text-fill: white;
+}
+
+

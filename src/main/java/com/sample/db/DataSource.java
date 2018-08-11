@@ -4,7 +4,6 @@ import java.sql.*;
 
 public class DataSource {
 
-//    jdbc:postgresql://ec2-54-247-123-231.eu-west-1.compute.amazonaws.com/d45cmtvctrnbfn
     private static final String CONNECTION_STRING =
             "jdbc:postgresql://ec2-54-247-123-231.eu-west-1.compute.amazonaws.com/d45cmtvctrnbfn?" +
                     "ssl=true" + "&" +
@@ -21,6 +20,7 @@ public class DataSource {
     private static final String INSERT_USER = "INSERT INTO " + TABLE_USERS +
             '(' + COLUMN_USERS_NAME + ", " + COLUMN_USERS_EMAIL + ", " + COLUMN_USERS_PASSWORD +
             ") VALUES(?, ?, ?)";
+
     private static final String QUERY_USER = "SELECT " + COLUMN_USERS_ID + " FROM " +
             TABLE_USERS + " WHERE " + COLUMN_USERS_NAME + " = ? "+ "AND " + COLUMN_USERS_PASSWORD + " = ?";
 
@@ -37,7 +37,6 @@ public class DataSource {
     private PreparedStatement queryUser;
     private PreparedStatement queryUserName;
     private PreparedStatement queryPassword;
-
 
     private static DataSource instance = new DataSource();
 
@@ -91,18 +90,6 @@ public class DataSource {
         }
     }
 
-//    public boolean verifyUser(String name, String password){
-//        try {
-//            queryUser.setString(1, name);
-//            queryUser.setString(2, password);
-//            ResultSet results = queryUser.executeQuery();
-//            return results.next();
-//        }catch (SQLException e){
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
-
     public String getPassword(String username) {
         try {
             queryPassword.setString(1, username);
@@ -131,9 +118,7 @@ public class DataSource {
         }
     }
 
-
-    public boolean insertUsers(String name, String email, String password) {
-
+    public void insertUsers(String name, String email, String password) {
         try {
             insertUser.setString(1, name);
             insertUser.setString(2, email);
@@ -142,11 +127,9 @@ public class DataSource {
             if (affectedRows != 1) {
                 throw new SQLException("Couldn't insert user");
             }
-            return true;
         } catch (SQLException e) {
             System.out.println("Insert song exception: " + e.getMessage());
             e.printStackTrace();
-            return false;
         }
     }
 }

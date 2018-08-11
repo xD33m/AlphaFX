@@ -8,7 +8,7 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="432.0" prefWidth="282.0" styleClass="root"
             stylesheets="@../css/dark.theme.css" xmlns="http://javafx.com/javafx/9"
-            fx:controller="com.sample.register.RegisterController">
+            fx:controller="com.sample.ui.register.RegisterController">
     <VBox alignment="CENTER" layoutX="70.0" layoutY="120.0" spacing="40.0">
         <children>
             <JFXTextField fx:id="nameField" labelFloat="true" promptText="Username" />
@@ -24,6 +24,6 @@
     <JFXButton fx:id="submitButton" layoutX="105.0" layoutY="376.0" onAction="#handleSubmitButtonAction" prefHeight="42.0" prefWidth="72.0" styleClass="submit-button" text="Submit" />
     <Text fx:id="confirmationErrorText" fill="RED" layoutY="362.0" strokeType="OUTSIDE" strokeWidth="0.0"
           text="Password confirmation is wrong" textAlignment="CENTER" visible="false" wrappingWidth="282.0"/>
-    <FontAwesomeIconView fx:id="leftArrow" glyphName="ARROW_LEFT" layoutX="11.0" layoutY="33.0"
+    <FontAwesomeIconView glyphName="ARROW_LEFT" layoutX="11.0" layoutY="33.0"
                          onMouseClicked="#backToLogin" size="25" styleClass="left-arrow"/>
 </AnchorPane>
