@@ -38,14 +38,21 @@ public class MainController {
     JFXButton filterChatButton;
     @FXML
     public ListView<String> sellingArea;
-    Task updateTask = new Task<>() {
+    private Task updateTask = new Task<>() {
         @Override
         public Void call() throws Exception {
             while (!finish) {
                 Platform.runLater(() -> updateChatArea());
-                Thread.sleep(4000);
+                try {
+                    Thread.sleep(4000);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
             }
             finish = false;
+            Thread.currentThread().interrupt();
+            System.out.println(Thread.currentThread() + "interuppted");
+
             return null;
         }
     };
@@ -90,33 +97,13 @@ public class MainController {
     }
 
     public void initialize() {
-        Platform.setImplicitExit(false);
         // wrapping listView text:
         buyingArea.setCellFactory(MainController::call);
         sellingArea.setCellFactory(MainController::call);
     }
 
-    public void handleScannerOn(ActionEvent actionEvent) {
-        Thread ocrThread = new Thread(TessOcr.getInstance());
-        Thread queryThread = new Thread(new ChatQuery());
-        Thread updateUIThread = new Thread(updateTask);
-        queryThread.setDaemon(true);
-        ocrThread.setDaemon(true);
-        updateUIThread.setDaemon(true);
-        if (scannerOn.isSelected()) {
-            ocrThread.start();
-            queryThread.start();
-            updateUIThread.start();
-//            updateTimer.setRepeats(true);
-//            updateTimer.start();
-        } else if (!scannerOn.isSelected()) {
-            ChatQuery.setDone();
-            TessOcr.getInstance().setDone();
-            finish = true;
-//            UpdateUI.setDone();
-//            updateTimer.stop();
-        }
-
+    private static void setFinish() {
+        finish = true;
     }
 
     private void updateChatArea() {
@@ -138,4 +125,30 @@ public class MainController {
             System.out.println("Reading from file failed" + e.getMessage());
         }
     }
+
+    public void handleScannerOn(ActionEvent actionEvent) {
+        Thread ocrThread = new Thread(TessOcr.getInstance());
+        Thread queryThread = new Thread(new ChatQuery());
+        Thread updateUIThread = new Thread(updateTask);
+        queryThread.setDaemon(true);
+        ocrThread.setDaemon(true);
+        updateUIThread.setDaemon(true);
+        if (scannerOn.isSelected()) {
+            ocrThread.start();
+            queryThread.start();
+            updateUIThread.start();
+//            updateTimer.setRepeats(true);
+//            updateTimer.start();
+        } else if (!scannerOn.isSelected()) {
+            ChatQuery.setDone();
+            TessOcr.getInstance().setDone();
+            setFinish();
+
+//            UpdateUI.setDone();
+//            updateTimer.stop();
+        }
+
+    }
+
+
 }

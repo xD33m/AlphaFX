@@ -21,6 +21,7 @@ public class Main extends Application {
 
     @Override
     public void init() throws Exception {
+
         super.init();
         if(!DataSource.getInstance().open()) {
             System.out.println("FATAL ERROR: Couldn't connect to db");
@@ -31,6 +32,7 @@ public class Main extends Application {
     @Override
     public void stop() throws Exception {
         super.stop();
+        Platform.setImplicitExit(false);
         DataSource.getInstance().close();
     }
 }
