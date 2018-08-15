@@ -1,19 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
             stylesheets="@../css/dark.theme.css" xmlns="http://javafx.com/javafx/10.0.1"
             fx:controller="com.sample.ui.mainPanel.MainController">
     <children>
-        <JFXToggleButton fx:id="scannerOn" disable="true" layoutX="15.0" layoutY="52.0" onAction="#handleScannerOn"
-                         prefHeight="50.0" prefWidth="127.0" size="8.0" text="Scanner On"/>
-        <JFXButton fx:id="chatConfiguration" buttonType="RAISED" layoutX="15.0" layoutY="14.0"
-                   onAction="#handleChatConfiguration" prefHeight="27.0" prefWidth="127.0"
-                   styleClass="chat-config-button" text="Chat Configuration" textFill="WHITE"/>
+        <GridPane layoutX="15.0" layoutY="14.0" prefHeight="167.0" prefWidth="239.0" styleClass="ConfigPane"
+                  stylesheets="@../css/dark.theme.css">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <children>
+                <JFXTextField fx:id="nameField" GridPane.columnIndex="1"/>
+                <JFXButton fx:id="chatConfiguration" buttonType="RAISED" onAction="#handleChatConfiguration"
+                           prefHeight="27.0" prefWidth="127.0" styleClass="chat-config-button" text="Select Chat"
+                           textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <Label text="Character Name"/>
+                <Label text="Chat Configuration" GridPane.rowIndex="1"/>
+                <Label text="Scanner On" GridPane.rowIndex="2"/>
+                <JFXToggleButton fx:id="scannerOn" disable="true" onAction="#handleScannerOn" prefHeight="50.0"
+                                 prefWidth="26.0" size="8.0" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            </children>
+        </GridPane>
         <JFXButton fx:id="filterChatButton" layoutX="15.0" layoutY="215.0" onAction="#onFilterChatButton"
                    styleClass="chat-config-button" text="Filter Chat"/>
         <ListView fx:id="sellingArea" focusTraversable="false" layoutX="15.0" layoutY="251.0" prefHeight="123.0"
@@ -24,5 +43,7 @@
                 <Insets/>
             </opaqueInsets>
         </ListView>
+        <StackPane fx:id="stackPane" layoutX="-1.0" layoutY="-1.0" mouseTransparent="true" prefHeight="400.0"
+                   prefWidth="600.0"/>
     </children>
 </AnchorPane>

@@ -1,14 +1,17 @@
 package com.sample.ocr;
 
-import com.sample.chat.ImgResize;
 import com.sample.chat.StringSimilarity;
+import com.sample.ui.mainPanel.MainController;
+import com.sun.jna.platform.win32.User32;
+import com.sun.jna.platform.win32.WinDef;
 import net.sourceforge.tess4j.Tesseract1;
-import net.sourceforge.tess4j.util.ImageHelper;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.HashSet;
 
 
@@ -47,28 +50,39 @@ public class TessOcr implements Runnable {
         }
     }
 
+    public static Boolean lineExists(RandomAccessFile postsReader, String s, Boolean postExists) throws IOException {
+        while (true) {
+            String line = postsReader.readLine();
+//                    System.out.println("Line from postReader.readLine(): " + line + " //Line end");
+//                    System.out.println("Line from hashet is: " + s + " //Line end");
+            if (line == null) break;
+            if ((StringSimilarity.similarity(line.trim(), s.trim())) > 0.8) {
+//                        System.out.println("The message " + s + "// is already in file");
+                postExists = true;
+                break;
+            }
+            postExists = false;
+        }
+        return postExists;
+    }
+
     private void startOcr() {
-        takeScreenshot(rectangle);
+        scanOCRImage();
         saveChatLog();
 //                Thread.sleep(3000);
     }
 
-    private void takeScreenshot(Rectangle rectangle) {
-        Tesseract1 instance = new Tesseract1();  // JNA Interface Mapping
-        instance.setLanguage("eng");
-        instance.setDatapath("C:\\Users\\lucas\\AppData\\Local\\Temp\\tess4j\\tessdata");
-
+    private void scanOCRImage() {
+        String windowName = MainController.getWindowName();
+        System.out.println("From TessOcr: " + windowName);
+        WinDef.HWND hWnd = User32.INSTANCE.FindWindow(null, windowName);
         try {
-            BufferedImage capture = new Robot().createScreenCapture(new Rectangle(rectangle));
-            BufferedImage captureGrey = ImageHelper.convertImageToGrayscale(capture);
+            Tesseract1 instance = new Tesseract1();  // JNA Interface Mapping
 
-            File img = new File("File.png");
-            ImageIO.write(captureGrey, "png", img);
-            File resizedImg = new File("File4000.png");
-            new ImgResize().resizeImage("File.png", "400%", "4000x", "File4000.png");
-
-            ocrText = instance.doOCR(resizedImg);
-//            System.out.println(ocrText);
+            instance.setLanguage("eng");
+            instance.setDatapath("C:\\Users\\lucas\\AppData\\Local\\Temp\\tess4j\\tessdata");
+            BufferedImage bI = new ChatScreenshot().capture(hWnd);
+            ocrText = instance.doOCR(bI);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,18 +96,7 @@ public class TessOcr implements Runnable {
             for (String s : tempSet) {
                 Boolean postExists = false;
                 postsReader.seek(0);
-                while (true) {
-                    String line = postsReader.readLine();
-//                    System.out.println("Line from postReader.readLine(): " + line + " //Line end");
-//                    System.out.println("Line from hashet is: " + s + " //Line end");
-                    if (line == null) break;
-                    if ((StringSimilarity.similarity(line.trim(), s.trim())) > 0.8) {
-//                        System.out.println("The message " + s + "// is already in file");
-                        postExists = true;
-                        break;
-                    }
-                    postExists = false;
-                }
+                postExists = lineExists(postsReader, s, postExists);
                 if (!postExists) {
 //                    System.out.println(s + "// is not in file -> add");
                     String sToAdd = s.replace("\r", " ");
@@ -124,4 +127,5 @@ public class TessOcr implements Runnable {
     private String getOcrText() {
         return ocrText;
     }
+
 }

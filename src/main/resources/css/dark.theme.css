@@ -79,7 +79,7 @@
 
 .jfx-toggle-button {
     -fx-text-fill: white;
-    -fx-border-color: -fx-secondary;
+    /*-fx-border-color: -fx-secondary;*/
 }
 
 .chat-config-button {
@@ -131,4 +131,12 @@
     -fx-text-fill: white;
 }
 
+.ConfigPane .label {
+    -fx-text-fill: white;
+}
+
+.jfx-dialog-layout {
+    -fx-background-color: -fx-primary;
+    -fx-fill: red;
+}
 

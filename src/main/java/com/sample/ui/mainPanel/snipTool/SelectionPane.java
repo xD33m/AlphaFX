@@ -13,7 +13,7 @@ public class SelectionPane extends JPanel {
     private JButton button;
     private JLabel label;
 
-    private Rectangle rectangleBounds;
+    private static Rectangle rectangleBounds;
 
     public SelectionPane() {
         button = new JButton("Close");
@@ -65,24 +65,26 @@ public class SelectionPane extends JPanel {
 
     public Rectangle getVirtualBounds() {
 
-        Rectangle bounds = new Rectangle(0, 0, 0, 0);
+        Rectangle bounds = new Rectangle(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
 
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//        System.out.println(Toolkit.getDefaultToolkit().get);
         // multi monitor compatibility
 //        GraphicsDevice lstGDs[] = ge.getScreenDevices();
 //        for (GraphicsDevice gd : lstGDs) {
 //            bounds.add(gd.getDefaultConfiguration().getBounds());
 //
 //        }
-        return ge.getMaximumWindowBounds();
+//        return ge.getMaximumWindowBounds();
+        return bounds;
 
     }
 
-    private Rectangle getRectangleBounds() {
+    public Rectangle getRectangleBounds() {
         return rectangleBounds;
     }
 
     private void setRectangleBounds(Rectangle rectangleBounds) {
-        this.rectangleBounds = rectangleBounds;
+        SelectionPane.rectangleBounds = rectangleBounds;
     }
 }

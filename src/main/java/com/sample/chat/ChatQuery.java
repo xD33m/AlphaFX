@@ -1,5 +1,6 @@
 package com.sample.chat;
 
+import com.sample.ocr.TessOcr;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
@@ -18,6 +19,9 @@ public class ChatQuery implements Runnable {
             Set<String> itemList = new HashSet<>();
             String item;
             while ((item = wtbBr.readLine()) != null) {
+                if (item.trim().equals("")) {
+                    continue;
+                }
                 itemList.add(item);
             }
             System.out.println(itemList);
@@ -25,7 +29,7 @@ public class ChatQuery implements Runnable {
                 chatBr.seek(0);
                 String chatMsg;
                 while ((chatMsg = chatBr.readLine()) != null) {
-                    if (StringUtils.containsAny(chatMsg.toLowerCase(), new String[]{"sell", "s>", "wts"}) && StringUtils.contains(chatMsg.toLowerCase(), s.toLowerCase())) {
+                    if (StringUtils.containsAny(chatMsg.toLowerCase(), new String[]{"sell", "s>", "wts", "selling"}) && StringUtils.contains(chatMsg.toLowerCase(), s.toLowerCase())) {
                         String playerName = StringUtils.substringBetween(chatMsg, ")", ":");
                         String sToAdd = playerName + " is selling: " + s;
 //                        System.out.println(playerName + " is selling: " + s);
@@ -44,6 +48,9 @@ public class ChatQuery implements Runnable {
             HashSet<String> itemList = new HashSet<>();
             String item;
             while ((item = wtbBr.readLine()) != null) {
+                if (item.trim().equals("")) {
+                    continue;
+                }
                 itemList.add(item);
             }
             System.out.println(itemList);
@@ -52,7 +59,7 @@ public class ChatQuery implements Runnable {
                 chatBr.seek(0);
                 String chatMsg;
                 while ((chatMsg = chatBr.readLine()) != null) {
-                    if (StringUtils.containsAny(chatMsg.toLowerCase(), new String[]{"buy", "b>", "wts"}) && StringUtils.contains(chatMsg.toLowerCase(), s.toLowerCase())) { // (if msg contains "sell, etc" && msg contains "item")
+                    if (StringUtils.containsAny(chatMsg.toLowerCase(), new String[]{"buy", "b>", "wtb", "buying"}) && StringUtils.contains(chatMsg.toLowerCase(), s.toLowerCase())) { // (if msg contains "sell, etc" && msg contains "item")
                         String playerName = StringUtils.substringBetween(chatMsg, ")", ":");
                         buyingList.add(playerName + " is buying: " + s);
 //                        System.out.println(playerName + " is buying: " + s);
@@ -69,17 +76,7 @@ public class ChatQuery implements Runnable {
             for (String s : hashSet) {
                 Boolean postExists = false;
                 raf.seek(0);
-                while (true) {
-                    String line = raf.readLine();
-                    if (line == null) break;
-
-                    if ((StringSimilarity.similarity(line.trim(), s.trim())) > 0.8) {
-//                        System.out.println("The message " + s + "// is already in file");
-                        postExists = true;
-                        break;
-                    }
-                    postExists = false;
-                }
+                postExists = TessOcr.lineExists(raf, s, postExists);
                 if (!postExists) {
 //                    System.out.println(s + "// is not in file -> add");
                     br.write(s);
