@@ -7,17 +7,14 @@ import com.sample.ocr.TessOcr;
 import com.sample.ocr.User32Extra;
 import com.sample.ui.filterPanel.FilterController;
 import com.sample.ui.mainPanel.snipTool.SnipIt;
+import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef;
+import com.sun.jna.platform.win32.WinUser;
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.io.BufferedReader;
@@ -51,6 +48,7 @@ public class MainController {
     StackPane stackPane;
     private RequiredFieldValidator validator = new RequiredFieldValidator();
 
+
     private Task updateTask = new Task<>() {
         @Override
         public Void call() throws Exception {
@@ -70,37 +68,15 @@ public class MainController {
         }
     };
 
+
     public static String getWindowName() {
         return windowName;
     }
 
     public void initialize() {
-        // wrapping listView text:
-        buyingArea.setCellFactory(MainController::call);
-        sellingArea.setCellFactory(MainController::call);
+        buyingArea.setCellFactory(entry -> new ListViewCellController());
+        sellingArea.setCellFactory(entry -> new ListViewCellController());
         scannerOn.setText(null);
-    }
-
-    @FXML
-    public void handleChatConfiguration() {
-        WinDef.HWND hWnd;
-        validator.setMessage("Enter a name");
-        nameField.getValidators().add(validator);
-        if (!nameField.getText().trim().equals("") && nameField != null) {
-            windowName = nameField.getText().trim() + " - Dofus 2.47.16:1";
-            hWnd = User32Extra.INSTANCE.FindWindow(null, windowName);
-            if (hWnd == null) {
-                loadNoWndFound();
-            } else {
-                User32Extra.INSTANCE.SetForegroundWindow(hWnd);
-                System.out.println("In main controller: " + windowName);
-                new SnipIt();
-                scannerOn.setDisable(false);
-                scannerOn.requestFocus();
-            }
-        } else if (nameField.getText().trim().equals("")) {
-            nameField.validate();
-        }
     }
 
     public void handleScannerOn() {
@@ -144,33 +120,6 @@ public class MainController {
         scannerOn.selectedProperty().setValue(false);
     }
 
-    private static ListCell<String> call(ListView<String> lv) {
-        ListCell<String> cell = new ListCell<String>() {
-            private Label label = new Label();
-
-            {
-                label.setWrapText(true);
-                label.setTextFill(Color.WHITE);
-                label.maxWidthProperty().bind(Bindings.createDoubleBinding(
-                        () -> getWidth() - getPadding().getLeft() - getPadding().getRight() - 1,
-                        widthProperty(), paddingProperty()));
-                setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-            }
-
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    label.setText(item);
-                    setGraphic(label);
-                }
-            }
-        };
-        return cell;
-    }
-
     @FXML
     public void onFilterChatButton() {
         new FilterController().loadFilterWindow();
@@ -198,6 +147,30 @@ public class MainController {
             }
         } catch (IOException e) {
             System.out.println("Reading from file failed" + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void handleChatConfiguration() {
+        WinDef.HWND hWnd;
+        validator.setMessage("Enter a name");
+        nameField.getValidators().add(validator);
+        if (!nameField.getText().trim().equals("") && nameField != null) {
+            windowName = nameField.getText().trim() + " - Dofus 2.47.16:1";
+            hWnd = User32Extra.INSTANCE.FindWindow(null, windowName);
+            if (hWnd == null) {
+                loadNoWndFound();
+            } else {
+
+                User32.INSTANCE.SetForegroundWindow(hWnd);
+                User32.INSTANCE.ShowWindow(hWnd, WinUser.SW_SHOWMAXIMIZED);
+                System.out.println("In main controller: " + windowName);
+                new SnipIt();
+                scannerOn.setDisable(false);
+                scannerOn.requestFocus();
+            }
+        } else if (nameField.getText().trim().equals("")) {
+            nameField.validate();
         }
     }
 }

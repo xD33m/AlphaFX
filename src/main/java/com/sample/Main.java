@@ -12,6 +12,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         new Controller().loadWindow("fxml/main.fxml", "Main");
 
+
     }
 
 
@@ -24,7 +25,7 @@ public class Main extends Application {
         super.init();
         if(!DataSource.getInstance().open()) {
             System.out.println("DB offline");
-//            Platform.exit();
+            Platform.exit();
         }
     }
 

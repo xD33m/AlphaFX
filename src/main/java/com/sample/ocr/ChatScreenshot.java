@@ -25,7 +25,7 @@ public class ChatScreenshot {
     public BufferedImage capture(WinDef.HWND hWnd) throws IOException {
 
         User32.INSTANCE.ShowWindow(hWnd, WinUser.SW_SHOWNOACTIVATE);
-
+//        User32.INSTANCE.ShowWindow(hWnd, WinUser.SW_MAXIMIZE);
 
         HDC hdcWindow = User32Extra.INSTANCE.GetDC(hWnd);
         HDC hdcMemDC = GDI32Extra.INSTANCE.CreateCompatibleDC(hdcWindow);

@@ -140,3 +140,18 @@
     -fx-fill: red;
 }
 
+.listViewText {
+    -fx-font-smoothing-type: lcd;
+    -fx-fill: white;
+}
+
+.buyIcon:hover {
+    -fx-fill: green;
+    -fx-cursor: hand;
+}
+
+.closeIcon:hover {
+    -fx-fill: red;
+    -fx-cursor: hand;
+}
+
