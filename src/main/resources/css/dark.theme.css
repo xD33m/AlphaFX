@@ -1,4 +1,3 @@
-
 * {
     -fx-primary : #2A2E37;
     -fx-secondary : #FFFF8D;
@@ -86,19 +85,9 @@
     -fx-border-color: -fx-secondary;
 }
 
-.buying-area {
-    -fx-background-color: #242424;
-    -fx-text-fill: #b3783e;
-}
-
-.selling-area {
-    -fx-background-color: #242424;
-    -fx-text-fill: #e4a0d5;
-
-}
-
 .text-area {
     -fx-text-fill: white;
+
 }
 
 .WTText {
@@ -117,17 +106,11 @@
 
 .list-cell:even {
     -fx-background-color: #242424;
-    -fx-text-fill: white;
-
+    -fx-text-fill: red;
 }
 
 .list-cell:odd {
     -fx-background-color: #242424;
-    -fx-text-fill: white;
-
-}
-
-.list-view {
     -fx-text-fill: white;
 }
 
@@ -137,7 +120,6 @@
 
 .jfx-dialog-layout {
     -fx-background-color: -fx-primary;
-    -fx-fill: red;
 }
 
 .listViewText {
@@ -153,5 +135,53 @@
 .closeIcon:hover {
     -fx-fill: red;
     -fx-cursor: hand;
+}
+
+.mylistview {
+    -fx-background-color: #242424;
+}
+
+/* --------------- Scrollbar ----------- */
+.mylistview .scroll-bar:horizontal .track,
+.mylistview .scroll-bar:vertical .track {
+    -fx-background-color: #242424;
+    -fx-border-color: #242424;
+    -fx-background-radius: 0em;
+    -fx-border-radius: 2em;
+}
+
+/* The increment and decrement button CSS class of scrollbar */
+.mylistview .scroll-bar:horizontal .increment-button,
+.mylistview .scroll-bar:horizontal .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: 0 0 10 0;
+
+}
+
+/* The increment and decrement button CSS class of scrollbar */
+
+.mylistview .scroll-bar:vertical .increment-button,
+.mylistview .scroll-bar:vertical .decrement-button {
+
+    -fx-background-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: 0 10 0 0;
+
+}
+
+.mylistview .scroll-bar .increment-arrow,
+.mylistview .scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0;
+}
+
+/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
+.mylistview .scroll-bar:horizontal .thumb,
+.mylistview .scroll-bar:vertical .thumb {
+    -fx-background-color: derive(black, 90%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+
 }
 

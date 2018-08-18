@@ -36,9 +36,9 @@
         <JFXButton fx:id="filterChatButton" layoutX="15.0" layoutY="215.0" onAction="#onFilterChatButton"
                    styleClass="chat-config-button" text="Filter Chat"/>
         <ListView fx:id="buyingArea" focusTraversable="false" layoutX="15.0" layoutY="251.0" prefHeight="123.0"
-                  prefWidth="285.0" styleClass="selling-area"/>
+                  prefWidth="285.0" styleClass="mylistview"/>
         <ListView fx:id="sellingArea" focusTraversable="false" layoutX="300.0" layoutY="251.0" prefHeight="123.0"
-                  prefWidth="285.0" styleClass="buying-area">
+                  prefWidth="285.0" styleClass="mylistview">
             <opaqueInsets>
                 <Insets/>
             </opaqueInsets>

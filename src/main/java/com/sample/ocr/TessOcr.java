@@ -50,22 +50,6 @@ public class TessOcr implements Runnable {
         }
     }
 
-    public static Boolean lineExists(RandomAccessFile postsReader, String s, Boolean postExists) throws IOException {
-        while (true) {
-            String line = postsReader.readLine();
-//                    System.out.println("Line from postReader.readLine(): " + line + " //Line end");
-//                    System.out.println("Line from hashet is: " + s + " //Line end");
-            if (line == null) break;
-            if ((StringSimilarity.similarity(line.trim(), s.trim())) > 0.8) {
-//                        System.out.println("The message " + s + "// is already in file");
-                postExists = true;
-                break;
-            }
-            postExists = false;
-        }
-        return postExists;
-    }
-
     private void startOcr() {
         scanOCRImage();
         saveChatLog();
@@ -96,9 +80,21 @@ public class TessOcr implements Runnable {
             for (String s : tempSet) {
                 Boolean postExists = false;
                 postsReader.seek(0);
-                postExists = lineExists(postsReader, s, postExists);
+                while (true) {
+                    String line = postsReader.readLine();
+//                    System.out.println("Line from postReader.readLine(): " + line + " //Line end");
+//                    System.out.println("Line from hashet is: " + s + " //Line end");
+                    if (line == null) break;
+                    if ((StringSimilarity.similarity(line.trim(), s.trim())) > 0.8) {
+//                        System.out.println("The message " + s + "// is already in file");
+                        postExists = true;
+                        break;
+                    }
+                    postExists = false;
+                }
                 if (!postExists) {
 //                    System.out.println(s + "// is not in file -> add");
+                    // remove \n\r from ocr text & add custom ones.
                     String sToAdd = s.replace("\r", " ");
                     sToAdd = sToAdd.replace("\n", " ");
                     posts.write(sToAdd);

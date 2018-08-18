@@ -13,9 +13,11 @@ import com.sun.jna.platform.win32.WinUser;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -61,9 +63,8 @@ public class MainController {
                 }
             }
             finish = false;
-            Thread.currentThread().interrupt();
+//            Thread.currentThread().interrupt(); // Thread[Thread-5,5,main]
             System.out.println(Thread.currentThread() + "interrupted");
-
             return null;
         }
     };
@@ -79,6 +80,12 @@ public class MainController {
         scannerOn.setText(null);
     }
 
+    private static void endThreads() {
+        ChatQuery.setDone();
+        TessOcr.getInstance().setDone();
+//        setFinish(); // updateUIThread(ListView) does not restart. Therefor I'll not stop it. // Todo fix restart of updateUIThread
+    }
+
     public void handleScannerOn() {
         Thread ocrThread = new Thread(TessOcr.getInstance());
         Thread queryThread = new Thread(new ChatQuery());
@@ -91,9 +98,7 @@ public class MainController {
             queryThread.start();
             updateUIThread.start();
         } else if (!scannerOn.isSelected()) {
-            ChatQuery.setDone();
-            TessOcr.getInstance().setDone();
-            setFinish();
+            endThreads();
         }
     }
 
@@ -101,10 +106,16 @@ public class MainController {
     private void loadNoWndFound() {
         stackPane.mouseTransparentProperty().setValue(false);
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text("Window not found"));
-        content.setBody(new Text("The window \"" + windowName + "\" could not be detected.\n" +
-                "Make sure to spell your character name right."));
-        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
+        Label headerText = new Label("Window not found");
+        headerText.setTextFill(Color.WHITE);
+        content.setHeading(headerText);
+        Label bodyText = new Label("The window \"" + windowName + "\" could not be detected. \n " +
+                "Make sure to spell your character name right.");
+        bodyText.setTextFill(Color.WHITE);
+        Font font = new Font("sans-serif", 11.5);
+        bodyText.setFont(font);
+        content.setBody(bodyText);
+        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
         JFXButton button = new JFXButton("Okay");
         dialog.setOnDialogClosed(event -> {
             stackPane.mouseTransparentProperty().setValue(true);
@@ -136,13 +147,17 @@ public class MainController {
             String line;
             while ((line = br.readLine()) != null) {
                 if (!buyingArea.getItems().contains(line.trim())) {
-                    buyingArea.getItems().add(line.trim());
+                    if (!line.trim().equals("")) {
+                        buyingArea.getItems().add(line.trim());
+                    }
                 }
             }
             String line2;
             while ((line2 = br2.readLine()) != null) {
                 if (!sellingArea.getItems().contains(line2.trim())) {
-                    sellingArea.getItems().add(line2.trim());
+                    if (!line2.trim().equals("")) {
+                        sellingArea.getItems().add(line2.trim());
+                    }
                 }
             }
         } catch (IOException e) {

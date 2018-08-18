@@ -34,11 +34,19 @@ public class ChatScreenshot {
 
         RECT bounds = new RECT();
         User32Extra.INSTANCE.GetClientRect(hWnd, bounds);
-
-        int x = (int) rectangle.getX();
-        int y = (int) rectangle.getY();
-        int width = (int) rectangle.getWidth();
-        int height = (int) rectangle.getHeight();
+        int x;
+        int y;
+        int width;
+        int height;
+        if (rectangle != null) {
+            x = (int) rectangle.getX();
+            y = (int) rectangle.getY();
+            width = (int) rectangle.getWidth();
+            height = (int) rectangle.getHeight();
+        } else {
+            System.out.println("No chat area rectangle drawn");
+            return null;
+        }
 
         HBITMAP hBitmap = GDI32Extra.INSTANCE.CreateCompatibleBitmap(hdcWindow, width, height);
 

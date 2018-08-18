@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 <GridPane xmlns:fx="http://javafx.com/fxml/1" fx:id="gridPane" maxWidth="-Infinity" minHeight="-Infinity"
-          minWidth="-Infinity" stylesheets="@../css/dark.theme.css" xmlns="http://javafx.com/javafx/10.0.1">
+          minWidth="-Infinity" stylesheets="@../css/dark.theme.css" xmlns="http://javafx.com/javafx/9">
     <columnConstraints>
         <ColumnConstraints/>
         <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES"/>
-        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="31.0" minWidth="30.0" prefWidth="30.0"/>
-        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="31.0" minWidth="30.0" prefWidth="30.0"/>
+        <ColumnConstraints halignment="CENTER"
+                           hgrow="SOMETIMES"/> <!--maxWidth="31.0" minWidth="30.0" prefWidth="30.0"-->
+        <ColumnConstraints halignment="CENTER"
+                           hgrow="SOMETIMES"/> <!--maxWidth="31.0" minWidth="30.0" prefWidth="30.0"-->
     </columnConstraints>
     <rowConstraints>
         <RowConstraints vgrow="ALWAYS"/>
     </rowConstraints>
     <children>
-        <FontAwesomeIconView glyphName="CHECK_CIRCLE" size="16" styleClass="buyIcon" GridPane.columnIndex="2"/>
-        <FontAwesomeIconView fx:id="fxIconGender" glyphName="TIMES_CIRCLE" size="16" styleClass="closeIcon"
+        <FontAwesomeIconView glyphName="CHECK_CIRCLE" size="16" styleClass="buyIcon" GridPane.columnIndex="2">
+            <GridPane.margin>
+                <Insets right="10.0"/>
+            </GridPane.margin>
+        </FontAwesomeIconView>
+        <FontAwesomeIconView fx:id="closeIcon" glyphName="TIMES_CIRCLE" size="16" styleClass="closeIcon"
                              GridPane.columnIndex="3"/>
         <Text fx:id="text" styleClass="listViewText" GridPane.columnIndex="0"/>
     </children>
