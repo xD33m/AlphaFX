@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXSnackbar?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.*?>
@@ -29,6 +28,6 @@
         <FontAwesomeIconView fx:id="closeIcon" glyphName="TIMES_CIRCLE" size="16" styleClass="closeIcon"
                              GridPane.columnIndex="3"/>
         <Text fx:id="text" styleClass="listViewText" GridPane.columnIndex="0"/>
-        <JFXSnackbar fx:id="snackBar"/>
+        <!--<JFXSnackbar fx:id="snackBar"/>-->
     </children>
 </GridPane>

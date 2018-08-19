@@ -52,10 +52,9 @@ public class MainController {
     @FXML
     StackPane stackPane;
 
-    //    @FXML
-//    JFXSnackbar snackbar;
     @FXML
     JFXToggleButton scannerOn;
+
 
     private RequiredFieldValidator validator = new RequiredFieldValidator();
 
@@ -85,10 +84,11 @@ public class MainController {
 
     public void initialize() {
         scannerOn.setText(null);
-        initListCellButtons(); // Todo solve NPE Exception ?
+        initListCellButtons();
     }
 
-    public void initListCellButtons() {
+
+    private void initListCellButtons() {
         buyingArea.setCellFactory(entry -> new ListViewCellController() {
             {
                 JFXSnackbar snackbar = new JFXSnackbar(stackPane);
@@ -103,25 +103,23 @@ public class MainController {
                     snackbar.fireEvent(new JFXSnackbar.SnackbarEvent(clipboardString.concat("\n") + "-> Copied to Clipboard"));
                     clipboard.setContents(selection, selection);
                 });
-
             }
+
         });
         sellingArea.setCellFactory(entry -> new ListViewCellController() {
             {
-                {
-                    JFXSnackbar snackbar = new JFXSnackbar(stackPane);
-                    buyIcon.setOnMouseClicked(event -> {
+                JFXSnackbar snackbar = new JFXSnackbar(stackPane);
+                buyIcon.setOnMouseClicked(event -> {
 //                        snackbar.setPrefWidth(200);
-                        String selectedString = getListView().getSelectionModel().getSelectedItem();
-                        String playerName = StringUtils.substringBefore(selectedString, "is buying");
-                        String item = StringUtils.substringAfter(selectedString, "is buying:");
-                        String clipboardString = "/w " + playerName + " how much for " + item + " ?";
-                        StringSelection selection = new StringSelection(clipboardString);
-                        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-                        snackbar.fireEvent(new JFXSnackbar.SnackbarEvent(clipboardString.concat("\n") + "-> Copied to Clipboard"));
-                        clipboard.setContents(selection, selection);
-                    });
-                }
+                    String selectedString = getListView().getSelectionModel().getSelectedItem();
+                    String playerName = StringUtils.substringBefore(selectedString, "is buying");
+                    String item = StringUtils.substringAfter(selectedString, "is buying:");
+                    String clipboardString = "/w " + playerName + " how much for " + item + " ?";
+                    StringSelection selection = new StringSelection(clipboardString);
+                    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                    snackbar.fireEvent(new JFXSnackbar.SnackbarEvent(clipboardString.concat("\n") + "-> Copied to Clipboard"));
+                    clipboard.setContents(selection, selection);
+                });
 
             }
         });
