@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXSnackbar?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.*?>
@@ -16,9 +17,11 @@
     </columnConstraints>
     <rowConstraints>
         <RowConstraints vgrow="ALWAYS"/>
+        <RowConstraints vgrow="ALWAYS"/>
     </rowConstraints>
     <children>
-        <FontAwesomeIconView glyphName="CHECK_CIRCLE" size="16" styleClass="buyIcon" GridPane.columnIndex="2">
+        <FontAwesomeIconView fx:id="buyIcon" glyphName="CHECK_CIRCLE" size="16" styleClass="buyIcon"
+                             GridPane.columnIndex="2">
             <GridPane.margin>
                 <Insets right="10.0"/>
             </GridPane.margin>
@@ -26,5 +29,6 @@
         <FontAwesomeIconView fx:id="closeIcon" glyphName="TIMES_CIRCLE" size="16" styleClass="closeIcon"
                              GridPane.columnIndex="3"/>
         <Text fx:id="text" styleClass="listViewText" GridPane.columnIndex="0"/>
+        <JFXSnackbar fx:id="snackBar"/>
     </children>
 </GridPane>

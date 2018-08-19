@@ -87,7 +87,6 @@
 
 .text-area {
     -fx-text-fill: white;
-
 }
 
 .WTText {
@@ -100,19 +99,20 @@
 
 }
 
+/* ---- List cells ----- */
 .list-cell:focused:selected {
     -fx-background-color: #55554f;
 }
 
 .list-cell:even {
     -fx-background-color: #242424;
-    -fx-text-fill: red;
 }
 
 .list-cell:odd {
     -fx-background-color: #242424;
-    -fx-text-fill: white;
 }
+
+/* ---------- */
 
 .ConfigPane .label {
     -fx-text-fill: white;
@@ -183,5 +183,15 @@
     -fx-background-insets: 2, 0, 0;
     -fx-background-radius: 2em;
 
+}
+
+/* --- Snackbar ---*/
+
+.jfx-snackbar-content {
+    -fx-background-color: green;
+}
+
+.jfx-snackbar-toast {
+    -fx-text-fill: black;
 }
 

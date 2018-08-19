@@ -24,6 +24,12 @@ public class ListViewCellController extends ListCell<String> {
     @FXML
     private FontAwesomeIconView closeIcon;
 
+    @FXML
+    public FontAwesomeIconView buyIcon;
+
+//    @FXML
+//    JFXSnackbar snackbar;
+
     public ListViewCellController() {
         super();
         if (fxmlLoader == null) {
@@ -35,7 +41,7 @@ public class ListViewCellController extends ListCell<String> {
                 e.printStackTrace();
             }
         }
-        closeIcon.setOnMouseClicked(event -> {
+        closeIcon.setOnMouseClicked(click -> {
             try {
                 String lineToRemove = getListView().getSelectionModel().getSelectedItem();
                 if (getListView().getId().equals("buyingArea")) {
@@ -51,7 +57,6 @@ public class ListViewCellController extends ListCell<String> {
                 e.printStackTrace();
             }
         });
-
     }
 
     private void addToBlacklist(String lineToRemove, BufferedWriter BLwriter, File blacklist) throws IOException {

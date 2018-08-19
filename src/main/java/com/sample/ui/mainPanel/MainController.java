@@ -18,7 +18,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import org.apache.commons.lang3.StringUtils;
 
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -32,8 +36,9 @@ public class MainController {
     @FXML
     public ListView<String> buyingArea;
 
+    private static String windowName;
     @FXML
-    JFXToggleButton scannerOn;
+    public ListView<String> sellingArea;
 
     @FXML
     JFXButton chatConfiguration;
@@ -42,12 +47,16 @@ public class MainController {
     JFXButton filterChatButton;
 
     @FXML
-    public ListView<String> sellingArea;
-    private static String windowName;
-    @FXML
     public JFXTextField nameField;
+
     @FXML
     StackPane stackPane;
+
+    //    @FXML
+//    JFXSnackbar snackbar;
+    @FXML
+    JFXToggleButton scannerOn;
+
     private RequiredFieldValidator validator = new RequiredFieldValidator();
 
 
@@ -75,9 +84,47 @@ public class MainController {
     }
 
     public void initialize() {
-        buyingArea.setCellFactory(entry -> new ListViewCellController());
-        sellingArea.setCellFactory(entry -> new ListViewCellController());
         scannerOn.setText(null);
+        initListCellButtons(); // Todo solve NPE Exception ?
+    }
+
+    public void initListCellButtons() {
+        buyingArea.setCellFactory(entry -> new ListViewCellController() {
+            {
+                JFXSnackbar snackbar = new JFXSnackbar(stackPane);
+                buyIcon.setOnMouseClicked(event -> {
+//                        snackbar.setPrefWidth(250);
+                    String selectedString = getListView().getSelectionModel().getSelectedItem();
+                    String playerName = StringUtils.substringBefore(selectedString, "is selling");
+                    String item = StringUtils.substringAfter(selectedString, "is selling:");
+                    String clipboardString = "/w " + playerName + " how much for " + item + " ?";
+                    StringSelection selection = new StringSelection(clipboardString);
+                    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                    snackbar.fireEvent(new JFXSnackbar.SnackbarEvent(clipboardString.concat("\n") + "-> Copied to Clipboard"));
+                    clipboard.setContents(selection, selection);
+                });
+
+            }
+        });
+        sellingArea.setCellFactory(entry -> new ListViewCellController() {
+            {
+                {
+                    JFXSnackbar snackbar = new JFXSnackbar(stackPane);
+                    buyIcon.setOnMouseClicked(event -> {
+//                        snackbar.setPrefWidth(200);
+                        String selectedString = getListView().getSelectionModel().getSelectedItem();
+                        String playerName = StringUtils.substringBefore(selectedString, "is buying");
+                        String item = StringUtils.substringAfter(selectedString, "is buying:");
+                        String clipboardString = "/w " + playerName + " how much for " + item + " ?";
+                        StringSelection selection = new StringSelection(clipboardString);
+                        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                        snackbar.fireEvent(new JFXSnackbar.SnackbarEvent(clipboardString.concat("\n") + "-> Copied to Clipboard"));
+                        clipboard.setContents(selection, selection);
+                    });
+                }
+
+            }
+        });
     }
 
     private static void endThreads() {
@@ -140,6 +187,7 @@ public class MainController {
         finish = true;
     }
 
+
     @FXML
     private void updateChatArea() {
         try (BufferedReader br = new BufferedReader(new FileReader("PlayerSells.txt"));
@@ -149,6 +197,7 @@ public class MainController {
                 if (!buyingArea.getItems().contains(line.trim())) {
                     if (!line.trim().equals("")) {
                         buyingArea.getItems().add(line.trim());
+
                     }
                 }
             }
@@ -157,6 +206,7 @@ public class MainController {
                 if (!sellingArea.getItems().contains(line2.trim())) {
                     if (!line2.trim().equals("")) {
                         sellingArea.getItems().add(line2.trim());
+
                     }
                 }
             }
