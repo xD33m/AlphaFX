@@ -84,7 +84,6 @@ public class ListViewCellController extends ListCell<String> {
         }
         try {
             FileUtils.forceDelete(inputFile);
-            File chatposts = new File("chatposts.txt");
 //            FileUtils.copyFile(chatposts, new File("ChatPosts_Backup.txt"));
 //            FileUtils.copyToFile(FileUtils.openInputStream(chatposts), new File("chatposts_backup.txt"));
             FileUtils.forceDelete(new File("chatposts.txt"));
@@ -94,7 +93,6 @@ public class ListViewCellController extends ListCell<String> {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-        System.out.println("ListView ID: " + getListView().getId());
     }
 
     @Override

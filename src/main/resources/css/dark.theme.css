@@ -188,10 +188,10 @@
 /* --- Snackbar ---*/
 
 .jfx-snackbar-content {
-    -fx-background-color: green;
+    -fx-background-color: #263238;
 }
 
 .jfx-snackbar-toast {
-    -fx-text-fill: black;
+    -fx-text-fill: white;
 }
 

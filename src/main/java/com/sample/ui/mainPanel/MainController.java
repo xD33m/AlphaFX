@@ -56,6 +56,7 @@ public class MainController {
     JFXToggleButton scannerOn;
 
 
+
     private RequiredFieldValidator validator = new RequiredFieldValidator();
 
 
@@ -174,6 +175,7 @@ public class MainController {
         content.setActions(button);
         dialog.show();
         scannerOn.selectedProperty().setValue(false);
+        endThreads();
     }
 
     @FXML
@@ -219,12 +221,12 @@ public class MainController {
         validator.setMessage("Enter a name");
         nameField.getValidators().add(validator);
         if (!nameField.getText().trim().equals("") && nameField != null) {
-            windowName = nameField.getText().trim() + " - Dofus 2.47.16:1";
-            hWnd = User32Extra.INSTANCE.FindWindow(null, windowName);
+            String windowToFind = nameField.getText().trim() + " - Dofus 2.47.16:1";
+            hWnd = User32Extra.INSTANCE.FindWindow(null, windowToFind);
             if (hWnd == null) {
                 loadNoWndFound();
             } else {
-
+                windowName = windowToFind;
                 User32.INSTANCE.SetForegroundWindow(hWnd);
                 User32.INSTANCE.ShowWindow(hWnd, WinUser.SW_SHOWMAXIMIZED);
                 System.out.println("In main controller: " + windowName);
@@ -236,4 +238,5 @@ public class MainController {
             nameField.validate();
         }
     }
+
 }
