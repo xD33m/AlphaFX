@@ -21,11 +21,18 @@ import java.io.IOException;
 
 public class ChatScreenshot {
 
+    private static final int WS_ICONIC = 0x20000000;
 
     public BufferedImage capture(WinDef.HWND hWnd) throws IOException {
 
-        User32.INSTANCE.ShowWindow(hWnd, WinUser.SW_SHOWNOACTIVATE);
-//        User32.INSTANCE.ShowWindow(hWnd, WinUser.SW_MAXIMIZE);
+        WinUser.WINDOWINFO info = new WinUser.WINDOWINFO();
+        User32.INSTANCE.GetWindowInfo(hWnd, info);
+
+        if ((info.dwStyle & WS_ICONIC) == WS_ICONIC) { // if window is minimized
+            System.out.println("window is minimized");
+            User32.INSTANCE.ShowWindow(hWnd, WinUser.SW_SHOWNOACTIVATE);
+        }
+        User32.INSTANCE.ShowWindow(hWnd, WinUser.SW_MAXIMIZE);
 
         HDC hdcWindow = User32Extra.INSTANCE.GetDC(hWnd);
         HDC hdcMemDC = GDI32Extra.INSTANCE.CreateCompatibleDC(hdcWindow);
@@ -68,14 +75,17 @@ public class ChatScreenshot {
         // ToDo ziemlich unmständlich
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         image.setRGB(0, 0, width, height, buffer.getIntArray(0, width * height), 0, width);
+        System.out.println("TEEST");
         BufferedImage captureGrey = ImageHelper.convertImageToGrayscale(image);
+        // does  not work in standalone version --> "ImageIO.read Unknown Source"
         File img = new File("File.png");
         ImageIO.write(captureGrey, "png", img);
 
         File resizedImg = new File("File4000.png");
         new ImgResize().resizeImage("File.png", "400%", "4000x", "File4000.png");
-        Image image1 = ImageIO.read(resizedImg.getAbsoluteFile());
+        Image image1 = ImageIO.read(resizedImg);
         BufferedImage buffResizedImg = (BufferedImage) image1;
+        // <---
 
         GDI32Extra.INSTANCE.DeleteObject(hBitmap);
         User32Extra.INSTANCE.ReleaseDC(hWnd, hdcWindow);

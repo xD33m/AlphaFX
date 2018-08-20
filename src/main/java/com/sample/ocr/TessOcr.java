@@ -5,13 +5,11 @@ import com.sample.ui.mainPanel.MainController;
 import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef;
 import net.sourceforge.tess4j.Tesseract1;
+import net.sourceforge.tess4j.util.LoadLibs;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.io.*;
 import java.util.HashSet;
 
 
@@ -62,9 +60,11 @@ public class TessOcr implements Runnable {
         WinDef.HWND hWnd = User32.INSTANCE.FindWindow(null, windowName);
         try {
             Tesseract1 instance = new Tesseract1();  // JNA Interface Mapping
+            File tessDataFolder = LoadLibs.extractTessResources("tessdata");
 
-            instance.setLanguage("eng");
-            instance.setDatapath("C:\\Users\\lucas\\AppData\\Local\\Temp\\tess4j\\tessdata");
+            instance.setDatapath(tessDataFolder.getAbsolutePath());
+//            instance.setLanguage("eng");
+//            instance.setDatapath("C:\\Users\\lucas\\AppData\\Local\\Temp\\tess4j\\tessdata");
             BufferedImage bI = new ChatScreenshot().capture(hWnd);
             ocrText = instance.doOCR(bI);
 
