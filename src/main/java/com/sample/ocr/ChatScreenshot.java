@@ -74,7 +74,7 @@ public class ChatScreenshot {
 
         File resizedImg = new File("File4000.png");
         new ImgResize().resizeImage("File.png", "400%", "4000x", "File4000.png");
-        Image image1 = ImageIO.read(resizedImg);
+        Image image1 = ImageIO.read(resizedImg.getAbsoluteFile());
         BufferedImage buffResizedImg = (BufferedImage) image1;
 
         GDI32Extra.INSTANCE.DeleteObject(hBitmap);
