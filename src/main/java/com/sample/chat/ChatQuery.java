@@ -31,16 +31,29 @@ public class ChatQuery implements Runnable {
                 }
                 scanner.reset();
 //                System.out.println("Post exists: "+postExists);
-                if (!postExists && !FileUtils.readFileToString(new File("Blacklist.txt"), "UTF-8").contains(s)) { // if post does not exists & msg is not on the blacklist.
-                    System.out.println(s + "// is not in file -> add");
-                    br.write("\r\n");
-                    br.write(s.trim());
+                if (!postExists) { // if post does not exists & msg is not on the blacklist.
+                    File blacklist = new File("Blacklist.txt");
+                    if (blacklist.exists() && !blacklist.isDirectory()) {
+                        if (!FileUtils.readFileToString(new File("Blacklist.txt"), "UTF-8").contains(s)) {
+                            System.out.println(s + "// not on blacklist & not in file -> add");
+                            br.write("\r\n");
+                            br.write(s.trim());
+                        }
+                    } else {
+                        System.out.println("No blacklist found & post is not in file -> add");
+                        br.write("\r\n");
+                        br.write(s.trim());
+                    }
                 }
             }
         }
     }
 
     private void queryItemsToBuy() throws IOException {
+        File wtbtxt = new File("wtb.txt");
+        if (!wtbtxt.isFile() && wtbtxt.createNewFile() && !wtbtxt.exists()) {
+            throw new IOException("Error creating new file: " + wtbtxt.getAbsolutePath());
+        }
         try (BufferedReader wtbBr = new BufferedReader(new FileReader("wtb.txt"));
              RandomAccessFile chatBr = new RandomAccessFile("chatposts.txt", "rwd")) {
             HashSet<String> itemList = new HashSet<>();
@@ -72,6 +85,10 @@ public class ChatQuery implements Runnable {
     }
 
     private void queryItemsToSell() throws IOException {
+        File wtstxt = new File("wts.txt");
+        if (!wtstxt.isFile() && wtstxt.createNewFile() && !wtstxt.exists()) {
+            throw new IOException("Error creating new file: " + wtstxt.getAbsolutePath());
+        }
         try (BufferedReader wtbBr = new BufferedReader(new FileReader("wts.txt"));
              RandomAccessFile chatBr = new RandomAccessFile("chatposts.txt", "rwd")) {
             HashSet<String> itemList = new HashSet<>();

@@ -28,6 +28,7 @@ import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -72,8 +73,8 @@ public class MainController {
                 Platform.runLater(() -> {
                     try {
                         updateChatArea();
-                    } catch (AWTException e) {
-                        System.out.println("notification error");
+                    } catch (AWTException | IOException e) {
+//                        System.out.println("notification error");
                         e.printStackTrace();
                     }
                 });
@@ -214,13 +215,20 @@ public class MainController {
 
 
     @FXML
-    private void updateChatArea() throws AWTException {
+    private void updateChatArea() throws AWTException, IOException {
+        File playersellstxt = new File("PlayerSells.txt");
+        File playerbuystxt = new File("PlayerBuys.txt");
+        if (!playerbuystxt.isFile() && !playerbuystxt.createNewFile() && !playerbuystxt.exists()) {
+            throw new IOException("Error creating new file: " + playerbuystxt.getAbsolutePath());
+        } else if (!playersellstxt.isFile() && playersellstxt.createNewFile() && !playersellstxt.exists()) {
+            throw new IOException("Error creating new file: " + playersellstxt.getAbsolutePath());
+        }
         try (BufferedReader br = new BufferedReader(new FileReader("PlayerSells.txt"));
              BufferedReader br2 = new BufferedReader(new FileReader("PlayerBuys.txt"))) {
             addItemToListView(br, buyingArea);
             addItemToListView(br2, sellingArea);
         } catch (IOException e) {
-            System.out.println("Reading from file failed" + e.getMessage());
+            System.out.println("Reading from file failed. " + e.getMessage());
         }
     }
 
