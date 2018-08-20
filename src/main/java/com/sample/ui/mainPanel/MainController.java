@@ -5,6 +5,8 @@ import com.jfoenix.validation.RequiredFieldValidator;
 import com.sample.chat.ChatQuery;
 import com.sample.ocr.TessOcr;
 import com.sample.ocr.User32Extra;
+import com.sample.tray.animations.AnimationType;
+import com.sample.tray.notification.TrayNotification;
 import com.sample.ui.filterPanel.FilterController;
 import com.sample.ui.mainPanel.snipTool.SnipIt;
 import com.sun.jna.platform.win32.User32;
@@ -15,9 +17,11 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.util.Duration;
 import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
@@ -26,6 +30,7 @@ import java.awt.datatransfer.StringSelection;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+
 
 
 public class MainController {
@@ -64,7 +69,14 @@ public class MainController {
         @Override
         public Void call() throws Exception {
             while (!finish) {
-                Platform.runLater(() -> updateChatArea());
+                Platform.runLater(() -> {
+                    try {
+                        updateChatArea();
+                    } catch (AWTException e) {
+                        System.out.println("notification error");
+                        e.printStackTrace();
+                    }
+                });
                 try {
                     Thread.sleep(4000);
                 } catch (InterruptedException e) {
@@ -103,6 +115,13 @@ public class MainController {
                     Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
                     snackbar.fireEvent(new JFXSnackbar.SnackbarEvent(clipboardString.concat("\n") + "-> Copied to Clipboard"));
                     clipboard.setContents(selection, selection);
+                    try {
+                        deleteLine("PlayerSells.txt", selectedString);
+                    } catch (IOException e) {
+                        System.out.println("Could not delete line");
+                    }
+                    getListView().getItems().remove(selectedString);
+
                 });
             }
 
@@ -120,6 +139,12 @@ public class MainController {
                     Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
                     snackbar.fireEvent(new JFXSnackbar.SnackbarEvent(clipboardString.concat("\n") + "-> Copied to Clipboard"));
                     clipboard.setContents(selection, selection);
+                    try {
+                        deleteLine("PlayerBuys.txt", selectedString);
+                    } catch (IOException e) {
+                        System.out.println("Could not delete line");
+                    }
+                    getListView().getItems().remove(selectedString);
                 });
 
             }
@@ -189,31 +214,46 @@ public class MainController {
 
 
     @FXML
-    private void updateChatArea() {
+    private void updateChatArea() throws AWTException {
         try (BufferedReader br = new BufferedReader(new FileReader("PlayerSells.txt"));
              BufferedReader br2 = new BufferedReader(new FileReader("PlayerBuys.txt"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                if (!buyingArea.getItems().contains(line.trim())) {
-                    if (!line.trim().equals("")) {
-                        buyingArea.getItems().add(line.trim());
-
-                    }
-                }
-            }
-            String line2;
-            while ((line2 = br2.readLine()) != null) {
-                if (!sellingArea.getItems().contains(line2.trim())) {
-                    if (!line2.trim().equals("")) {
-                        sellingArea.getItems().add(line2.trim());
-
-                    }
-                }
-            }
+            addItemToListView(br, buyingArea);
+            addItemToListView(br2, sellingArea);
         } catch (IOException e) {
             System.out.println("Reading from file failed" + e.getMessage());
         }
     }
+
+    private void addItemToListView(BufferedReader br, ListView<String> listView) throws IOException, AWTException {
+        String line;
+        while ((line = br.readLine()) != null) {
+            if (!listView.getItems().contains(line.trim())) {
+                if (!line.trim().equals("")) {
+                    listView.getItems().add(line.trim());
+                    // windows notification
+                    displayPopupMessage(line, listView);
+
+                }
+            }
+        }
+    }
+
+    private void displayPopupMessage(String msg, ListView<String> listView) {
+        Image icon = new Image("img/trayIcon.png");
+        TrayNotification tray = new TrayNotification();
+        tray.setTitle("New Trade Message");
+        tray.setMessage(msg);
+        if (listView.getId().equals("buyingArea")) { // Another Player sells:
+            tray.setRectangleFill(Color.GREEN);
+
+        } else {
+            tray.setRectangleFill(Color.BROWN);
+        }
+        tray.setImage(icon);
+        tray.setAnimationType(AnimationType.POPUP);
+        tray.showAndDismiss(Duration.millis(10000));
+    }
+
 
     @FXML
     public void handleChatConfiguration() {

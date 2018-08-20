@@ -28,6 +28,5 @@
         <FontAwesomeIconView fx:id="closeIcon" glyphName="TIMES_CIRCLE" size="16" styleClass="closeIcon"
                              GridPane.columnIndex="3"/>
         <Text fx:id="text" styleClass="listViewText" GridPane.columnIndex="0"/>
-        <!--<JFXSnackbar fx:id="snackBar"/>-->
     </children>
 </GridPane>

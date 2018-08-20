@@ -66,8 +66,8 @@ public class ListViewCellController extends ListCell<String> {
         }
     }
 
-    private void deleteLine(String file, String lineToRemove) throws IOException {
-        File inputFile = new File(file);
+    public void deleteLine(String sourceFile, String lineToRemove) throws IOException {
+        File inputFile = new File(sourceFile);
         File tempFile = File.createTempFile("tmp", "");
         File blacklist = new File("Blacklist.txt");
 
