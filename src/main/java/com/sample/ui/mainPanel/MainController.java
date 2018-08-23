@@ -32,10 +32,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-
-
 public class MainController {
-
 
     private static Boolean finish = false;
 
@@ -61,10 +58,7 @@ public class MainController {
     @FXML
     JFXToggleButton scannerOn;
 
-
-
     private RequiredFieldValidator validator = new RequiredFieldValidator();
-
 
     private Task updateTask = new Task<>() {
         @Override
@@ -91,7 +85,6 @@ public class MainController {
         }
     };
 
-
     public static String getWindowName() {
         return windowName;
     }
@@ -100,7 +93,6 @@ public class MainController {
         scannerOn.setText(null);
         initListCellButtons();
     }
-
 
     private void initListCellButtons() {
         buyingArea.setCellFactory(entry -> new ListViewCellController() {
