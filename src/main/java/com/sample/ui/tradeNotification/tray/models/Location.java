@@ -1,11 +1,11 @@
-package com.sample.tray.models;
+package com.sample.ui.tradeNotification.tray.models;
 
 
 public class Location {
 
     private double x, y;
 
-    public Location(double xLoc, double yLoc) {
+    Location(double xLoc, double yLoc) {
         this.x = xLoc;
         this.y = yLoc;
     }

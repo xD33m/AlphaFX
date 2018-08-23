@@ -1,6 +1,6 @@
-package com.sample.tray.animations;
+package com.sample.ui.tradeNotification.tray.animations;
 
-import com.sample.tray.models.CustomStage;
+import com.sample.ui.tradeNotification.tray.models.CustomStage;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.SequentialTransition;

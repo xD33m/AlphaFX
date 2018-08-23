@@ -25,12 +25,12 @@ public class ListViewCellController extends ListCell<String> {
     private FontAwesomeIconView closeIcon;
 
     @FXML
-    public FontAwesomeIconView buyIcon;
+    FontAwesomeIconView buyIcon;
 
 //    @FXML
 //    JFXSnackbar snackbar;
 
-    public ListViewCellController() {
+    ListViewCellController() {
         super();
         if (fxmlLoader == null) {
             fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/ListViewCell.fxml"));
@@ -66,7 +66,7 @@ public class ListViewCellController extends ListCell<String> {
         }
     }
 
-    public void deleteLine(String sourceFile, String lineToRemove) throws IOException {
+    void deleteLine(String sourceFile, String lineToRemove) throws IOException {
         File inputFile = new File(sourceFile);
         File tempFile = File.createTempFile("tmp", "");
         File blacklist = new File("Blacklist.txt");
@@ -118,6 +118,4 @@ public class ListViewCellController extends ListCell<String> {
             setGraphic(gridPane);
         }
     }
-
-
 }

@@ -4,11 +4,11 @@ import com.jfoenix.controls.*;
 import com.jfoenix.validation.RequiredFieldValidator;
 import com.sample.chat.ChatQuery;
 import com.sample.ocr.TessOcr;
-import com.sample.ocr.User32Extra;
-import com.sample.tray.animations.AnimationType;
-import com.sample.tray.notification.TrayNotification;
+import com.sample.ocr.imageProcessing.User32Extra;
 import com.sample.ui.filterPanel.FilterController;
 import com.sample.ui.mainPanel.snipTool.SnipIt;
+import com.sample.ui.tradeNotification.tray.animations.AnimationType;
+import com.sample.ui.tradeNotification.tray.notification.TrayNotification;
 import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinUser;
@@ -68,12 +68,12 @@ public class MainController {
 
     private Task updateTask = new Task<>() {
         @Override
-        public Void call() throws Exception {
+        public Void call() {
             while (!finish) {
                 Platform.runLater(() -> {
                     try {
                         updateChatArea();
-                    } catch (AWTException | IOException e) {
+                    } catch (IOException e) {
 //                        System.out.println("notification error");
                         e.printStackTrace();
                     }
@@ -215,7 +215,7 @@ public class MainController {
 
 
     @FXML
-    private void updateChatArea() throws AWTException, IOException {
+    private void updateChatArea() throws IOException {
         File playersellstxt = new File("PlayerSells.txt");
         File playerbuystxt = new File("PlayerBuys.txt");
         if (!playerbuystxt.isFile() && !playerbuystxt.createNewFile() && !playerbuystxt.exists()) {
@@ -232,7 +232,7 @@ public class MainController {
         }
     }
 
-    private void addItemToListView(BufferedReader br, ListView<String> listView) throws IOException, AWTException {
+    private void addItemToListView(BufferedReader br, ListView<String> listView) throws IOException {
         String line;
         while ((line = br.readLine()) != null) {
             if (!listView.getItems().contains(line.trim())) {

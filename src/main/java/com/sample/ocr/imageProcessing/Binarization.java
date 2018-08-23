@@ -1,74 +1,22 @@
-package com.sample.ocr;
+package com.sample.ocr.imageProcessing;
 
-
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-public class Binarization {
+class Binarization {
 
     private static BufferedImage grayscale, binarized;
 
-    public static BufferedImage GetBmp(BufferedImage original) {
+    static BufferedImage GetBmp(BufferedImage original) {
 
 
         grayscale = toGray(original);
         binarized = binarize(grayscale);
-//        noiseremove(binarized);
         return binarized;
-        // writeImage(output_f,parts[1]);
 
     }
-
-    public static void noiseremove(BufferedImage Image) {
-        int Height = Image.getHeight();
-        int Width = Image.getWidth();
-        for (int i = 0; i < Height; i++) {
-            for (int j = 0; j < Width; j++) {
-                int red = new Color(Image.getRGB(j, i)).getRed();
-                int T = 0;
-                if (j - 1 >= 0) {
-                    if (red != (new Color(Image.getRGB(j - 1, i)).getRed()))
-                        T++;
-                } else
-                    T++;
-                if (i - 1 >= 0) {
-                    if (red != (new Color(Image.getRGB(j, i - 1)).getRed()))
-                        T++;
-                } else
-                    T++;
-                if (j + 1 < Width) {
-                    if (red != (new Color(Image.getRGB(j + 1, i)).getRed()))
-                        T++;
-                } else
-                    T++;
-                if (i + 1 < Height) {
-                    if (red != (new Color(Image.getRGB(j, i + 1)).getRed()))
-                        T++;
-                } else
-                    T++;
-
-                if (T == 4) {
-                    int newPixel = new Color(Image.getRGB(j, i + 1)).getRed();
-                    int alpha = new Color(Image.getRGB(j, i + 1)).getAlpha();
-                    newPixel = colorToRGB(alpha, newPixel, newPixel, newPixel);
-                    Image.setRGB(j, i, newPixel);
-
-                }
-            }
-        }
-
-    }
-
-    private static void writeImage(String output, String part) throws IOException {
-        File file = new File(output + ".bmp");
-        ImageIO.write(binarized, "bmp", file);
-    }
-
     // Return histogram of grayscale image
-    public static int[] imageHistogram(BufferedImage input) {
+    private static int[] imageHistogram(BufferedImage input) {
 
         int[] histogram = new int[256];
 
@@ -127,7 +75,7 @@ public class Binarization {
 
         float sumB = 0;
         int wB = 0;
-        int wF = 0;
+        int wF;
 
         float varMax = 0;
         int threshold = 0;

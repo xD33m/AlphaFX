@@ -1,4 +1,4 @@
-package com.sample.ocr;
+package com.sample.ocr.imageProcessing;
 
 
 import com.sun.jna.Native;
@@ -10,6 +10,6 @@ public interface GDI32Extra extends GDI32 {
 
     GDI32Extra INSTANCE = (GDI32Extra) Native.loadLibrary("gdi32", GDI32Extra.class, W32APIOptions.DEFAULT_OPTIONS);
 
-    public boolean BitBlt(WinDef.HDC hObject, int nXDest, int nYDest, int nWidth, int nHeight, WinDef.HDC hObjectSource, int nXSrc, int nYSrc, WinDef.DWORD dwRop);
+    boolean BitBlt(WinDef.HDC hObject, int nXDest, int nYDest, int nWidth, int nHeight, WinDef.HDC hObjectSource, int nXSrc, int nYSrc, WinDef.DWORD dwRop);
 
 }

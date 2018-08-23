@@ -1,6 +1,7 @@
 package com.sample.ocr;
 
 import com.sample.chat.StringSimilarity;
+import com.sample.ocr.imageProcessing.ChatScreenshot;
 import com.sample.ui.mainPanel.MainController;
 import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef;

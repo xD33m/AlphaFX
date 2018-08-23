@@ -1,4 +1,4 @@
-package com.sample.tray.models;
+package com.sample.ui.tradeNotification.tray.models;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Rectangle2D;
@@ -49,7 +49,7 @@ public class CustomStage extends Stage {
         return bottomRight;
     }
 
-    public void setSize(double width, double height) {
+    private void setSize(double width, double height) {
         setWidth(width);
         setHeight(height);
     }

@@ -1,8 +1,8 @@
-package com.sample.tray.notification;
+package com.sample.ui.tradeNotification.tray.notification;
 
 
-import com.sample.tray.animations.*;
-import com.sample.tray.models.CustomStage;
+import com.sample.ui.tradeNotification.tray.animations.*;
+import com.sample.ui.tradeNotification.tray.models.CustomStage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -112,7 +112,7 @@ public final class TrayNotification {
         return notificationType;
     }
 
-    public void setNotificationType(NotificationType nType) {
+    private void setNotificationType(NotificationType nType) {
 
         notificationType = nType;
 
@@ -155,7 +155,7 @@ public final class TrayNotification {
         setTrayIcon(imageIcon.getImage());
     }
 
-    public void setTray(String title, String message, NotificationType type) {
+    private void setTray(String title, String message, NotificationType type) {
         setTitle(title);
         setMessage(message);
         setNotificationType(type);
@@ -169,7 +169,7 @@ public final class TrayNotification {
         setAnimationType(animType);
     }
 
-    public boolean isTrayShowing() {
+    private boolean isTrayShowing() {
         return animator.isShowing();
     }
 
@@ -209,7 +209,7 @@ public final class TrayNotification {
     /**
      * Dismisses the notifcation tray
      */
-    public void dismiss() {
+    private void dismiss() {
 
         if (isTrayShowing()) {
             animator.playDismissAnimation();
@@ -254,7 +254,7 @@ public final class TrayNotification {
      *
      * @param img The image to assign
      */
-    public void setTrayIcon(Image img) {
+    private void setTrayIcon(Image img) {
         stage.getIcons().clear();
         stage.getIcons().add(img);
     }

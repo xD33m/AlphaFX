@@ -1,4 +1,4 @@
-package com.sample.tray.notification;
+package com.sample.ui.tradeNotification.tray.notification;
 
 public enum NotificationType {
     INFORMATION,

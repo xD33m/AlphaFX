@@ -21,7 +21,7 @@ public class ChatQuery implements Runnable {
                 while (scanner.hasNextLine()) {
                     String line = scanner.nextLine();
                     System.out.println("Scanner line: " + line);
-                    System.out.println("Hashset line: " + s);
+                    System.out.println("HashSet line: " + s);
                     if ((StringSimilarity.similarity(line.trim(), s.trim())) > 0.9) {
                         System.out.println("The message " + s + "// is already in file");
                         postExists = true;

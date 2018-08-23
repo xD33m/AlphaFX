@@ -1,4 +1,4 @@
-package com.sample.tray.animations;
+package com.sample.ui.tradeNotification.tray.animations;
 
 import javafx.util.Duration;
 

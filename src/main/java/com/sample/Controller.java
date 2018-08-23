@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -22,7 +23,7 @@ public class Controller {
                     new Image(getClass().getClassLoader().getResourceAsStream("img/dofusIcon/dofus-icon-32.png")),
                     new Image(getClass().getClassLoader().getResourceAsStream("img/dofusIcon/dofus-icon-48.png")),
                     new Image(getClass().getClassLoader().getResourceAsStream("img/dofusIcon/dofus-icon-128.png")));
-//            stage.initStyle(StageStyle.UNDECORATED);
+            stage.initStyle(StageStyle.UNDECORATED);
             JFXDecorator decorator = new JFXDecorator(stage, parent, false, false, true);
             decorator.setCustomMaximize(true);
             decorator.setGraphic(new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("img/dofusIcon/dofus-icon-16.png"))));
