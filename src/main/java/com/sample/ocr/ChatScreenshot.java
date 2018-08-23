@@ -11,7 +11,6 @@ import com.sun.jna.platform.win32.WinDef.RECT;
 import com.sun.jna.platform.win32.WinGDI.BITMAPINFO;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
 import com.sun.jna.platform.win32.WinUser;
-import net.sourceforge.tess4j.util.ImageHelper;
 import org.imgscalr.Scalr;
 
 import javax.imageio.*;
@@ -88,13 +87,24 @@ public class ChatScreenshot {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         image.setRGB(0, 0, width, height, buffer.getIntArray(0, width * height), 0, width);
 
-        BufferedImage captureGrey = ImageHelper.convertImageToGrayscale(image);
-        captureGrey = Scalr.resize(captureGrey, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.AUTOMATIC, captureGrey.getWidth() * 3, captureGrey.getHeight() * 3);
 
-        File output400DpiPng = new File("Output300dpi.png");
+//        Target imageTarget = new ImageTarget(new File("chatToFind.png"));
+//        ScreenRegion s = new DesktopScreenRegion();
+//        Region r = s.find(imageTarget);
+//        org.sikuli.api.visual.Canvas canvas = new DesktopCanvas();
+//
+//        canvas.add().display(3);
+//        imageTarget.doFindAll()
 
 
-        saveImage(captureGrey, output400DpiPng, 1000);
+//        BufferedImage captureGrey = ImageHelper.convertImageToGrayscale(image);
+        image = Scalr.resize(image, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.AUTOMATIC, image.getWidth() * 2, image.getHeight() * 2, Scalr.OP_ANTIALIAS);
+        image = Binarization.GetBmp(image);
+
+        File output400DpiPng = new File("Output400dpi.png");
+
+
+        saveImage(image, output400DpiPng, 400);
 
         Image image1 = ImageIO.read(output400DpiPng);
         BufferedImage buffResizedImg = (BufferedImage) image1;

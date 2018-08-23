@@ -66,6 +66,7 @@ public class TessOcr implements Runnable {
 //            instance.setLanguage("eng");
 //            instance.setDatapath("C:\\Users\\lucas\\AppData\\Local\\Temp\\tess4j\\tessdata");
             BufferedImage bI = new ChatScreenshot().capture(hWnd);
+            Thread.sleep(500);
             ocrText = instance.doOCR(bI);
 
         } catch (Exception e) {

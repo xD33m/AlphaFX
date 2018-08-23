@@ -16,7 +16,13 @@
     -fx-background-color: red;
 }
 
+.jfx-decorator-title {
+    -fx-fill: white;
+    -fx-font-smoothing-type: lcd;
+}
+
 .jfx-decorator .jfx-decorator-buttons-container {
+    /*-fx-background-color: -fx-decorator-color;*/
     -fx-background-color: -fx-decorator-color;
 }
 

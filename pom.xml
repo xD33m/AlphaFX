@@ -51,19 +51,6 @@
             <artifactId>jna-platform</artifactId>
             <version>4.5.2</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.im4java/im4java -->
-        <dependency>
-            <groupId>org.im4java</groupId>
-            <artifactId>im4java</artifactId>
-            <version>1.2.0</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/jmagick/jmagick -->
-        <dependency>
-            <groupId>jmagick</groupId>
-            <artifactId>jmagick</artifactId>
-            <version>6.6.9</version>
-            <scope>provided</scope>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-text -->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -76,21 +63,6 @@
             <artifactId>imgscalr-lib</artifactId>
             <version>4.2</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.bytedeco/javacpp -->
-        <dependency>
-            <groupId>org.bytedeco</groupId>
-            <artifactId>javacpp</artifactId>
-            <version>1.4.2</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.bytedeco.javacpp-presets/opencv -->
-        <dependency>
-            <groupId>org.bytedeco.javacpp-presets</groupId>
-            <artifactId>opencv</artifactId>
-            <version>3.4.2-1.4.2</version>
-        </dependency>
-
-
     </dependencies>
 
     <build>
