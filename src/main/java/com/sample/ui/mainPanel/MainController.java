@@ -269,7 +269,7 @@ public class MainController {
         validator.setMessage("Enter a name");
         nameField.getValidators().add(validator);
         if (!nameField.getText().trim().equals("") && nameField != null) {
-            String windowToFind = nameField.getText().trim() + " - Dofus 2.47.16:1";
+            String windowToFind = nameField.getText().trim() + " - Dofus 2.47.17:0";
             hWnd = User32Extra.INSTANCE.FindWindow(null, windowToFind);
             if (hWnd == null) {
                 loadNoWndFound();

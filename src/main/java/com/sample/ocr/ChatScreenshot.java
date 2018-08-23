@@ -1,6 +1,6 @@
 package com.sample.ocr;
 
-import com.sample.chat.ImgResize;
+
 import com.sample.ui.mainPanel.snipTool.SelectionPane;
 import com.sun.jna.Memory;
 import com.sun.jna.platform.win32.User32;
@@ -12,16 +12,24 @@ import com.sun.jna.platform.win32.WinGDI.BITMAPINFO;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
 import com.sun.jna.platform.win32.WinUser;
 import net.sourceforge.tess4j.util.ImageHelper;
+import org.imgscalr.Scalr;
 
-import javax.imageio.ImageIO;
+import javax.imageio.*;
+import javax.imageio.metadata.IIOInvalidTreeException;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.metadata.IIOMetadataNode;
+import javax.imageio.stream.ImageOutputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
+
 
 public class ChatScreenshot {
 
     private static final int WS_ICONIC = 0x20000000;
+    public static final int WS_MAXIMIZE = 0x01000000;
 
     public BufferedImage capture(WinDef.HWND hWnd) throws IOException {
 
@@ -32,7 +40,11 @@ public class ChatScreenshot {
             System.out.println("window is minimized");
             User32.INSTANCE.ShowWindow(hWnd, WinUser.SW_SHOWNOACTIVATE);
         }
-        User32.INSTANCE.ShowWindow(hWnd, WinUser.SW_MAXIMIZE);
+
+        if (!((info.dwStyle & WS_MAXIMIZE) == WS_MAXIMIZE)) {
+            System.out.println("window is not maximized");
+            User32.INSTANCE.ShowWindow(hWnd, WinUser.SW_MAXIMIZE);
+        }
 
         HDC hdcWindow = User32Extra.INSTANCE.GetDC(hWnd);
         HDC hdcMemDC = GDI32Extra.INSTANCE.CreateCompatibleDC(hdcWindow);
@@ -72,24 +84,76 @@ public class ChatScreenshot {
 
         Memory buffer = new Memory(width * height * 4);
         GDI32Extra.INSTANCE.GetDIBits(hdcWindow, hBitmap, 0, height, buffer, bmi, WinGDIExtra.DIB_RGB_COLORS);
-        // ToDo ziemlich unmständlich
+
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         image.setRGB(0, 0, width, height, buffer.getIntArray(0, width * height), 0, width);
-        System.out.println("TEEST");
-        BufferedImage captureGrey = ImageHelper.convertImageToGrayscale(image);
-        // does  not work in standalone version --> "ImageIO.read Unknown Source"
-        File img = new File("File.png");
-        ImageIO.write(captureGrey, "png", img);
 
-        File resizedImg = new File("File4000.png");
-        new ImgResize().resizeImage("File.png", "400%", "4000x", "File4000.png");
-        Image image1 = ImageIO.read(resizedImg);
+        BufferedImage captureGrey = ImageHelper.convertImageToGrayscale(image);
+        captureGrey = Scalr.resize(captureGrey, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.AUTOMATIC, captureGrey.getWidth() * 3, captureGrey.getHeight() * 3);
+
+        File output400DpiPng = new File("Output300dpi.png");
+
+
+        saveImage(captureGrey, output400DpiPng, 1000);
+
+        Image image1 = ImageIO.read(output400DpiPng);
         BufferedImage buffResizedImg = (BufferedImage) image1;
-        // <---
 
         GDI32Extra.INSTANCE.DeleteObject(hBitmap);
         User32Extra.INSTANCE.ReleaseDC(hWnd, hdcWindow);
 
         return buffResizedImg;
+    }
+
+
+    private void saveImage(BufferedImage sourceImage, File output, int DPI) throws IOException {
+        output.delete();
+
+        final String formatName = "png";
+
+        for (Iterator<ImageWriter> iw = ImageIO.getImageWritersByFormatName(formatName); iw.hasNext(); ) {
+            ImageWriter writer = iw.next();
+            ImageWriteParam writeParam = writer.getDefaultWriteParam();
+            // up comptression quality to from 70% to 100%
+            writeParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT); // Needed see javadoc
+            writeParam.setCompressionQuality(1.0F); // Highest quality
+
+            ImageTypeSpecifier typeSpecifier = ImageTypeSpecifier.createFromBufferedImageType(BufferedImage.TYPE_INT_RGB);
+            IIOMetadata metadata = writer.getDefaultImageMetadata(typeSpecifier, writeParam);
+            if (metadata.isReadOnly() || !metadata.isStandardMetadataFormatSupported()) {
+                continue;
+            }
+
+            setDPI(metadata, DPI);
+
+
+            try (ImageOutputStream stream = ImageIO.createImageOutputStream(output)) {
+                writer.setOutput(stream);
+                writer.write(metadata, new IIOImage(sourceImage, null, metadata), writeParam);
+            }
+            break;
+        }
+    }
+
+    private void setDPI(IIOMetadata metadata, int DPI) throws IIOInvalidTreeException {
+        double INCH_2_CM = 2.54;
+
+        // for PMG, it's dots per millimeter
+        double dotsPerMilli = 1.0 * DPI / 10 / INCH_2_CM;
+
+        IIOMetadataNode horiz = new IIOMetadataNode("HorizontalPixelSize");
+        horiz.setAttribute("value", Double.toString(dotsPerMilli));
+
+        IIOMetadataNode vert = new IIOMetadataNode("VerticalPixelSize");
+        vert.setAttribute("value", Double.toString(dotsPerMilli));
+
+        IIOMetadataNode dim = new IIOMetadataNode("Dimension");
+        dim.appendChild(horiz);
+        dim.appendChild(vert);
+
+        IIOMetadataNode root = new IIOMetadataNode("javax_imageio_1.0");
+        root.appendChild(dim);
+
+        metadata.mergeTree("javax_imageio_1.0", root);
     }
 }
