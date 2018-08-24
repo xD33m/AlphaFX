@@ -8,8 +8,9 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="152.0" prefWidth="363.0"
-            stylesheets="@../css/dark.theme.css" xmlns="http://javafx.com/javafx/10.0.1"
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="152.0" prefWidth="442.0"
+            stylesheets="@../css/dark.theme.css" xmlns="http://javafx.com/javafx/9"
             fx:controller="com.sample.ui.settings.notificationServiceController">
     <children>
         <JFXTextField fx:id="userTokenArea" layoutX="14.0" layoutY="52.0" prefHeight="25.0" prefWidth="161.0"
@@ -26,22 +27,31 @@
             </graphic>
         </Label>
         <JFXButton fx:id="userTokenSubmit" buttonType="RAISED" layoutX="236.0" layoutY="52.0" onAction="#onSubmit"
-                   text="Submit"/>
-        <ImageView fitHeight="25.0" fitWidth="75.0" layoutX="198.0" layoutY="14.0" preserveRatio="true">
+                   styleClass="chat-config-button" text="Submit"/>
+        <JFXButton fx:id="testButton" buttonType="RAISED" layoutX="188.0" layoutY="52.0" onAction="#onTestButton"
+                   styleClass="chat-config-button" text="Test"/>
+        <Label fx:id="successLabel" layoutX="297.0" layoutY="56.0" prefHeight="17.0" prefWidth="141.0"
+               style="-fx-text-fill: green;" text="success!" visible="false"/>
+        <JFXToggleButton fx:id="phoneNotification" layoutX="14.0" layoutY="108.0" onAction="#onToggle" size="6.0"
+                         text="Phone Notification"/>
+        <JFXButton fx:id="closeButton" layoutX="297.0" layoutY="115.0" onAction="#onClose"
+                   styleClass="chat-config-button" text="Close"/>
+        <Label fx:id="notifStateLabel" layoutX="165.0" layoutY="119.0" text="OFF" textFill="RED">
+            <font>
+                <Font name="System Bold" size="12.0"/>
+            </font>
+        </Label>
+        <ImageView fitHeight="94.0" fitWidth="115.0" layoutX="197.0" layoutY="-19.0" preserveRatio="true"
+                   styleClass="storeBadge">
             <image>
                 <Image url="@../img/appstore.png"/>
             </image>
         </ImageView>
-        <ImageView fitHeight="40.0" fitWidth="75.0" layoutX="273.0" layoutY="14.0" preserveRatio="true">
+        <ImageView fitHeight="55.0" fitWidth="123.0" layoutX="302.0" layoutY="4.0" preserveRatio="true"
+                   styleClass="storeBadge">
             <image>
                 <Image url="@../img/playstore.png"/>
             </image>
         </ImageView>
-        <JFXButton fx:id="testButton" buttonType="RAISED" layoutX="188.0" layoutY="52.0" onAction="#onTestButton"
-                   text="Test"/>
-        <Label fx:id="successLabel" alignment="CENTER" layoutY="118.0" prefHeight="17.0" prefWidth="363.0"
-               style="-fx-text-fill: green;" text="success!" visible="false"/>
-        <JFXToggleButton fx:id="phoneNotification" layoutX="14.0" layoutY="108.0" size="6.0" text="Phone Notification"/>
-        <JFXButton fx:id="closeButton" layoutX="297.0" layoutY="115.0" text="Close" onAction="#onClose"/>
     </children>
 </AnchorPane>

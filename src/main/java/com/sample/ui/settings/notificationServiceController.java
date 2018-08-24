@@ -9,7 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -27,6 +27,8 @@ public class notificationServiceController {
 
     @FXML
     JFXToggleButton phoneNotification;
+    @FXML
+    Label notifStateLabel;
     @FXML
     JFXButton closeButton;
 
@@ -59,8 +61,11 @@ public class notificationServiceController {
     }
 
     @FXML
-    private void onSubmit() {
+    private void onSubmit() throws IOException {
         if (DataSource.getInstance().insertToken(userTokenArea.getText(), 7) && userTokenArea.getText().length() == 8) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File("userToken")))) {
+                bw.write(userTokenArea.getText());
+            }
             successLabel.setText("Success!");
             successLabel.setStyle("-fx-text-fill: green");
             successLabel.setVisible(true);
@@ -68,6 +73,17 @@ public class notificationServiceController {
             successLabel.setText("Something went wrong");
             successLabel.setStyle("-fx-text-fill: red");
             successLabel.setVisible(true);
+        }
+    }
+
+    @FXML
+    private void onToggle() {
+        if (phoneNotification.isSelected()) {
+            notifStateLabel.setText("ON");
+            notifStateLabel.setStyle("-fx-text-fill: green");
+        } else {
+            notifStateLabel.setText("OFF");
+            notifStateLabel.setStyle("-fx-text-fill: red");
         }
     }
 

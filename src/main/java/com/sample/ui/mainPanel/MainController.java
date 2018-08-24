@@ -256,10 +256,11 @@ public class MainController {
     }
 
     private void sendPhoneNotification(String message) throws IOException {
+
         String url = "https://pushfleet.com/api/v1/send";
         String charset = java.nio.charset.StandardCharsets.UTF_8.name();
         final String appId = "AJ7HJVTE";
-        String userToken = "UBTF6PC6"; // ToDo query token from logged in user.
+        String userToken = org.apache.commons.io.FileUtils.readFileToString(new File("userToken"), "UTF-8").trim(); // ToDo query token from logged in user.
         String msgUrl = "https://www.dofus.com/fr/mmorpg/communaute/annuaires/pages-persos/82190500201-yusai";
 
         String query = String.format("appid=%s&userid=%s&message=%s&url=%s",

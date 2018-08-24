@@ -205,3 +205,8 @@
     -fx-fill: -fx-secondary;
     -fx-cursor: hand;
 }
+
+.storeBadge:hover {
+    -fx-cursor: hand;
+    -fx-opacity: 70%;
+}
