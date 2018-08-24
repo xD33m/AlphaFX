@@ -2,6 +2,7 @@ package com.sample.ui.mainPanel;
 
 import com.jfoenix.controls.*;
 import com.jfoenix.validation.RequiredFieldValidator;
+import com.sample.Controller;
 import com.sample.chat.ChatQuery;
 import com.sample.ocr.TessOcr;
 import com.sample.ocr.imageProcessing.User32Extra;
@@ -12,6 +13,7 @@ import com.sample.ui.tradeNotification.tray.notification.TrayNotification;
 import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinUser;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -27,10 +29,10 @@ import org.apache.commons.lang3.StringUtils;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 
 public class MainController {
 
@@ -52,13 +54,18 @@ public class MainController {
     @FXML
     public JFXTextField nameField;
 
-    @FXML
-    StackPane stackPane;
+    private static final String mainWindowName = "Main";
 
     @FXML
     JFXToggleButton scannerOn;
+    @FXML
+    static StackPane stackPane;
+    @FXML
+    FontAwesomeIconView settingIcon;
 
     private RequiredFieldValidator validator = new RequiredFieldValidator();
+    private boolean notificationOn = true;
+
 
     private Task updateTask = new Task<>() {
         @Override
@@ -197,6 +204,11 @@ public class MainController {
     }
 
     @FXML
+    public void openSettings() {
+        new Controller().loadWindow("fxml/settings.fxml", "Settings");
+    }
+
+    @FXML
     public void onFilterChatButton() {
         new FilterController().loadFilterWindow();
     }
@@ -232,10 +244,32 @@ public class MainController {
                     listView.getItems().add(line.trim());
                     // windows notification
                     displayPopupMessage(line, listView);
+                    // phone notification
+                    if (notificationOn) {
+                        sendPhoneNotification(line);
+                    }
 
                 }
             }
         }
+    }
+
+    private void sendPhoneNotification(String message) throws IOException {
+        String url = "https://pushfleet.com/api/v1/send";
+        String charset = java.nio.charset.StandardCharsets.UTF_8.name();
+        final String appId = "AJ7HJVTE";
+        String userToken = "UBTF6PC6"; // ToDo query token from logged in user.
+        String msgUrl = "https://www.dofus.com/fr/mmorpg/communaute/annuaires/pages-persos/82190500201-yusai";
+
+        String query = String.format("appid=%s&userid=%s&message=%s&url=%s",
+                URLEncoder.encode(appId, charset),
+                URLEncoder.encode(userToken, charset),
+                URLEncoder.encode(message, charset),
+                URLEncoder.encode(msgUrl, charset));
+        // if db query success ->
+        URLConnection connection = new URL(url + "?" + query).openConnection();
+        connection.setRequestProperty("Accept-Charset", charset);
+        InputStream response = connection.getInputStream();
     }
 
     private void displayPopupMessage(String msg, ListView<String> listView) {
@@ -262,6 +296,7 @@ public class MainController {
         nameField.getValidators().add(validator);
         if (!nameField.getText().trim().equals("") && nameField != null) {
             String windowToFind = nameField.getText().trim() + " - Dofus 2.47.17:0";
+            WinDef.HWND mainhWnd = User32Extra.INSTANCE.FindWindow(null, mainWindowName);
             hWnd = User32Extra.INSTANCE.FindWindow(null, windowToFind);
             if (hWnd == null) {
                 loadNoWndFound();
@@ -269,6 +304,7 @@ public class MainController {
                 windowName = windowToFind;
                 User32.INSTANCE.SetForegroundWindow(hWnd);
                 User32.INSTANCE.ShowWindow(hWnd, WinUser.SW_SHOWMAXIMIZED);
+                User32.INSTANCE.SetForegroundWindow(mainhWnd);
                 System.out.println("In main controller: " + windowName);
                 new SnipIt();
                 scannerOn.setDisable(false);

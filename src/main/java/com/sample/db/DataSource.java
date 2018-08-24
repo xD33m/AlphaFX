@@ -16,6 +16,7 @@ public class DataSource {
     private static final String COLUMN_USERS_NAME = "name";
     private static final String COLUMN_USERS_EMAIL = "email";
     private static final String COLUMN_USERS_PASSWORD = "password";
+    private static final String COLUMN_USERS_TOKEN = "token";
 
     private static final String INSERT_USER = "INSERT INTO " + TABLE_USERS +
             '(' + COLUMN_USERS_NAME + ", " + COLUMN_USERS_EMAIL + ", " + COLUMN_USERS_PASSWORD +
@@ -30,6 +31,9 @@ public class DataSource {
     private static final String QUERY_PASSWORD = "SELECT " + COLUMN_USERS_PASSWORD + " FROM " +
             TABLE_USERS + " WHERE " + COLUMN_USERS_NAME + " = ?";
 
+    private static final String INSERT_TOKEN = "UPDATE " + TABLE_USERS + " SET " + COLUMN_USERS_TOKEN + " = ? WHERE " +
+            COLUMN_USERS_ID + " = ?";
+
 
     private Connection conn;
 
@@ -37,6 +41,7 @@ public class DataSource {
     private PreparedStatement queryUser;
     private PreparedStatement queryUserName;
     private PreparedStatement queryPassword;
+    private PreparedStatement insertToken;
 
     private static DataSource instance = new DataSource();
 
@@ -56,7 +61,7 @@ public class DataSource {
             queryUser = conn.prepareStatement(QUERY_USER);
             queryUserName = conn.prepareStatement(QUERY_USERNAME);
             queryPassword = conn.prepareStatement(QUERY_PASSWORD);
-
+            insertToken = conn.prepareStatement(INSERT_TOKEN);
 
             return true;
         } catch (SQLException e) {
@@ -80,6 +85,9 @@ public class DataSource {
 
             if(queryPassword != null){
                 queryPassword.close();
+            }
+            if (insertToken != null) {
+                insertToken.close();
             }
 
             if(conn!=null){
@@ -129,6 +137,21 @@ public class DataSource {
             }
         } catch (SQLException e) {
             System.out.println("Insert song exception: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+    public void insertToken(String token, String id) {
+        try {
+            insertToken.setString(1, token);
+            insertToken.setString(2, id);
+            int affectedRows = insertToken.executeUpdate();
+            if (affectedRows != 1) {
+                throw new SQLException("Couldn't insert user");
+            }
+        } catch (SQLException e) {
+            System.out.println("Insert token exception " + e.getMessage());
             e.printStackTrace();
         }
     }

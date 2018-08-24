@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?language javascript?>
+
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="129.0" prefWidth="362.0"
+            xmlns="http://javafx.com/javafx/10.0.1" fx:controller="com.sample.ui.settings.notificationServiceController"
+            stylesheets="@../css/dark.theme.css">
+    <children>
+        <JFXTextField fx:id="userTokenArea" layoutX="14.0" layoutY="52.0" prefHeight="25.0" prefWidth="161.0"
+                      promptText="U1234567"/>
+        <Label layoutX="14.0" layoutY="17.0" text="PushFleet Notifications Token "/>
+        <Label layoutX="175.0" layoutY="17.0">
+            <graphic>
+                <FontAwesomeIconView fx:id="questionMark" glyphName="QUESTION_CIRCLE_ALT" size="16"
+                                     styleClass="closeIcon"/>
+                <fx:script>
+                    var tooltip = new javafx.scene.control.Tooltip("PushFleet.com allows to send you push notifications on your smartphone\nwhen a new trade message is detected. Just install the app, it's 100% free,\nthen enter your user token below, that's all!");
+                    javafx.scene.control.Tooltip.install(questionMark, tooltip);
+                     </fx:script>
+            </graphic>
+        </Label>
+
+
+        <JFXButton fx:id="userTokenSubmit" buttonType="RAISED" layoutX="148.0" layoutY="95.0" onAction="#onSubmit"
+                   ripplerFill="#eb5959" text="Submit"/>
+        <ImageView fitHeight="25.0" fitWidth="75.0" layoutX="198.0" layoutY="14.0" preserveRatio="true">
+            <image>
+                <Image url="@../img/appstore.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="40.0" fitWidth="75.0" layoutX="273.0" layoutY="14.0" preserveRatio="true">
+            <image>
+                <Image url="@../img/playstore.png"/>
+            </image>
+        </ImageView>
+        <JFXButton fx:id="testButton" buttonType="RAISED" layoutX="188.0" layoutY="52.0" text="Test"
+                   onAction="#onTestButton"/>
+    </children>
+</AnchorPane>

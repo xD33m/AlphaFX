@@ -36,9 +36,8 @@
 }
 
 
-/*Raised button example */
 .jfx-button {
-    -jfx-button-type: FLAT;
+    /*-jfx-button-type: FLAT;*/
     -fx-text-fill: -fx-primarytext;
 }
 
@@ -201,3 +200,8 @@
     -fx-text-fill: white;
 }
 
+/*---*/
+.settingsIcon:hover {
+    -fx-fill: -fx-secondary;
+    -fx-cursor: hand;
+}

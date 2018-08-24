@@ -3,11 +3,12 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
-            stylesheets="@../css/dark.theme.css" xmlns="http://javafx.com/javafx/9"
+            stylesheets="@../css/dark.theme.css" xmlns="http://javafx.com/javafx/10.0.1"
             fx:controller="com.sample.ui.mainPanel.MainController">
     <children>
         <GridPane fx:id="gridPane" layoutX="15.0" layoutY="14.0" prefHeight="167.0" prefWidth="239.0"
@@ -43,6 +44,8 @@
                 <Insets/>
             </opaqueInsets>
         </ListView>
+        <FontAwesomeIconView fx:id="settingIcon" glyphName="GEAR" layoutX="550.0" layoutY="40.0"
+                             onMouseClicked="#openSettings" size="20" styleClass="settingsIcon"/>
         <StackPane fx:id="stackPane" layoutX="-1.0" layoutY="-1.0" mouseTransparent="true" prefHeight="400.0"
                    prefWidth="600.0"/>
     </children>

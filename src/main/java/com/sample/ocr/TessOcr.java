@@ -7,11 +7,13 @@ import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef;
 import net.sourceforge.tess4j.Tesseract1;
 import net.sourceforge.tess4j.util.LoadLibs;
+import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.HashSet;
+import java.util.regex.Pattern;
 
 
 public class TessOcr implements Runnable {
@@ -99,8 +101,10 @@ public class TessOcr implements Runnable {
                     // remove \n\r from ocr text & add custom ones.
                     String sToAdd = s.replace("\r", " ");
                     sToAdd = sToAdd.replace("\n", " ");
-                    posts.write(sToAdd);
-                    posts.write("\r\n");
+                    if (StringUtils.startsWithAny(sToAdd, new String[]{"(Handel)", "(Commerce)", "(Trade)", "(Comercio)"})) {
+                        posts.write(sToAdd);
+                        posts.write("\r\n");
+                    }
                 }
             }
         } catch (IOException e) {
@@ -112,14 +116,21 @@ public class TessOcr implements Runnable {
         this.rectangle = rectangle;
     }
 
-    private HashSet<String> splitPosts(String message) {
+    private HashSet<String> splitPosts(String ocrText) {
         chatPosts = new HashSet<>();
-        String[] messages = message.split("\\[[0-9]{2}:[0-9]{2}\\]");
+        if (!Pattern.compile("\\[[0-9]{2}:[0-9]{2}\\]").matcher(ocrText).find()) {
+            System.out.println("No timestamp found");
+            // TODO show error popup
+            return null;
+        }
+        System.out.println("Timestamp activated");
+        String[] messages = ocrText.split("\\[[0-9]{2}:[0-9]{2}\\]");
         for (String s : messages) {
             String ts = s.trim();
             chatPosts.add(ts);
         }
         return chatPosts;
+
     }
 
     private String getOcrText() {
