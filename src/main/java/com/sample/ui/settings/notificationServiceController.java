@@ -2,7 +2,12 @@ package com.sample.ui.settings;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXToggleButton;
+import com.sample.db.DataSource;
+import com.sample.ui.mainPanel.MainController;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -12,11 +17,18 @@ import java.net.URLEncoder;
 public class notificationServiceController {
 
     @FXML
+    Label successLabel;
+    @FXML
     JFXButton userTokenSubmit;
     @FXML
     JFXButton testButton;
     @FXML
     private JFXTextField userTokenArea;
+
+    @FXML
+    JFXToggleButton phoneNotification;
+    @FXML
+    JFXButton closeButton;
 
     @FXML
     private void onTestButton() throws Exception {
@@ -48,7 +60,22 @@ public class notificationServiceController {
 
     @FXML
     private void onSubmit() {
-//        DataSource.getInstance().insertToken(userToken, "7"); // TODO set token for logged in user.
+        if (DataSource.getInstance().insertToken(userTokenArea.getText(), 7) && userTokenArea.getText().length() == 8) {
+            successLabel.setText("Success!");
+            successLabel.setStyle("-fx-text-fill: green");
+            successLabel.setVisible(true);
+        } else {
+            successLabel.setText("Something went wrong");
+            successLabel.setStyle("-fx-text-fill: red");
+            successLabel.setVisible(true);
+        }
+    }
+
+    @FXML
+    private void onClose() {
+        MainController.notificationOn = phoneNotification.isSelected();
+        ((Stage) closeButton.getScene().getWindow()).close();
+
     }
 
 

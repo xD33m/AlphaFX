@@ -34,7 +34,6 @@ public class DataSource {
     private static final String INSERT_TOKEN = "UPDATE " + TABLE_USERS + " SET " + COLUMN_USERS_TOKEN + " = ? WHERE " +
             COLUMN_USERS_ID + " = ?";
 
-
     private Connection conn;
 
     private PreparedStatement insertUser;
@@ -142,17 +141,20 @@ public class DataSource {
     }
 
 
-    public void insertToken(String token, String id) {
+    public boolean insertToken(String token, int id) {
         try {
             insertToken.setString(1, token);
-            insertToken.setString(2, id);
+            insertToken.setInt(2, id);
             int affectedRows = insertToken.executeUpdate();
             if (affectedRows != 1) {
                 throw new SQLException("Couldn't insert user");
             }
+            System.out.println("Token: " + token + " added to user _id: " + id);
+            return true;
         } catch (SQLException e) {
             System.out.println("Insert token exception " + e.getMessage());
             e.printStackTrace();
+            return false;
         }
     }
 }

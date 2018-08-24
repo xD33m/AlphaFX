@@ -56,6 +56,7 @@ public class MainController {
 
     private static final String mainWindowName = "Main";
 
+
     @FXML
     JFXToggleButton scannerOn;
     @FXML
@@ -64,7 +65,7 @@ public class MainController {
     FontAwesomeIconView settingIcon;
 
     private RequiredFieldValidator validator = new RequiredFieldValidator();
-    private boolean notificationOn = true;
+    public static boolean notificationOn;
 
 
     private Task updateTask = new Task<>() {
