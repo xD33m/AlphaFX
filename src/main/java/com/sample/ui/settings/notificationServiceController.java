@@ -7,12 +7,12 @@ import com.sample.db.DataSource;
 import com.sample.ui.mainPanel.MainController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
+import java.net.*;
 
 public class notificationServiceController {
 
@@ -31,6 +31,28 @@ public class notificationServiceController {
     Label notifStateLabel;
     @FXML
     JFXButton closeButton;
+
+    @FXML
+    ImageView playStoreBadge;
+    @FXML
+    ImageView appStoreBadge;
+
+    public void initialize() {
+        playStoreBadge.setOnMouseClicked(click -> {
+            try {
+                Desktop.getDesktop().browse(new URI("https://play.google.com/store/apps/details?id=com.sasneutrino.pushfleet2"));
+            } catch (IOException | URISyntaxException e) {
+                e.printStackTrace();
+            }
+        });
+        appStoreBadge.setOnMouseClicked(click -> {
+            try {
+                Desktop.getDesktop().browse(new URI("https://itunes.apple.com/us/app/pushfleet/id1292327924"));
+            } catch (IOException | URISyntaxException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 
     @FXML
     private void onTestButton() throws Exception {
@@ -93,6 +115,5 @@ public class notificationServiceController {
         ((Stage) closeButton.getScene().getWindow()).close();
 
     }
-
 
 }

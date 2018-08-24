@@ -41,13 +41,15 @@
                 <Font name="System Bold" size="12.0"/>
             </font>
         </Label>
-        <ImageView fitHeight="94.0" fitWidth="115.0" layoutX="197.0" layoutY="-19.0" preserveRatio="true"
+        <ImageView fx:id="appStoreBadge" fitHeight="94.0" fitWidth="115.0" layoutX="197.0" layoutY="-19.0"
+                   preserveRatio="true"
                    styleClass="storeBadge">
             <image>
                 <Image url="@../img/appstore.png"/>
             </image>
         </ImageView>
-        <ImageView fitHeight="55.0" fitWidth="123.0" layoutX="302.0" layoutY="4.0" preserveRatio="true"
+        <ImageView fx:id="playStoreBadge" fitHeight="55.0" fitWidth="123.0" layoutX="302.0" layoutY="4.0"
+                   preserveRatio="true"
                    styleClass="storeBadge">
             <image>
                 <Image url="@../img/playstore.png"/>
