@@ -13,6 +13,9 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.io.*;
 import java.net.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class notificationServiceController {
 
@@ -36,6 +39,8 @@ public class notificationServiceController {
     ImageView playStoreBadge;
     @FXML
     ImageView appStoreBadge;
+
+    private static final String textPath = System.getProperty("user.home") + "\\DofusChat\\txt\\";
 
     public void initialize() {
         playStoreBadge.setOnMouseClicked(click -> {
@@ -73,7 +78,6 @@ public class notificationServiceController {
             URLConnection connection = new URL(url + "?" + query).openConnection();
             connection.setRequestProperty("Accept-Charset", charset);
             InputStream response = connection.getInputStream();
-
         }
         //      System.out.println(userToken); // UBTF6PC6
 //      try (Scanner scanner = new Scanner(response)) {
@@ -82,10 +86,23 @@ public class notificationServiceController {
 //       }
     }
 
+    private File createOrRetrieve(final String target) throws IOException {
+
+        final Path path = Paths.get(target);
+
+        if (Files.notExists(path)) {
+            return Files.createFile(Files.createDirectories(path)).toFile();
+        }
+        return path.toFile();
+    }
+
+    // TODO letztes mal hier: gerade handy notification feritg. jetzt versucht text files in appdata oder einer anderen, bessern location zu speichern
+    // zZ bekomm ich noch ne exception: AccessDeniedException: C:\Users\lucas\DofusChat\txt\userToken.txt
+
     @FXML
     private void onSubmit() throws IOException {
         if (DataSource.getInstance().insertToken(userTokenArea.getText(), 7) && userTokenArea.getText().length() == 8) {
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File("userToken")))) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(createOrRetrieve(textPath.concat("userToken.txt"))))) {
                 bw.write(userTokenArea.getText());
             }
             successLabel.setText("Success!");
