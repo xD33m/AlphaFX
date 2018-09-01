@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/AlphaFX.iml" filepath="$PROJECT_DIR$/AlphaFX.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/AlphaFX.iml" filepath="$PROJECT_DIR$/.idea/AlphaFX.iml" />
     </modules>
   </component>
 </project>

@@ -97,7 +97,7 @@ public class notificationServiceController {
     }
 
     // TODO letztes mal hier: gerade handy notification feritg. jetzt versucht text files in appdata oder einer anderen, bessern location zu speichern
-    // zZ bekomm ich noch ne exception: AccessDeniedException: C:\Users\lucas\DofusChat\txt\userToken.txt
+    // zZ bekomm ich noch ne exception: AccessDeniedException
 
     @FXML
     private void onSubmit() throws IOException {
