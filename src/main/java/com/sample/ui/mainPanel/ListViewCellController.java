@@ -67,9 +67,9 @@ public class ListViewCellController extends ListCell<String> {
     }
 
     void deleteLine(String sourceFile, String lineToRemove) throws IOException {
-        File inputFile = new File(sourceFile);
-        File tempFile = File.createTempFile("tmp", "");
-        File blacklist = new File("Blacklist.txt");
+        File inputFile = new File(System.getenv("APPDATA") + "\\DofusChat\\text\\" + sourceFile);
+        File tempFile = File.createTempFile(System.getenv("APPDATA") + "\\DofusChat\\text\\tmp", "");
+        File blacklist = new File(System.getenv("APPDATA") + "\\DofusChat\\text\\Blacklist.txt");
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
              BufferedReader reader = new BufferedReader(new FileReader(inputFile));
@@ -86,8 +86,8 @@ public class ListViewCellController extends ListCell<String> {
             FileUtils.forceDelete(inputFile);
 //            FileUtils.copyFile(chatposts, new File("ChatPosts_Backup.txt"));
 //            FileUtils.copyToFile(FileUtils.openInputStream(chatposts), new File("chatposts_backup.txt"));
-            FileUtils.forceDelete(new File("chatposts.txt"));
-            Boolean success = tempFile.renameTo(inputFile);
+            FileUtils.forceDelete(new File(System.getenv("APPDATA") + "\\DofusChat\\text\\chatposts.txt"));
+            boolean success = tempFile.renameTo(inputFile);
             System.out.println("file deleted: " + success);
         } catch (IOException e) {
             System.out.println(e.getMessage());

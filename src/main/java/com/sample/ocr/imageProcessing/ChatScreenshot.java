@@ -88,16 +88,17 @@ public class ChatScreenshot {
         image = Scalr.resize(image, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.AUTOMATIC, image.getWidth() * 2, image.getHeight() * 2, Scalr.OP_ANTIALIAS);
         image = Binarization.GetBmp(image);
 
-        File output400DpiPng = new File("Output400dpi.png");
+        File output400DpiPng = new File(System.getenv("APPDATA") + "\\DofusChat\\text\\", "Output400dpi.png");
         saveImage(image, output400DpiPng, 400);
 
-        Image image1 = ImageIO.read(output400DpiPng);
-        BufferedImage buffResizedImg = (BufferedImage) image1;
+        BufferedImage image1 = ImageIO.read(output400DpiPng);
+//        Image image1 = ImageIO.read(output400DpiPng);
+//        BufferedImage buffResizedImg = (BufferedImage) image1;
 
         GDI32Extra.INSTANCE.DeleteObject(hBitmap);
         User32Extra.INSTANCE.ReleaseDC(hWnd, hdcWindow);
 
-        return buffResizedImg;
+        return image1;
     }
 
 

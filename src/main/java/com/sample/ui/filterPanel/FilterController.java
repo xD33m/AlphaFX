@@ -25,8 +25,8 @@ public class FilterController {
     private JFXChipView<String> sellArea;
 
     public void initialize() {
-        try (BufferedReader br = new BufferedReader(new FileReader("wts.txt"));
-             BufferedReader br2 = new BufferedReader(new FileReader("wtb.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(System.getenv("APPDATA") + "\\DofusChat\\text\\wts.txt"));
+             BufferedReader br2 = new BufferedReader(new FileReader(System.getenv("APPDATA") + "\\DofusChat\\text\\wtb.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 if (!line.equals("")) {
@@ -80,8 +80,8 @@ public class FilterController {
     private void handleConfirmButton() throws IOException {
         ObservableList<String> sellList = sellArea.getChips();
         ObservableList<String> buyList = buyArea.getChips();
-        try (BufferedWriter wts = new BufferedWriter(new FileWriter("wts.txt"));
-             BufferedWriter wtb = new BufferedWriter(new FileWriter("wtb.txt"))) {
+        try (BufferedWriter wts = new BufferedWriter(new FileWriter(System.getenv("APPDATA") + "\\DofusChat\\text\\wts.txt"));
+             BufferedWriter wtb = new BufferedWriter(new FileWriter(System.getenv("APPDATA") + "\\DofusChat\\text\\wtb.txt"))) {
             for (String s : sellList) {
                 wts.write("\r\n" + s);
             }

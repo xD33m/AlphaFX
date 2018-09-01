@@ -78,11 +78,11 @@ public class TessOcr implements Runnable {
     }
 
     private void saveChatLog() {
-        try (BufferedWriter posts = new BufferedWriter(new FileWriter("chatposts.txt", true));
-             RandomAccessFile postsReader = new RandomAccessFile("chatposts.txt", "rwd")) {
+        try (BufferedWriter posts = new BufferedWriter(new FileWriter(System.getenv("APPDATA") + "\\DofusChat\\text\\chatposts.txt", true));
+             RandomAccessFile postsReader = new RandomAccessFile(System.getenv("APPDATA") + "\\DofusChat\\text\\chatposts.txt", "rwd")) {
             HashSet<String> tempSet = splitPosts(getOcrText());
             for (String s : tempSet) {
-                Boolean postExists = false;
+                boolean postExists = false;
                 postsReader.seek(0);
                 while (true) {
                     String line = postsReader.readLine();
@@ -101,7 +101,7 @@ public class TessOcr implements Runnable {
                     // remove \n\r from ocr text & add custom ones.
                     String sToAdd = s.replace("\r", " ");
                     sToAdd = sToAdd.replace("\n", " ");
-                    if (StringUtils.startsWithAny(sToAdd, new String[]{"(Handel)", "(Commerce)", "(Trade)", "(Comercio)"})) {
+                    if (StringUtils.startsWithAny(sToAdd, new String[]{"(Handel)", "(Commerce)", "(Trade)", "(Comercio)", "/b"})) {
                         posts.write(sToAdd);
                         posts.write("\r\n");
                     }

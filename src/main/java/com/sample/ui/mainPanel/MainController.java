@@ -221,15 +221,15 @@ public class MainController {
 
     @FXML
     private void updateChatArea() throws IOException {
-        File playersellstxt = new File("PlayerSells.txt");
-        File playerbuystxt = new File("PlayerBuys.txt");
+        File playersellstxt = new File(System.getenv("APPDATA") + "\\DofusChat\\text\\PlayerSells.txt");
+        File playerbuystxt = new File(System.getenv("APPDATA") + "\\DofusChat\\text\\PlayerBuys.txt");
         if (!playerbuystxt.isFile() && !playerbuystxt.createNewFile() && !playerbuystxt.exists()) {
             throw new IOException("Error creating new file: " + playerbuystxt.getAbsolutePath());
         } else if (!playersellstxt.isFile() && playersellstxt.createNewFile() && !playersellstxt.exists()) {
             throw new IOException("Error creating new file: " + playersellstxt.getAbsolutePath());
         }
-        try (BufferedReader br = new BufferedReader(new FileReader("PlayerSells.txt"));
-             BufferedReader br2 = new BufferedReader(new FileReader("PlayerBuys.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(System.getenv("APPDATA") + "\\DofusChat\\text\\PlayerSells.txt"));
+             BufferedReader br2 = new BufferedReader(new FileReader(System.getenv("APPDATA") + "\\DofusChat\\text\\PlayerBuys.txt"))) {
             addItemToListView(br, buyingArea);
             addItemToListView(br2, sellingArea);
         } catch (IOException e) {
@@ -260,7 +260,7 @@ public class MainController {
         String url = "https://pushfleet.com/api/v1/send";
         String charset = java.nio.charset.StandardCharsets.UTF_8.name();
         final String appId = "AJ7HJVTE";
-        String userToken = org.apache.commons.io.FileUtils.readFileToString(new File("userToken"), "UTF-8").trim(); // ToDo query token from logged in user.
+        String userToken = org.apache.commons.io.FileUtils.readFileToString(new File(System.getenv("APPDATA") + "\\DofusChat\\userToken"), "UTF-8").trim(); // ToDo query token from logged in user.
         String msgUrl = "https://www.dofus.com/fr/mmorpg/communaute/annuaires/pages-persos/82190500201-yusai";
 
         String query = String.format("appid=%s&userid=%s&message=%s&url=%s",
@@ -297,7 +297,7 @@ public class MainController {
         validator.setMessage("Enter a name");
         nameField.getValidators().add(validator);
         if (!nameField.getText().trim().equals("") && nameField != null) {
-            String windowToFind = nameField.getText().trim() + " - Dofus 2.47.17:0";
+            String windowToFind = nameField.getText().trim() + " - Dofus 2.47.17:1";
             WinDef.HWND mainhWnd = User32Extra.INSTANCE.FindWindow(null, mainWindowName);
             hWnd = User32Extra.INSTANCE.FindWindow(null, windowToFind);
             if (hWnd == null) {

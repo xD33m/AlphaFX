@@ -40,8 +40,6 @@ public class notificationServiceController {
     @FXML
     ImageView appStoreBadge;
 
-    private static final String textPath = System.getProperty("user.home") + "\\DofusChat\\txt\\";
-
     public void initialize() {
         playStoreBadge.setOnMouseClicked(click -> {
             try {
@@ -102,7 +100,7 @@ public class notificationServiceController {
     @FXML
     private void onSubmit() throws IOException {
         if (DataSource.getInstance().insertToken(userTokenArea.getText(), 7) && userTokenArea.getText().length() == 8) {
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(createOrRetrieve(textPath.concat("userToken.txt"))))) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(createOrRetrieve(System.getenv("APPDATA") + "\\DofusChat\\text\\userToken.txt")))) {
                 bw.write(userTokenArea.getText());
             }
             successLabel.setText("Success!");
