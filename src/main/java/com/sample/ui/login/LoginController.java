@@ -11,6 +11,9 @@ import javafx.stage.Stage;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
@@ -56,12 +59,12 @@ public class LoginController {
     }
 
     @FXML
-    private void handleLoginButtonAction() throws InvalidKeySpecException, NoSuchAlgorithmException {
+    private void handleLoginButtonAction() throws InvalidKeySpecException, NoSuchAlgorithmException, IOException {
         String username = nameField.getText().toLowerCase();
         String password = passwordField.getText();
 
         String hashedDBPassword = DataSource.getInstance().getPassword(username);
-        Boolean passwordMatch = false;
+        boolean passwordMatch = false;
 
         RequiredFieldValidator validator = new RequiredFieldValidator();
         nameField.getValidators().add(validator);
@@ -73,7 +76,7 @@ public class LoginController {
         if (!passwordField.validate() || !nameField.validate()) {
             System.out.println("field empty");
         } else {
-            Boolean userExists = DataSource.getInstance().verifyUsername(username); // if user exists check pw
+            boolean userExists = DataSource.getInstance().verifyUsername(username); // if user exists check pw
             if (userExists) {
                 passwordMatch = validatePassword(password, hashedDBPassword);
             }
@@ -83,6 +86,9 @@ public class LoginController {
             if (userExists && passwordMatch) {
                 System.out.println("User found!");
                 // load next window
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter((System.getenv("APPDATA") + "\\DofusChat\\session")))) {
+                    bw.write(nameField.getText().trim().toLowerCase());
+                }
                 new Controller().loadWindow("fxml/main.fxml", "Main");
                 closeStage();
             }

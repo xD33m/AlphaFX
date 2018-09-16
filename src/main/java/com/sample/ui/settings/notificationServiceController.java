@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import org.apache.commons.io.FileUtils;
 
 import java.awt.*;
 import java.io.*;
@@ -33,7 +34,7 @@ public class notificationServiceController {
     @FXML
     Label notifStateLabel;
     @FXML
-    JFXButton closeButton;
+    JFXButton cancelButton;
 
     @FXML
     ImageView playStoreBadge;
@@ -66,7 +67,7 @@ public class notificationServiceController {
     }
 
     @FXML
-    private void onTestButton() throws Exception {
+    private void onTestButton() throws UnsupportedEncodingException {
         String url = "https://pushfleet.com/api/v1/send";
         String charset = java.nio.charset.StandardCharsets.UTF_8.name();
         final String appId = "AJ7HJVTE";
@@ -81,9 +82,18 @@ public class notificationServiceController {
                 URLEncoder.encode(msgUrl, charset));
 
         if (!userToken.trim().equals("") && userToken.length() == 8) {
-            URLConnection connection = new URL(url + "?" + query).openConnection();
-            connection.setRequestProperty("Accept-Charset", charset);
-            InputStream response = connection.getInputStream();
+            try {
+                URLConnection connection = new URL(url + "?" + query).openConnection();
+                connection.setRequestProperty("Accept-Charset", charset);
+                InputStream response = connection.getInputStream();
+                successLabel.setVisible(false);
+            } catch (IOException e) {
+                successLabel.setText("Test failed");
+                successLabel.setStyle("-fx-text-fill: red");
+                successLabel.setVisible(true);
+                e.printStackTrace();
+            }
+
         }
         //      System.out.println(userToken); // UBTF6PC6
 //      try (Scanner scanner = new Scanner(response)) {
@@ -110,7 +120,7 @@ public class notificationServiceController {
                 successLabel.setStyle("-fx-text-fill: red");
                 successLabel.setVisible(true);
             } else {
-                if (DataSource.getInstance().insertToken(userTokenArea.getText(), 7)) { // ToDo "7" is the UserID and has to be the logged in user.
+                if (DataSource.getInstance().insertToken(userTokenArea.getText(), FileUtils.readFileToString(new File(System.getenv("APPDATA") + "\\DofusChat\\session"), "UTF-8").trim())) {
                     bw.write(userTokenArea.getText());
                     MainController.notificationOn = phoneNotification.isSelected();
 
@@ -143,7 +153,7 @@ public class notificationServiceController {
 
     @FXML
     private void onClose() {
-        ((Stage) closeButton.getScene().getWindow()).close();
+        ((Stage) cancelButton.getScene().getWindow()).close();
     }
 
 }

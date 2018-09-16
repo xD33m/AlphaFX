@@ -46,6 +46,7 @@ public class Main extends Application {
         File file5 = new File(System.getenv("APPDATA") + "\\DofusChat\\text\\", "wtb.txt");
         File file6 = new File(System.getenv("APPDATA") + "\\DofusChat\\text\\", "wts.txt");
         File file7 = new File(System.getenv("APPDATA") + "\\DofusChat\\", "userToken");
+        File file8 = new File(System.getenv("APPDATA") + "\\DofusChat\\", "session");
         try {
             setup(file1);
             setup(file2);
@@ -54,6 +55,7 @@ public class Main extends Application {
             setup(file5);
             setup(file6);
             setup(file7);
+            setup(file8);
         } catch (IOException e) {
             e.printStackTrace();
         }
