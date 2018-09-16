@@ -55,6 +55,14 @@ public class notificationServiceController {
                 e.printStackTrace();
             }
         });
+        try (BufferedReader br = new BufferedReader(new FileReader(System.getenv("APPDATA") + "\\DofusChat\\userToken"))) {
+            String line;
+            if ((line = br.readLine()) != null) {
+                userTokenArea.setText(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -93,9 +101,6 @@ public class notificationServiceController {
         }
         return path.toFile();
     }
-
-    // TODO letztes mal hier: gerade handy notification feritg. jetzt versucht text files in appdata oder einer anderen, bessern location zu speichern
-    // zZ bekomm ich noch ne exception: AccessDeniedException
 
     @FXML
     private void onSubmit() {
