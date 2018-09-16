@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?language javascript?>
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import com.jfoenix.controls.JFXToggleButton?>
+
+<?import com.jfoenix.controls.*?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="152.0" prefWidth="442.0"
-            stylesheets="@../css/dark.theme.css" xmlns="http://javafx.com/javafx/10.0.1"
+            stylesheets="@../css/dark.theme.css" xmlns="http://javafx.com/javafx/9"
             fx:controller="com.sample.ui.settings.notificationServiceController">
-    <JFXTextField fx:id="userTokenArea" layoutX="14.0" layoutY="52.0" prefHeight="25.0" prefWidth="161.0"
+    <JFXTextField fx:id="userTokenArea" layoutX="14.0" layoutY="53.0" prefHeight="25.0" prefWidth="161.0"
                   promptText="U1234567" styleClass="text-field"/>
     <Label layoutX="14.0" layoutY="17.0" styleClass="text-field" text="PushFleet Notifications Token "/>
     <Label layoutX="175.0" layoutY="17.0">
@@ -26,16 +24,16 @@
                  </fx:script>
         </graphic>
     </Label>
-    <JFXButton fx:id="userTokenSubmit" buttonType="RAISED" layoutX="236.0" layoutY="52.0" onAction="#onSubmit"
-               styleClass="chat-config-button" text="Submit"/>
+    <JFXButton fx:id="userTokenSubmit" buttonType="RAISED" layoutX="325.0" layoutY="114.0" onAction="#onSubmit"
+               styleClass="chat-config-button" text="Save"/>
     <JFXButton fx:id="testButton" buttonType="RAISED" layoutX="188.0" layoutY="52.0" onAction="#onTestButton"
                styleClass="chat-config-button" text="Test"/>
-    <Label fx:id="successLabel" layoutX="297.0" layoutY="56.0" prefHeight="17.0" prefWidth="141.0"
+    <Label fx:id="successLabel" layoutX="229.0" layoutY="56.0" prefHeight="17.0" prefWidth="209.0"
            style="-fx-text-fill: green;" text="success!" visible="false"/>
-    <JFXToggleButton fx:id="phoneNotification" layoutX="14.0" layoutY="108.0" onAction="#onToggle" size="6.0"
+    <JFXToggleButton fx:id="phoneNotification" layoutX="6.0" layoutY="108.0" onAction="#onToggle" size="6.0"
                      text="Phone Notification" toggleColor="WHITE" toggleLineColor="#009708" unToggleLineColor="RED"/>
     <JFXButton fx:id="closeButton" layoutX="380.0" layoutY="113.0" onAction="#onClose" styleClass="chat-config-button"
-               text="Close"/>
+               text="Cancel"/>
     <Label fx:id="notifStateLabel" layoutX="165.0" layoutY="119.0" text="OFF" textFill="RED">
         <font>
             <Font name="System Bold" size="12.0"/>

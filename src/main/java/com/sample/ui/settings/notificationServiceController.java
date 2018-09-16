@@ -98,16 +98,28 @@ public class notificationServiceController {
     // zZ bekomm ich noch ne exception: AccessDeniedException
 
     @FXML
-    private void onSubmit() throws IOException {
-        if (DataSource.getInstance().insertToken(userTokenArea.getText(), 7) && userTokenArea.getText().length() == 8) {
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(createOrRetrieve(System.getenv("APPDATA") + "\\DofusChat\\text\\userToken.txt")))) {
-                bw.write(userTokenArea.getText());
+    private void onSubmit() {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(createOrRetrieve(System.getenv("APPDATA") + "\\DofusChat\\userToken")))) {
+            if (!(userTokenArea.getText().length() == 8)) {
+                successLabel.setText("Token has to be 8 characters long!");
+                successLabel.setStyle("-fx-text-fill: red");
+                successLabel.setVisible(true);
+            } else {
+                if (DataSource.getInstance().insertToken(userTokenArea.getText(), 7)) { // ToDo "7" is the UserID and has to be the logged in user.
+                    bw.write(userTokenArea.getText());
+                    MainController.notificationOn = phoneNotification.isSelected();
+
+                    successLabel.setText("Settings saved");
+                    successLabel.setStyle("-fx-text-fill: green");
+                    successLabel.setVisible(true);
+                } else {
+                    successLabel.setText("Could not connect to the DB");
+                    successLabel.setStyle("-fx-text-fill: red");
+                    successLabel.setVisible(true);
+                }
             }
-            successLabel.setText("Success!");
-            successLabel.setStyle("-fx-text-fill: green");
-            successLabel.setVisible(true);
-        } else {
-            successLabel.setText("Something went wrong");
+        } catch (IOException e) {
+            successLabel.setText("File not found");
             successLabel.setStyle("-fx-text-fill: red");
             successLabel.setVisible(true);
         }
@@ -126,9 +138,7 @@ public class notificationServiceController {
 
     @FXML
     private void onClose() {
-        MainController.notificationOn = phoneNotification.isSelected();
         ((Stage) closeButton.getScene().getWindow()).close();
-
     }
 
 }
