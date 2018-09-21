@@ -22,7 +22,6 @@ import static com.sample.Main.SessionPATH;
 import static com.sample.Main.UserTokenPATH;
 
 public class notificationServiceController {
-
     @FXML
     Label successLabel;
     @FXML
@@ -61,6 +60,11 @@ public class notificationServiceController {
         });
         try (BufferedReader br = new BufferedReader(new FileReader(UserTokenPATH))) {
             String line;
+            String userToken;
+            String sessionName = FileUtils.readFileToString(new File(SessionPATH), "UTF-8");
+            if ((userToken = DataSource.getInstance().getUserToken(sessionName)) != null) {
+                userTokenArea.setText(userToken);
+            }
             if ((line = br.readLine()) != null) {
                 String[] ar = line.split(",");
                 userTokenArea.setText(ar[0]);
