@@ -2,15 +2,9 @@ package com.sample.ui.filterPanel;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXChipView;
-import com.jfoenix.controls.JFXDecorator;
-import com.sample.Controller;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.*;
 
@@ -41,36 +35,6 @@ public class FilterController {
             }
         } catch (IOException e) {
             System.out.println("Failed populating chip view" + e.getMessage());
-        }
-    }
-
-    public void loadFilterWindow() {
-        try {
-            Parent parent = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/chatfilter.fxml"));
-            Stage stage = new Stage();
-            JFXDecorator decorator = new JFXDecorator(stage, parent, false, false, false);
-            decorator.setCustomMaximize(true);
-            String uri = getClass().getClassLoader().getResource("css/dark.theme.css").toExternalForm();
-            Scene scene = new Scene(decorator);
-            stage.initStyle(StageStyle.UNDECORATED);
-            stage.setResizable(false);
-            scene.getStylesheets().add(uri);
-
-            scene.setOnMousePressed(event -> {
-                Controller.xOffset = event.getSceneX();
-                Controller.yOffset = event.getSceneY();
-            });
-            scene.setOnMouseDragged(event -> {
-                stage.setX(event.getScreenX() - Controller.xOffset);
-                stage.setY(event.getScreenY() - Controller.yOffset);
-            });
-            stage.setTitle("Filter");
-            stage.setScene(scene);
-            stage.show();
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

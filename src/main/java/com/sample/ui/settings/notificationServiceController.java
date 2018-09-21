@@ -59,7 +59,13 @@ public class notificationServiceController {
         try (BufferedReader br = new BufferedReader(new FileReader(System.getenv("APPDATA") + "\\DofusChat\\userToken"))) {
             String line;
             if ((line = br.readLine()) != null) {
-                userTokenArea.setText(line);
+                String[] ar = line.split(",");
+                userTokenArea.setText(ar[0]);
+                if (ar.length > 1 && ar[1].equals("true")) {
+                    MainController.notificationOn = true;
+                    phoneNotification.selectedProperty().setValue(true);
+                    onToggle();
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -113,7 +119,7 @@ public class notificationServiceController {
     }
 
     @FXML
-    private void onSubmit() {
+    public void onSubmit() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(createOrRetrieve(System.getenv("APPDATA") + "\\DofusChat\\userToken")))) {
             if (!(userTokenArea.getText().length() == 8)) {
                 successLabel.setText("Token has to be 8 characters long!");
@@ -121,7 +127,7 @@ public class notificationServiceController {
                 successLabel.setVisible(true);
             } else {
                 if (DataSource.getInstance().insertToken(userTokenArea.getText(), FileUtils.readFileToString(new File(System.getenv("APPDATA") + "\\DofusChat\\session"), "UTF-8").trim())) {
-                    bw.write(userTokenArea.getText());
+                    bw.write(userTokenArea.getText() + "," + phoneNotification.isSelected());
                     MainController.notificationOn = phoneNotification.isSelected();
 
                     successLabel.setText("Settings saved");

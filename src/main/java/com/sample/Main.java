@@ -12,8 +12,6 @@ import java.io.IOException;
 public class Main extends Application {
 
     private static void setup(File file) throws IOException {
-        System.out.println(System.getenv("APPDATA"));
-        // File file = new File("C:\\Users\\" + username + "\\Documents\\", "data.txt");
         file.getParentFile().mkdirs();
         if (!file.exists()) {
             System.out.println("creating file");

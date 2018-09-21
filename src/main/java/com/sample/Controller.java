@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -42,14 +43,35 @@ public class Controller {
                 stage.setX(event.getScreenX() - xOffset);
                 stage.setY(event.getScreenY() - yOffset);
             });
-            stage.setTitle(title);
             stage.setScene(scene);
             stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
+    }
+
+    public void loadChild(String loc, Stage owner) {
+        try {
+            Parent parent = FXMLLoader.load(getClass().getClassLoader().getResource(loc));
+            Stage stage = new Stage();
+            stage.initStyle(StageStyle.UNDECORATED);
+            JFXDecorator decorator = new JFXDecorator(stage, parent, false, false, false);
+            decorator.setCustomMaximize(true);
+            String uri = getClass().getClassLoader().getResource("css/dark.theme.css").toExternalForm();
+            Scene scene = new Scene(decorator);
+            stage.setResizable(false);
+            scene.getStylesheets().add(uri);
+            stage.setScene(scene);
+            stage.initOwner(owner);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
 
 }

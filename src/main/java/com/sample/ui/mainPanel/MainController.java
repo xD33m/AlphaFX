@@ -6,7 +6,6 @@ import com.sample.Controller;
 import com.sample.chat.ChatQuery;
 import com.sample.ocr.TessOcr;
 import com.sample.ocr.imageProcessing.User32Extra;
-import com.sample.ui.filterPanel.FilterController;
 import com.sample.ui.mainPanel.snipTool.SnipIt;
 import com.sample.ui.tradeNotification.tray.animations.AnimationType;
 import com.sample.ui.tradeNotification.tray.notification.TrayNotification;
@@ -20,9 +19,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.apache.commons.lang3.StringUtils;
 
@@ -36,39 +37,30 @@ import java.net.URLEncoder;
 
 public class MainController {
 
-    private static Boolean finish = false;
-
     @FXML
     public ListView<String> buyingArea;
-
-    private static String windowName;
     @FXML
     public ListView<String> sellingArea;
-
     @FXML
     JFXButton chatConfiguration;
-
     @FXML
     JFXButton filterChatButton;
-
     @FXML
     public JFXTextField nameField;
-
-    private static final String mainWindowName = "Main";
-
-
     @FXML
     JFXToggleButton scannerOn;
     @FXML
     static StackPane stackPane;
     @FXML
     FontAwesomeIconView settingIcon;
-
+    private static final String mainWindowName = "Main";
+    private static Boolean finish = false;
+    private static String windowName;
+    @FXML
+    AnchorPane mainAnchorPane;
     private RequiredFieldValidator validator = new RequiredFieldValidator();
     public static boolean notificationOn;
-
-
-    private Task updateTask = new Task<>() {
+    private Task updateTask = new Task() {
         @Override
         public Void call() {
             while (!finish) {
@@ -206,18 +198,19 @@ public class MainController {
 
     @FXML
     public void openSettings() {
-        new Controller().loadWindow("fxml/settings.fxml", "Settings");
+        Controller controller = new Controller();
+        Stage mainStage = (Stage) mainAnchorPane.getScene().getWindow();
+        controller.loadChild("fxml/settings.fxml", mainStage);
     }
 
     @FXML
     public void onFilterChatButton() {
-        new FilterController().loadFilterWindow();
+        new Controller().loadChild("fxml/chatfilter.fxml", (Stage) mainAnchorPane.getScene().getWindow());
     }
 
     private static void setFinish() {
         finish = true;
     }
-
 
     @FXML
     private void updateChatArea() throws IOException {
@@ -256,7 +249,6 @@ public class MainController {
     }
 
     private void sendPhoneNotification(String message) throws IOException {
-
         String url = "https://pushfleet.com/api/v1/send";
         String charset = java.nio.charset.StandardCharsets.UTF_8.name();
         final String appId = "AJ7HJVTE";
@@ -290,14 +282,13 @@ public class MainController {
         tray.showAndDismiss(Duration.millis(10000));
     }
 
-
     @FXML
     public void handleChatConfiguration() {
         WinDef.HWND hWnd;
         validator.setMessage("Enter a name");
         nameField.getValidators().add(validator);
         if (!nameField.getText().trim().equals("") && nameField != null) {
-            String windowToFind = nameField.getText().trim() + " - Dofus 2.47.17:1";
+            String windowToFind = nameField.getText().trim() + " - Dofus 2.48.8.0";
             WinDef.HWND mainhWnd = User32Extra.INSTANCE.FindWindow(null, mainWindowName);
             hWnd = User32Extra.INSTANCE.FindWindow(null, windowToFind);
             if (hWnd == null) {

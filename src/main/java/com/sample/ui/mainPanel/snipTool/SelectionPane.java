@@ -16,7 +16,7 @@ public class SelectionPane extends JPanel {
     private static Rectangle rectangleBounds;
 
     public SelectionPane() {
-        button = new JButton("Close");
+        button = new JButton("Apply");
         setOpaque(false);
 
         label = new JLabel();
@@ -58,7 +58,7 @@ public class SelectionPane extends JPanel {
         // I've chosen NOT to fill this selection rectangle, so that
         // it now appears as if you're "cutting" away the selection
         g2d.setColor(new Color(255, 255, 255, 128));
-        //            g2d.fillRect(0, 0, getWidth(), getHeight());
+        // g2d.fillRect(0, 0, getWidth(), getHeight());
         g2d.setColor(Color.BLACK);
         g2d.dispose();
     }
