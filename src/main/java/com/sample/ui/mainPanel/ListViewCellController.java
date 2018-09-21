@@ -10,6 +10,8 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.*;
 
+import static com.sample.Main.*;
+
 public class ListViewCellController extends ListCell<String> {
 
     @FXML
@@ -67,9 +69,9 @@ public class ListViewCellController extends ListCell<String> {
     }
 
     void deleteLine(String sourceFile, String lineToRemove) throws IOException {
-        File inputFile = new File(System.getenv("APPDATA") + "\\DofusChat\\text\\" + sourceFile);
-        File tempFile = File.createTempFile(System.getenv("APPDATA") + "\\DofusChat\\text\\tmp", "");
-        File blacklist = new File(System.getenv("APPDATA") + "\\DofusChat\\text\\Blacklist.txt");
+        File inputFile = new File(APPDATATEXTPATH + sourceFile);
+        File tempFile = File.createTempFile(APPDATATEMPPATH, "");
+        File blacklist = new File(BlacklistPATH);
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
              BufferedReader reader = new BufferedReader(new FileReader(inputFile));
@@ -86,7 +88,7 @@ public class ListViewCellController extends ListCell<String> {
             FileUtils.forceDelete(inputFile);
 //            FileUtils.copyFile(chatposts, new File("ChatPosts_Backup.txt"));
 //            FileUtils.copyToFile(FileUtils.openInputStream(chatposts), new File("chatposts_backup.txt"));
-            FileUtils.forceDelete(new File(System.getenv("APPDATA") + "\\DofusChat\\text\\chatposts.txt"));
+            FileUtils.forceDelete(new File(ChatpostsPATH));
             boolean success = tempFile.renameTo(inputFile);
             System.out.println("file deleted: " + success);
         } catch (IOException e) {

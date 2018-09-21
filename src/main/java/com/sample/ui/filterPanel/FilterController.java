@@ -8,6 +8,9 @@ import javafx.stage.Stage;
 
 import java.io.*;
 
+import static com.sample.Main.WTBPATH;
+import static com.sample.Main.WTSPATH;
+
 
 public class FilterController {
 
@@ -19,8 +22,8 @@ public class FilterController {
     private JFXChipView<String> sellArea;
 
     public void initialize() {
-        try (BufferedReader br = new BufferedReader(new FileReader(System.getenv("APPDATA") + "\\DofusChat\\text\\wts.txt"));
-             BufferedReader br2 = new BufferedReader(new FileReader(System.getenv("APPDATA") + "\\DofusChat\\text\\wtb.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(WTSPATH));
+             BufferedReader br2 = new BufferedReader(new FileReader(WTBPATH))) {
             String line;
             while ((line = br.readLine()) != null) {
                 if (!line.equals("")) {
@@ -44,8 +47,8 @@ public class FilterController {
     private void handleConfirmButton() throws IOException {
         ObservableList<String> sellList = sellArea.getChips();
         ObservableList<String> buyList = buyArea.getChips();
-        try (BufferedWriter wts = new BufferedWriter(new FileWriter(System.getenv("APPDATA") + "\\DofusChat\\text\\wts.txt"));
-             BufferedWriter wtb = new BufferedWriter(new FileWriter(System.getenv("APPDATA") + "\\DofusChat\\text\\wtb.txt"))) {
+        try (BufferedWriter wts = new BufferedWriter(new FileWriter(WTSPATH));
+             BufferedWriter wtb = new BufferedWriter(new FileWriter(WTBPATH))) {
             for (String s : sellList) {
                 wts.write("\r\n" + s);
             }

@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
+import static com.sample.Main.SessionPATH;
+
 public class LoginController {
 
     @FXML
@@ -86,7 +88,7 @@ public class LoginController {
             if (userExists && passwordMatch) {
                 System.out.println("User found!");
                 // load next window
-                try (BufferedWriter bw = new BufferedWriter(new FileWriter((System.getenv("APPDATA") + "\\DofusChat\\session")))) {
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter(SessionPATH))) {
                     bw.write(nameField.getText().trim().toLowerCase());
                 }
                 new Controller().loadWindow("fxml/main.fxml", "Main");

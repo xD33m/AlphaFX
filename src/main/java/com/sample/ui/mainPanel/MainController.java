@@ -35,7 +35,10 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
+import static com.sample.Main.*;
+
 public class MainController {
+
 
     @FXML
     public ListView<String> buyingArea;
@@ -214,15 +217,15 @@ public class MainController {
 
     @FXML
     private void updateChatArea() throws IOException {
-        File playersellstxt = new File(System.getenv("APPDATA") + "\\DofusChat\\text\\PlayerSells.txt");
-        File playerbuystxt = new File(System.getenv("APPDATA") + "\\DofusChat\\text\\PlayerBuys.txt");
+        File playersellstxt = new File(PlayerSellsTXT);
+        File playerbuystxt = new File(PlayerBuysTXT);
         if (!playerbuystxt.isFile() && !playerbuystxt.createNewFile() && !playerbuystxt.exists()) {
             throw new IOException("Error creating new file: " + playerbuystxt.getAbsolutePath());
         } else if (!playersellstxt.isFile() && playersellstxt.createNewFile() && !playersellstxt.exists()) {
             throw new IOException("Error creating new file: " + playersellstxt.getAbsolutePath());
         }
-        try (BufferedReader br = new BufferedReader(new FileReader(System.getenv("APPDATA") + "\\DofusChat\\text\\PlayerSells.txt"));
-             BufferedReader br2 = new BufferedReader(new FileReader(System.getenv("APPDATA") + "\\DofusChat\\text\\PlayerBuys.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(PlayerSellsTXT));
+             BufferedReader br2 = new BufferedReader(new FileReader(PlayerBuysTXT))) {
             addItemToListView(br, buyingArea);
             addItemToListView(br2, sellingArea);
         } catch (IOException e) {
@@ -252,7 +255,7 @@ public class MainController {
         String url = "https://pushfleet.com/api/v1/send";
         String charset = java.nio.charset.StandardCharsets.UTF_8.name();
         final String appId = "AJ7HJVTE";
-        String userToken = org.apache.commons.io.FileUtils.readFileToString(new File(System.getenv("APPDATA") + "\\DofusChat\\userToken"), "UTF-8").trim();
+        String userToken = org.apache.commons.io.FileUtils.readFileToString(new File(UserTokenPATH), "UTF-8").trim();
         String msgUrl = "https://www.dofus.com/fr/mmorpg/communaute/annuaires/pages-persos/82190500201-yusai";
 
         String query = String.format("appid=%s&userid=%s&message=%s&url=%s",

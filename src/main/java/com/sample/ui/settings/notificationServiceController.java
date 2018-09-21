@@ -18,6 +18,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static com.sample.Main.SessionPATH;
+import static com.sample.Main.UserTokenPATH;
+
 public class notificationServiceController {
 
     @FXML
@@ -56,7 +59,7 @@ public class notificationServiceController {
                 e.printStackTrace();
             }
         });
-        try (BufferedReader br = new BufferedReader(new FileReader(System.getenv("APPDATA") + "\\DofusChat\\userToken"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(UserTokenPATH))) {
             String line;
             if ((line = br.readLine()) != null) {
                 String[] ar = line.split(",");
@@ -120,13 +123,13 @@ public class notificationServiceController {
 
     @FXML
     public void onSubmit() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(createOrRetrieve(System.getenv("APPDATA") + "\\DofusChat\\userToken")))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(createOrRetrieve(UserTokenPATH)))) {
             if (!(userTokenArea.getText().length() == 8)) {
                 successLabel.setText("Token has to be 8 characters long!");
                 successLabel.setStyle("-fx-text-fill: red");
                 successLabel.setVisible(true);
             } else {
-                if (DataSource.getInstance().insertToken(userTokenArea.getText(), FileUtils.readFileToString(new File(System.getenv("APPDATA") + "\\DofusChat\\session"), "UTF-8").trim())) {
+                if (DataSource.getInstance().insertToken(userTokenArea.getText(), FileUtils.readFileToString(new File(SessionPATH), "UTF-8").trim())) {
                     bw.write(userTokenArea.getText() + "," + phoneNotification.isSelected());
                     MainController.notificationOn = phoneNotification.isSelected();
 

@@ -15,6 +15,8 @@ import java.io.*;
 import java.util.HashSet;
 import java.util.regex.Pattern;
 
+import static com.sample.Main.ChatpostsPATH;
+
 
 public class TessOcr implements Runnable {
 
@@ -78,8 +80,8 @@ public class TessOcr implements Runnable {
     }
 
     private void saveChatLog() {
-        try (BufferedWriter posts = new BufferedWriter(new FileWriter(System.getenv("APPDATA") + "\\DofusChat\\text\\chatposts.txt", true));
-             RandomAccessFile postsReader = new RandomAccessFile(System.getenv("APPDATA") + "\\DofusChat\\text\\chatposts.txt", "rwd")) {
+        try (BufferedWriter posts = new BufferedWriter(new FileWriter(ChatpostsPATH, true));
+             RandomAccessFile postsReader = new RandomAccessFile(ChatpostsPATH, "rwd")) {
             HashSet<String> tempSet = splitPosts(getOcrText());
             for (String s : tempSet) {
                 boolean postExists = false;

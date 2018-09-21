@@ -7,6 +7,8 @@ import java.io.*;
 import java.util.HashSet;
 import java.util.Scanner;
 
+import static com.sample.Main.*;
+
 
 public class ChatQuery implements Runnable {
 
@@ -14,8 +16,8 @@ public class ChatQuery implements Runnable {
 
 
     private static void saveToFile(HashSet<String> hashSet, String fileName) throws IOException {
-        try (BufferedWriter br = new BufferedWriter(new FileWriter(System.getenv("APPDATA") + "\\DofusChat\\text\\" + fileName, true));
-             Scanner scanner = new Scanner(new File(System.getenv("APPDATA") + "\\DofusChat\\text\\" + fileName))) {
+        try (BufferedWriter br = new BufferedWriter(new FileWriter(APPDATATEXTPATH + fileName, true));
+             Scanner scanner = new Scanner(new File(APPDATATEXTPATH + fileName))) {
             boolean postExists = false;
             for (String s : hashSet) {
                 while (scanner.hasNextLine()) {
@@ -32,7 +34,7 @@ public class ChatQuery implements Runnable {
                 scanner.reset();
 //                System.out.println("Post exists: "+postExists);
                 if (!postExists) { // if post does not exists & msg is not on the blacklist.
-                    File blacklist = new File(System.getenv("APPDATA") + "\\DofusChat\\text\\Blacklist.txt");
+                    File blacklist = new File(BlacklistPATH);
                     if (blacklist.exists() && !blacklist.isDirectory()) {
                         if (!FileUtils.readFileToString(blacklist, "UTF-8").contains(s)) {
                             System.out.println(s + "// not on blacklist & not in file -> add");
@@ -50,12 +52,12 @@ public class ChatQuery implements Runnable {
     }
 
     private void queryItemsToBuy() throws IOException {
-        File wtbtxt = new File(System.getenv("APPDATA") + "\\DofusChat\\text\\wtb.txt");
+        File wtbtxt = new File(WTBPATH);
         if (!wtbtxt.isFile() && wtbtxt.createNewFile() && !wtbtxt.exists()) {
             throw new IOException("Error creating new file: " + wtbtxt.getAbsolutePath());
         }
         try (BufferedReader wtbBr = new BufferedReader(new FileReader(wtbtxt));
-             RandomAccessFile chatBr = new RandomAccessFile(System.getenv("APPDATA") + "\\DofusChat\\text\\chatposts.txt", "rwd")) {
+             RandomAccessFile chatBr = new RandomAccessFile(ChatpostsPATH, "rwd")) {
             HashSet<String> itemList = new HashSet<>();
             String item;
             while ((item = wtbBr.readLine()) != null) {
@@ -85,12 +87,12 @@ public class ChatQuery implements Runnable {
     }
 
     private void queryItemsToSell() throws IOException {
-        File wtstxt = new File(System.getenv("APPDATA") + "\\DofusChat\\text\\wts.txt");
+        File wtstxt = new File(WTSPATH);
         if (!wtstxt.isFile() && wtstxt.createNewFile() && !wtstxt.exists()) {
             throw new IOException("Error creating new file: " + wtstxt.getAbsolutePath());
         }
         try (BufferedReader wtbBr = new BufferedReader(new FileReader(wtstxt));
-             RandomAccessFile chatBr = new RandomAccessFile(System.getenv("APPDATA") + "\\DofusChat\\text\\chatposts.txt", "rwd")) {
+             RandomAccessFile chatBr = new RandomAccessFile(ChatpostsPATH, "rwd")) {
             HashSet<String> itemList = new HashSet<>();
             String item;
             while ((item = wtbBr.readLine()) != null) {

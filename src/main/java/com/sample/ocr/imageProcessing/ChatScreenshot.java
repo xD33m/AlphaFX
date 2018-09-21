@@ -24,6 +24,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 
+import static com.sample.Main.APPDATATEXTPATH;
+
 
 public class ChatScreenshot {
 
@@ -88,7 +90,7 @@ public class ChatScreenshot {
         image = Scalr.resize(image, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.AUTOMATIC, image.getWidth() * 2, image.getHeight() * 2, Scalr.OP_ANTIALIAS);
         image = Binarization.GetBmp(image);
 
-        File output400DpiPng = new File(System.getenv("APPDATA") + "\\DofusChat\\text\\", "Output400dpi.png");
+        File output400DpiPng = new File(APPDATATEXTPATH, "Output400dpi.png");
         saveImage(image, output400DpiPng, 400);
 
         BufferedImage image1 = ImageIO.read(output400DpiPng);
