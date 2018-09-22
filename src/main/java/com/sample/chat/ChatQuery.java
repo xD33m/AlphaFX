@@ -130,12 +130,12 @@ public class ChatQuery implements Runnable {
         try {
             while (!done) {
                 queryItemsToSell();
-                Thread.sleep(1000);
+                Thread.sleep(500);
                 queryItemsToBuy();
-                Thread.sleep(5000);
+                Thread.sleep(500);
             }
             done = false;
-        } catch (InterruptedException | IOException e) {
+        } catch ( InterruptedException |IOException e) {
             System.out.println("Thread interrupted");
             e.printStackTrace();
             done = false;

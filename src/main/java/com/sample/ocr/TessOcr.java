@@ -44,7 +44,7 @@ public class TessOcr implements Runnable {
         try {
             while (!done) {
                 startOcr();
-                Thread.sleep(5000);
+                Thread.sleep(500);
             }
             done = false;
         } catch (InterruptedException e) {
