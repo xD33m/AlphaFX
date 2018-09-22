@@ -53,7 +53,7 @@ public class MainController {
     @FXML
     JFXToggleButton scannerOn;
     @FXML
-    static StackPane stackPane;
+    StackPane stackPane;
     @FXML
     FontAwesomeIconView settingIcon;
     private static final String mainWindowName = "Main";
@@ -76,7 +76,7 @@ public class MainController {
                     }
                 });
                 try {
-                    Thread.sleep(4000);
+                    Thread.sleep(400);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }

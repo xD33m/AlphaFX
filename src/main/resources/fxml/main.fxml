@@ -46,7 +46,7 @@
         </ListView>
         <FontAwesomeIconView fx:id="settingIcon" glyphName="GEAR" layoutX="550.0" layoutY="40.0"
                              onMouseClicked="#openSettings" size="20" styleClass="settingsIcon"/>
-        <StackPane fx:id="stackPane" layoutX="-1.0" layoutY="-1.0" mouseTransparent="true" prefHeight="400.0"
+        <StackPane fx:id="stackPane" mouseTransparent="true" prefHeight="400.0"
                    prefWidth="600.0"/>
     </children>
 </AnchorPane>
