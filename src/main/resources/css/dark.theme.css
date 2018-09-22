@@ -38,7 +38,7 @@
 
 .jfx-button {
     /*-jfx-button-type: FLAT;*/
-    -fx-text-fill: -fx-primarytext;
+    -fx-text-fill: white;
 }
 
 /* Login Screen Specific */
@@ -55,7 +55,7 @@
 }
 
 .text-field {
-    -fx-text-fill: -fx-primarytext;
+    -fx-text-fill: white;
     /*-fx-font-size: 13pt;*/
     -jfx-focus-color: -fx-secondary;
 }
