@@ -31,6 +31,9 @@ public class DataSource {
     private static final String QUERY_PASSWORD = "SELECT " + COLUMN_USERS_PASSWORD + " FROM " +
             TABLE_USERS + " WHERE " + COLUMN_USERS_NAME + " = ?";
 
+    private static final String QUERY_USERTOKEN = "SELECT " + COLUMN_USERS_TOKEN + " FROM " +
+            TABLE_USERS + " WHERE " + COLUMN_USERS_NAME + " = ?";
+
     private static final String INSERT_TOKEN = "UPDATE " + TABLE_USERS + " SET " + COLUMN_USERS_TOKEN + " = ? WHERE " +
             COLUMN_USERS_NAME + " = ?";
 
@@ -41,6 +44,7 @@ public class DataSource {
     private PreparedStatement queryUserName;
     private PreparedStatement queryPassword;
     private PreparedStatement insertToken;
+    private PreparedStatement queryToken;
 
     private static DataSource instance = new DataSource();
 
@@ -61,6 +65,7 @@ public class DataSource {
             queryUserName = conn.prepareStatement(QUERY_USERNAME);
             queryPassword = conn.prepareStatement(QUERY_PASSWORD);
             insertToken = conn.prepareStatement(INSERT_TOKEN);
+            queryToken = conn.prepareStatement(QUERY_USERTOKEN);
 
             return true;
         } catch (SQLException e) {
@@ -87,6 +92,9 @@ public class DataSource {
             }
             if (insertToken != null) {
                 insertToken.close();
+            }
+            if (queryToken != null) {
+                queryToken.close();
             }
 
             if(conn!=null){
@@ -122,6 +130,25 @@ public class DataSource {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public String getUserToken(String username) {
+        try {
+            queryToken.setString(1, username);
+            System.out.println(username + ".");
+            ResultSet results = queryToken.executeQuery();
+            if (results.next()) {
+                System.out.println(results.getString(COLUMN_USERS_TOKEN));
+                return results.getString(COLUMN_USERS_TOKEN);
+            } else {
+                System.out.println("Query failed");
+                return null;
+            }
+        } catch (SQLException e) {
+            System.out.println("Query failed");
+            e.printStackTrace();
+            return null;
         }
     }
 
